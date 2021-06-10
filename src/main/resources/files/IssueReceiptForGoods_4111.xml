@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<IssueReceiptForGoods>
+    <Date>29.01.2020</Date> - плановая дата прихода
+    <VehicleFactlArrivalTime>29.01.2020</VehicleFactlArrivalTime> - фактическое время прихода
+    <FactDeliveryDate>29.01.2020</FactDeliveryDate> - время прибытия машины
+    <Number></Number> - номер документа клиента
+    <Customer>Хеллманн</Customer> - заказчик
+    <OrderType>Поставка</OrderType> - тип заказа
+    <TypeOfDelivery>Поставка</TypeOfDelivery> - тип поставки
+    <IDSupplier>УТ-УТ000047</IDSupplier> - поставщик
+    <NameSupplier>Winch Solutions Ltd</NameSupplier> - наименование поставщика
+    <AdressSupplier></AdressSupplier> - алрес поставщика
+    <VN>300228</VN> - код клиента
+    <NumberCar>ПР872Ш/96</NumberCar> - номе машины
+    <Driver>Иванов Константин Александрович</Driver> - имя водителя
+    <Goods> - спсиок поступивших товаров
+        <LineNumber>1</LineNumber> - номер по порядку
+        <Article>HLGAD 161010</Article> - артикул
+        <Name>Tesla крепление</Name> - наименование
+        <ExpirationDate></ExpirationDate> -дата окончания срока годности
+        <ProductionDate>29012020</ProductionDate> - дата производства
+        <Lot>-</Lot> - партия
+        <SerialNum>-</ SerialNum> - серийный номер
+        <Marker>-</Marker>
+        <Marker2>-</Marker2>
+        <Marker3>-</Marker3>
+        <Count>1</Count> - количество
+        <Comment></Comment>
+    </Goods>
+    <Goods>
+        <LineNumber>2</LineNumber>
+        <Article>HLGSZ101509</Article>
+        <Name>Tesla зарядная станция</Name>
+        <ExpirationDate></ExpirationDate>
+        <ProductionDate>29012020</ProductionDate>
+        <Lot>-</Lot>
+        <SerialNum>-</ SerialNum> - серийный номер
+        <Marker>-</Marker>
+        <Marker2>-</Marker2>
+        <Marker3>-</Marker3>
+        <Count>1</Count>
+        <Comment></Comment>
+    </Goods>
+</IssueReceiptForGoods >
