@@ -1,70 +1,96 @@
-2021-06-09 18:59:43,728 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15556 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 18:59:43,731 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 18:59:43,734 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 18:59:45,611 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 18:59:45.610
-2021-06-09 18:59:45,618 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.594 seconds (JVM running for 4.588)
-2021-06-09 18:59:45,621 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 18:59:45,624 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 19:00:41,199 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18784 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 19:00:41,202 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 19:00:41,206 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 19:00:43,329 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 19:00:43.329
-2021-06-09 19:00:43,337 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.082 seconds (JVM running for 5.075)
-2021-06-09 19:00:43,342 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 19:00:43,345 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 19:04:13,013 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2356 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 19:04:13,015 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 19:04:13,018 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 19:04:15,002 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 19:04:15.002
-2021-06-09 19:04:15,006 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.842 seconds (JVM running for 4.698)
-2021-06-09 19:04:15,010 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 19:04:15,013 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 19:17:59,588 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 260 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 19:17:59,590 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 19:17:59,593 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 19:18:01,487 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 19:18:01.487
-2021-06-09 19:18:01,494 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.057 seconds (JVM running for 5.035)
-2021-06-09 19:18:01,498 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 19:18:01,501 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 20:14:55,460 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2036 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 20:14:55,463 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 20:14:55,465 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 20:14:57,406 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 20:14:57.404
-2021-06-09 20:14:57,412 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.222 seconds (JVM running for 5.079)
-2021-06-09 20:14:57,419 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 20:14:57,426 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 20:23:53,480 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 9756 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 20:23:53,484 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 20:23:53,488 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 20:23:55,550 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 20:23:55.549
-2021-06-09 20:23:55,556 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.115 seconds (JVM running for 5.174)
-2021-06-09 20:23:55,560 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 20:23:55,564 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-09 20:42:03,492 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2400 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-09 20:42:03,494 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-09 20:42:03,497 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-09 20:42:05,344 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-09 20:42:05.343
-2021-06-09 20:42:05,350 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.787 seconds (JVM running for 4.693)
-2021-06-09 20:42:05,356 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-09 20:42:05,360 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-10 12:03:33,301 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2896 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-10 12:03:33,307 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-10 12:03:33,324 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-10 12:03:35,443 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-10 12:03:35.443
-2021-06-10 12:03:35,450 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.762 seconds (JVM running for 4.839)
-2021-06-10 12:03:35,454 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-10 12:03:35,457 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-10 12:28:24,761 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13728 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-10 12:28:24,766 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-10 12:28:24,771 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-10 12:28:26,812 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-10 12:28:26.810
-2021-06-10 12:28:26,819 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.891 seconds (JVM running for 6.006)
-2021-06-10 12:28:26,822 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-10 12:28:26,826 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-10 12:29:16,075 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 6208 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-10 12:29:16,078 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-10 12:29:16,081 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-10 12:29:18,330 INFO com.severtrans.notification.service.Scheduler [scheduling-1] log 2021-06-10 12:29:18.327
-2021-06-10 12:29:18,336 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.154 seconds (JVM running for 5.65)
-2021-06-10 12:29:18,339 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-10 12:29:18,344 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 13:31:32,589 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15472 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 13:31:32,597 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 13:31:32,601 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 13:31:34,711 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.228 seconds (JVM running for 5.501)
+2021-06-11 13:31:34,715 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 13:31:34,724 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 13:44:42,718 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2312 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 13:44:42,721 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 13:44:42,725 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 13:44:44,718 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.794 seconds (JVM running for 5.272)
+2021-06-11 13:44:44,722 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 13:44:44,726 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 13:53:13,152 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 11948 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 13:53:13,156 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 13:53:13,160 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 13:53:15,683 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.316 seconds (JVM running for 5.88)
+2021-06-11 13:53:15,687 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 13:53:15,691 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:30:15,099 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18580 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:30:15,102 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:30:15,108 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:30:16,785 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.393 seconds (JVM running for 4.326)
+2021-06-11 14:30:16,788 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:30:16,793 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:31:39,063 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10916 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:31:39,067 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:31:39,078 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:31:41,132 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.846 seconds (JVM running for 4.855)
+2021-06-11 14:31:41,136 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:31:41,142 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:33:19,279 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 20056 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:33:19,282 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:33:19,284 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:33:20,955 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.492 seconds (JVM running for 4.304)
+2021-06-11 14:33:20,958 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:33:20,963 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:34:13,529 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14200 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:34:13,532 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:34:13,535 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:34:15,295 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.542 seconds (JVM running for 4.465)
+2021-06-11 14:34:15,299 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:34:15,302 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:35:26,886 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17620 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:35:26,889 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:35:26,892 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:35:28,546 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.549 seconds (JVM running for 4.53)
+2021-06-11 14:35:28,550 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:35:28,554 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 14:37:50,429 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15972 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 14:37:50,432 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 14:37:50,435 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 14:37:52,145 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.552 seconds (JVM running for 4.309)
+2021-06-11 14:37:52,148 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 14:37:52,153 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 15:01:56,747 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18716 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 15:01:56,753 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 15:01:56,760 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 15:01:58,578 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.744 seconds (JVM running for 5.118)
+2021-06-11 15:01:58,581 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 15:01:58,586 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 15:06:06,555 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15556 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 15:06:06,558 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 15:06:06,564 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 15:06:08,612 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.965 seconds (JVM running for 4.803)
+2021-06-11 15:06:08,615 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 15:06:08,619 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 15:06:34,442 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 19020 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 15:06:34,449 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 15:06:34,471 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 15:06:36,254 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.733 seconds (JVM running for 4.63)
+2021-06-11 15:06:36,259 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 15:06:36,264 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 15:55:12,885 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 19400 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 15:55:12,888 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 15:55:12,891 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 15:55:14,601 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.502 seconds (JVM running for 4.435)
+2021-06-11 15:55:14,604 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 15:55:14,609 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 17:32:15,897 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 4388 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 17:32:15,899 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 17:32:15,905 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 17:32:17,674 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.631 seconds (JVM running for 4.823)
+2021-06-11 17:32:17,679 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 17:32:17,685 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 17:34:05,845 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 12976 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 17:34:05,850 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 17:34:05,854 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 17:34:07,839 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.831 seconds (JVM running for 4.753)
+2021-06-11 17:34:07,844 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 17:34:07,849 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-11 17:35:04,983 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14648 (started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-11 17:35:04,987 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-11 17:35:04,989 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-11 17:35:06,736 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.541 seconds (JVM running for 4.457)
+2021-06-11 17:35:06,739 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-11 17:35:06,744 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC

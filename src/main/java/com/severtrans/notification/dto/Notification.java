@@ -1,7 +1,7 @@
 package com.severtrans.notification.dto;
 
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 //@RequiredArgsConstructor()
 public class Notification {
+    String du;//link two tables
     String Date;
     String VehicleFactlArrivalTime; // фактическое время отгрузки
     String FactDeliveryDate;//время прибытия машины
@@ -30,5 +31,8 @@ public class Notification {
     public Notification(String s, String s1) {
         this.OrderType = s;
         this.TypeOfDelivery = s1;
+    }
+
+    public Notification() {
     }
 }

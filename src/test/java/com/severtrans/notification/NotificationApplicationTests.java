@@ -1,11 +1,17 @@
 package com.severtrans.notification;
 
 import com.severtrans.notification.dto.Notification;
+import com.severtrans.notification.dto.NotificationItem;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
+import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 @SpringBootTest
 class NotificationApplicationTests {
@@ -22,6 +28,17 @@ class NotificationApplicationTests {
 
 
         Notification not = new Notification("Отгрузка", "Отгрузка");
+
+/*
+        //TODO experiment
+        System.out.println(new Date());
+        Date ldt =  new Date();
+        not.setLdt(ldt);
+        SimpleDateFormat dateFormat_ = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        System.out.println("date: " + dateFormat_.format( new Date() ) );
+*/
+
+        not.setDu("1212122"); //omitted field
         not.setDate("");
         not.setVehicleFactlArrivalTime("");
         not.setFactDeliveryDate("");
@@ -32,21 +49,64 @@ class NotificationApplicationTests {
         not.setIDSupplier("");
         not.setNameSupplier("");
         not.setAdressSupplier("");
-        not.setVN(0);
+        not.setVN(300227);
         not.setNumberCar("");
         not.setDriver("");
         not.setGoods(new ArrayList<>());
 
+        NotificationItem i=new NotificationItem();
+        i.setLineNumber(1);
+        i.setArticle("HLGAD 161010");
+        i.setName("Tesla крепление");
+        i.setExpirationDate("");
+        i.setProductionDate("29012020");
+//        i.setLot(); TODO check me
+        i.setSerialNum("777");
+        i.setMarker("");
+//        i.setMarker2(""); TODO check me
+        i.setMarker3("");
+        i.setCount(5);
+        i.setComment("My comment");
+        ArrayList<NotificationItem> items =new ArrayList<>();
+        items.add(i);
+        not.setGoods(items);
+
         XStream xs = new XStream();
-        xs.alias(_4102, Notification.class);
+
+/*
+        String dateFormat = "dd.MM.yyyy HH:mm:ss";
+//        String timeFormat = "HH:mm:ss";
+        String[] acceptableFormats = {dateFormat};
+        xs.registerConverter(new DateConverter(dateFormat,acceptableFormats));
+*/
+
+/*
+        String[] formats ={"yyyy-MM-dd HH:mm"};
+        xs.registerConverter(new DateConverter("yyyy-MM-dd HH:mm", formats));
+*/
+
+
+        xs.omitField(Notification.class,"du");
+//        XStream.setupDefaultSecurity(xs);
+/*
+        XStream xstream = new XStream();
+        xstream.alias("comments", Comments.class);
+        xstream.alias("comment", Comment.class);
+        xstream.addImplicitCollection(Comments.class, "comments");
+        Comments comments = (Comments)xstream.fromXML(xml);
+*/
+
+        xs.alias(_4102, Notification.class); //IssueReceiptForGoods
+        xs.alias("Goods",NotificationItem.class);
+        xs.addImplicitCollection(Notification.class,"Goods");
+//        xs.aliasField("Goods",NotificationItem.class,"Goods");
         System.out.println(xs.toXML(not));
 
         String xml = xs.toXML(not);
-        Notification notification = (Notification) xs.fromXML(xml);
+//        Notification notification = (Notification) xs.fromXML(xml);
         System.out.println("stop");
 
     }
-
 
     /*
     @Test
