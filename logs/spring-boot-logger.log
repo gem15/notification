@@ -1,96 +1,1458 @@
-2021-06-11 13:31:32,589 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15472 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 13:31:32,597 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 13:31:32,601 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 13:31:34,711 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.228 seconds (JVM running for 5.501)
-2021-06-11 13:31:34,715 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 13:31:34,724 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 13:44:42,718 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2312 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 13:44:42,721 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 13:44:42,725 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 13:44:44,718 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.794 seconds (JVM running for 5.272)
-2021-06-11 13:44:44,722 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 13:44:44,726 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 13:53:13,152 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 11948 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 13:53:13,156 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 13:53:13,160 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 13:53:15,683 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 3.316 seconds (JVM running for 5.88)
-2021-06-11 13:53:15,687 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 13:53:15,691 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:30:15,099 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18580 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:30:15,102 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:30:15,108 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:30:16,785 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.393 seconds (JVM running for 4.326)
-2021-06-11 14:30:16,788 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:30:16,793 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:31:39,063 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10916 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:31:39,067 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:31:39,078 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:31:41,132 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.846 seconds (JVM running for 4.855)
-2021-06-11 14:31:41,136 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:31:41,142 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:33:19,279 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 20056 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:33:19,282 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:33:19,284 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:33:20,955 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.492 seconds (JVM running for 4.304)
-2021-06-11 14:33:20,958 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:33:20,963 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:34:13,529 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14200 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:34:13,532 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:34:13,535 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:34:15,295 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.542 seconds (JVM running for 4.465)
-2021-06-11 14:34:15,299 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:34:15,302 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:35:26,886 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17620 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:35:26,889 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:35:26,892 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:35:28,546 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.549 seconds (JVM running for 4.53)
-2021-06-11 14:35:28,550 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:35:28,554 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 14:37:50,429 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15972 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 14:37:50,432 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 14:37:50,435 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 14:37:52,145 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.552 seconds (JVM running for 4.309)
-2021-06-11 14:37:52,148 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 14:37:52,153 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 15:01:56,747 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18716 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 15:01:56,753 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 15:01:56,760 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 15:01:58,578 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.744 seconds (JVM running for 5.118)
-2021-06-11 15:01:58,581 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 15:01:58,586 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 15:06:06,555 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15556 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 15:06:06,558 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 15:06:06,564 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 15:06:08,612 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.965 seconds (JVM running for 4.803)
-2021-06-11 15:06:08,615 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 15:06:08,619 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 15:06:34,442 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 19020 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 15:06:34,449 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 15:06:34,471 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 15:06:36,254 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.733 seconds (JVM running for 4.63)
-2021-06-11 15:06:36,259 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 15:06:36,264 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 15:55:12,885 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 19400 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 15:55:12,888 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 15:55:12,891 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 15:55:14,601 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.502 seconds (JVM running for 4.435)
-2021-06-11 15:55:14,604 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 15:55:14,609 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 17:32:15,897 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 4388 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 17:32:15,899 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 17:32:15,905 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 17:32:17,674 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.631 seconds (JVM running for 4.823)
-2021-06-11 17:32:17,679 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 17:32:17,685 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 17:34:05,845 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 12976 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 17:34:05,850 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 17:34:05,854 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 17:34:07,839 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.831 seconds (JVM running for 4.753)
-2021-06-11 17:34:07,844 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 17:34:07,849 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-11 17:35:04,983 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplicationTests using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14648 (started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-11 17:35:04,987 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-11 17:35:04,989 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-11 17:35:06,736 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplicationTests in 2.541 seconds (JVM running for 4.457)
-2021-06-11 17:35:06,739 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-11 17:35:06,744 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 09:12:17,051 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10080 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:12:17,057 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:12:17,057 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:12:17,961 ERROR com.zaxxer.hikari.HikariConfig [main] Failed to load driver class org.postgresql.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@2437c6dc
+2021-06-13 09:12:17,967 WARN org.springframework.context.support.AbstractApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notificationApplication': Unsatisfied dependency expressed through field 'notifications'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sendNotifications': Unsatisfied dependency expressed through field 'jdbcTemplate'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+2021-06-13 09:12:17,979 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:12:18,012 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'notificationApplication': Unsatisfied dependency expressed through field 'notifications'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sendNotifications': Unsatisfied dependency expressed through field 'jdbcTemplate'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:438)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:337)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sendNotifications': Unsatisfied dependency expressed through field 'jdbcTemplate'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:660)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 19 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:541)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1177)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:322)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:657)
+	... 33 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1177)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:564)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1380)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1300)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 48 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	... 62 common frames omitted
+Caused by: java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at com.zaxxer.hikari.HikariConfig.setDriverClassName(HikariConfig.java:491)
+	at org.springframework.boot.jdbc.DataSourceBuilder$MappedDataSourceProperty.set(DataSourceBuilder.java:431)
+	at org.springframework.boot.jdbc.DataSourceBuilder$MappedDataSourceProperties.set(DataSourceBuilder.java:333)
+	at org.springframework.boot.jdbc.DataSourceBuilder.build(DataSourceBuilder.java:179)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:48)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:90)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	... 63 common frames omitted
+2021-06-13 09:14:07,760 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 9080 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:14:07,764 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:14:07,764 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:14:08,629 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.588 seconds (JVM running for 2.887)
+2021-06-13 09:14:08,631 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:14:08,632 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:14:08,634 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:14:08,635 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 09:22:29,026 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 4200 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:22:29,030 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:22:29,031 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:22:29,878 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.598 seconds (JVM running for 2.843)
+2021-06-13 09:22:29,880 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:22:29,881 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:22:29,882 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:22:29,888 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:22:31,078 ERROR com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Exception during pool initialization.
+org.postgresql.util.PSQLException: ВАЖНО: база данных "test" не существует (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2553)
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2665)
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:147)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:273)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:51)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
+	at org.postgresql.Driver.makeConnection(Driver.java:465)
+	at org.postgresql.Driver.connect(Driver.java:264)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:158)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:116)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$fbeabe83.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+2021-06-13 09:22:31,090 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:22:31,120 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.postgresql.util.PSQLException: ВАЖНО: база данных "test" не существует (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:82)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$fbeabe83.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ВАЖНО: база данных "test" не существует (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2553)
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2665)
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:147)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:273)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:51)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:223)
+	at org.postgresql.Driver.makeConnection(Driver.java:465)
+	at org.postgresql.Driver.connect(Driver.java:264)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:158)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:116)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:79)
+	... 25 common frames omitted
+2021-06-13 09:23:24,190 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15672 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:23:24,193 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:23:24,194 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:23:25,016 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.606 seconds (JVM running for 2.829)
+2021-06-13 09:23:25,018 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:23:25,019 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:23:25,021 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:23:25,026 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:23:25,209 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:23:25,316 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:23:25,342 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select * from notif]; nested exception is org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$76e7c2d2.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.postgresql.jdbc.PgResultSet.findColumn(PgResultSet.java:2748)
+	at org.postgresql.jdbc.PgResultSet.getString(PgResultSet.java:2605)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:22)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:10)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 09:23:25,347 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 09:23:25,397 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 09:32:28,212 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13124 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:32:28,216 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:32:28,216 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:32:29,101 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.638 seconds (JVM running for 3.082)
+2021-06-13 09:32:29,103 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:32:29,104 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:32:29,105 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:32:29,110 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:32:29,286 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:32:29,381 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:32:29,405 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select * from notif]; nested exception is org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$db7b63de.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.postgresql.jdbc.PgResultSet.findColumn(PgResultSet.java:2748)
+	at org.postgresql.jdbc.PgResultSet.getString(PgResultSet.java:2605)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:22)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:10)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 09:32:29,410 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 09:32:29,474 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 09:33:23,165 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13740 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:33:23,169 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:33:23,169 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:33:24,140 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.862 seconds (JVM running for 3.441)
+2021-06-13 09:33:24,142 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:33:24,143 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:33:24,145 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:33:24,151 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:33:24,347 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:33:24,453 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:33:24,483 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select * from notif]; nested exception is org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$e6e5b3a7.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Колонки zak_name не найдено в этом ResultSet’’е.
+	at org.postgresql.jdbc.PgResultSet.findColumn(PgResultSet.java:2748)
+	at org.postgresql.jdbc.PgResultSet.getString(PgResultSet.java:2605)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:22)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:10)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 09:33:24,488 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 09:33:24,520 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 09:44:29,026 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10752 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:44:29,030 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:44:29,030 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:44:29,976 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.852 seconds (JVM running for 3.428)
+2021-06-13 09:44:29,978 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:44:29,979 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:44:29,981 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:44:29,986 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:44:30,183 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:44:30,209 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:44:30,235 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: java.lang.NullPointerException: null
+	at java.base/java.util.Calendar.setTime(Calendar.java:1800)
+	at java.base/java.text.SimpleDateFormat.format(SimpleDateFormat.java:974)
+	at java.base/java.text.SimpleDateFormat.format(SimpleDateFormat.java:967)
+	at java.base/java.text.DateFormat.format(DateFormat.java:374)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:20)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:10)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$3ac7a175.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+2021-06-13 09:44:30,239 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 09:44:30,243 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 09:55:45,420 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17100 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:55:45,425 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:55:45,426 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:55:46,428 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.005 seconds (JVM running for 3.504)
+2021-06-13 09:55:46,431 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:55:46,432 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:55:46,434 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:55:46,439 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:55:46,642 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:55:46,668 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 09:55:46,696 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: java.lang.NullPointerException: null
+	at java.base/java.util.Calendar.setTime(Calendar.java:1800)
+	at java.base/java.text.SimpleDateFormat.format(SimpleDateFormat.java:974)
+	at java.base/java.text.SimpleDateFormat.format(SimpleDateFormat.java:967)
+	at java.base/java.text.DateFormat.format(DateFormat.java:374)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:22)
+	at com.severtrans.notification.NotificationRowMapper.mapRow(NotificationRowMapper.java:11)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:25)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$e8e7ab6b.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+2021-06-13 09:55:46,700 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 09:55:46,704 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 09:57:24,023 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13340 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 09:57:24,028 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 09:57:24,029 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 09:57:24,998 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.863 seconds (JVM running for 3.391)
+2021-06-13 09:57:25,001 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 09:57:25,002 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 09:57:25,004 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 09:57:25,009 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 09:57:25,205 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 09:57:47,988 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 10:54:49,100 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14836 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 10:54:49,105 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 10:54:49,105 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 10:54:50,070 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.834 seconds (JVM running for 3.311)
+2021-06-13 10:54:50,072 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 10:54:50,073 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 10:54:50,075 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 10:54:50,081 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 10:54:50,277 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 10:55:07,356 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47s78ms512µs400ns).
+2021-06-13 10:56:53,405 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m46s48ms914µs999ns).
+2021-06-13 10:56:53,414 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 10:56:53,444 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = ?]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:32)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$9a1230d7.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 10:56:53,449 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:01:45,658 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17316 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:01:45,662 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:01:45,662 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:01:46,623 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.929 seconds (JVM running for 3.437)
+2021-06-13 11:01:46,626 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:01:46,627 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:01:46,629 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:01:46,634 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:01:46,837 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:02:00,537 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:02:00,568 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :iddu]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:32)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$b9e63f8f.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 11:02:00,572 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:02:00,615 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 11:07:40,323 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 16500 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:07:40,327 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:07:40,328 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:07:41,280 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.851 seconds (JVM running for 3.554)
+2021-06-13 11:07:41,282 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:07:41,284 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:07:41,286 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:07:41,291 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:07:41,493 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:07:44,992 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:07:45,023 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:32)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$23a6fe79.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 11:07:45,027 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:07:45,041 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 11:16:26,183 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17148 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:16:26,187 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:16:26,188 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:16:27,102 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.633 seconds (JVM running for 2.793)
+2021-06-13 11:16:27,105 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:16:27,106 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:16:27,108 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:16:27,112 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:16:27,292 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:16:27,319 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:16:27,342 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: java.lang.NullPointerException: null
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:48)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$c2fded5f.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+2021-06-13 11:16:27,345 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:16:27,349 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 11:53:30,705 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 14160 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:53:30,709 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:53:30,710 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:53:32,017 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.061 seconds (JVM running for 3.814)
+2021-06-13 11:53:32,019 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:53:32,020 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:53:32,022 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:53:32,029 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:53:32,225 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:54:33,658 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:54:33,806 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: java.lang.NullPointerException: null
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:48)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$dbcbf4df.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+2021-06-13 11:54:33,836 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:54:33,866 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 11:55:35,140 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17172 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:55:35,144 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:55:35,145 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:55:36,116 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.058 seconds (JVM running for 3.588)
+2021-06-13 11:55:36,118 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:55:36,119 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:55:36,121 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:55:36,126 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:55:36,443 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:57:07,154 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m712ms440µs700ns).
+2021-06-13 11:57:07,165 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:57:07,194 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: java.lang.NullPointerException: null
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:49)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$1c497d9c.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+2021-06-13 11:57:07,198 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:58:38,003 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 15332 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 11:58:38,007 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 11:58:38,007 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 11:58:38,982 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.891 seconds (JVM running for 3.509)
+2021-06-13 11:58:38,984 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 11:58:38,985 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 11:58:38,987 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 11:58:38,992 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 11:58:39,192 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 11:58:45,720 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 11:58:45,749 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:33)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$b700732.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 11:58:45,753 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 11:58:45,786 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:06:02,596 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10828 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:06:02,618 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:06:02,619 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:06:03,591 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.811 seconds (JVM running for 2.988)
+2021-06-13 13:06:03,593 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:06:03,594 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:06:03,596 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:06:03,600 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:06:03,780 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:06:03,892 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:06:03,918 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:33)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$733ed227.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 13:06:03,922 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:06:03,963 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:09:33,585 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 11320 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:09:33,589 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:09:33,590 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:09:34,486 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.634 seconds (JVM running for 2.845)
+2021-06-13 13:09:34,488 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:09:34,489 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:09:34,490 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:09:34,495 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:09:34,678 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:09:34,780 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:09:34,805 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:34)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$6a5f0680.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 13:09:34,808 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:09:34,859 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:10:59,002 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 11428 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:10:59,007 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:10:59,010 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:10:59,867 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.738 seconds (JVM running for 2.85)
+2021-06-13 13:10:59,869 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:10:59,870 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:10:59,871 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:10:59,876 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:11:00,050 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:11:00,152 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:11:00,177 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$f9c0e436.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 13:11:00,183 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:11:00,237 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:11:10,022 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 16460 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:11:10,026 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:11:10,026 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:11:11,012 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.912 seconds (JVM running for 3.497)
+2021-06-13 13:11:11,015 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:11:11,016 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:11:11,018 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:11:11,024 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:11:11,232 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:12:17,270 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m36s37ms523µs100ns).
+2021-06-13 13:12:36,826 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:12:36,860 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu = :id]; nested exception is org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:744)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:757)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:815)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$a51dcd80.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Can't infer the SQL type to use for an instance of org.springframework.jdbc.core.namedparam.MapSqlParameterSource. Use setObject() with an explicit Types value to specify the type to use.
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:1011)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:720)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 26 common frames omitted
+2021-06-13 13:12:36,865 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:12:36,907 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:16:11,127 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17980 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:16:11,132 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:16:11,132 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:16:12,004 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.698 seconds (JVM running for 2.824)
+2021-06-13 13:16:12,006 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:16:12,007 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:16:12,009 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:16:12,013 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:16:12,191 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:16:12,299 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:16:12,325 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.jdbc.BadSqlGrammarException: StatementCallback; bad SQL grammar [select * from notifdet where iddu = 316490]; nested exception is org.postgresql.util.PSQLException: ОШИБКА: оператор не существует: character varying = integer
+  Подсказка: Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
+  Позиция: 35
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$f23451f6.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: оператор не существует: character varying = integer
+  Подсказка: Оператор с данными именем и типами аргументов не найден. Возможно, вам следует добавить явные приведения типов.
+  Позиция: 35
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2553)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2285)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:323)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:481)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:401)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:322)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:308)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:284)
+	at org.postgresql.jdbc.PgStatement.executeQuery(PgStatement.java:236)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:110)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:452)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 13:16:12,330 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:16:12,371 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:17:37,318 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 9792 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:17:37,321 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:17:37,322 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:17:38,198 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.764 seconds (JVM running for 2.907)
+2021-06-13 13:17:38,200 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:17:38,201 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:17:38,203 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:17:38,208 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:17:38,387 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:17:38,490 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:17:38,514 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.dao.DataIntegrityViolationException: StatementCallback; SQL [select * from notifdet where iddu = '314665']; Индекс колонки вне диапазона: 0. Допустимые значения: 1..12; nested exception is org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 0. Допустимые значения: 1..12
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$4afed6da.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 0. Допустимые значения: 1..12
+	at org.postgresql.jdbc.PgResultSet.checkColumnIndex(PgResultSet.java:2920)
+	at org.postgresql.jdbc.PgResultSet.getRawValue(PgResultSet.java:2942)
+	at org.postgresql.jdbc.PgResultSet.getInt(PgResultSet.java:2167)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getInt(HikariProxyResultSet.java)
+	at com.severtrans.notification.SendNotifications.lambda$MainLoop$0(SendNotifications.java:39)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 13:17:38,520 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:17:38,575 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:28:05,155 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 10928 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:28:05,166 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:28:05,167 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:28:06,100 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.669 seconds (JVM running for 2.819)
+2021-06-13 13:28:06,101 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:28:06,102 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:28:06,104 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:28:06,108 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:28:06,283 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:28:06,388 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:28:06,413 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.dao.DataIntegrityViolationException: StatementCallback; SQL [select * from notifdet where iddu = '314665']; Индекс колонки вне диапазона: 0. Допустимые значения: 1..12; nested exception is org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 0. Допустимые значения: 1..12
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$5e9da96.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 0. Допустимые значения: 1..12
+	at org.postgresql.jdbc.PgResultSet.checkColumnIndex(PgResultSet.java:2920)
+	at org.postgresql.jdbc.PgResultSet.getRawValue(PgResultSet.java:2942)
+	at org.postgresql.jdbc.PgResultSet.getInt(PgResultSet.java:2167)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getInt(HikariProxyResultSet.java)
+	at com.severtrans.notification.SendNotifications.lambda$MainLoop$0(SendNotifications.java:39)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 13:28:06,417 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:28:06,462 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:30:39,017 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18016 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:30:39,021 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:30:39,021 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:30:39,917 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.635 seconds (JVM running for 2.803)
+2021-06-13 13:30:39,919 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:30:39,920 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:30:39,921 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:30:39,926 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:30:40,114 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:30:40,227 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2021-06-13 13:30:40,252 ERROR org.springframework.boot.SpringApplication [main] Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
+	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
+Caused by: org.springframework.dao.DataIntegrityViolationException: StatementCallback; SQL [select * from notifdet where iddu = '314665']; Bad value for type int : XPEM2045; nested exception is org.postgresql.util.PSQLException: Bad value for type int : XPEM2045
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:393)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:465)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:475)
+	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$f529f84.MainLoop(<generated>)
+	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
+	... 5 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Bad value for type int : XPEM2045
+	at org.postgresql.jdbc.PgResultSet.toInt(PgResultSet.java:3014)
+	at org.postgresql.jdbc.PgResultSet.getInt(PgResultSet.java:2188)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getInt(HikariProxyResultSet.java)
+	at com.severtrans.notification.SendNotifications.lambda$MainLoop$0(SendNotifications.java:39)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
+	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:453)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:381)
+	... 24 common frames omitted
+2021-06-13 13:30:40,256 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
+2021-06-13 13:30:40,290 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
+2021-06-13 13:31:56,279 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18288 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:31:56,283 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:31:56,284 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:31:57,186 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.629 seconds (JVM running for 2.787)
+2021-06-13 13:31:57,188 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:31:57,189 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:31:57,190 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:31:57,195 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:31:57,369 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:31:57,406 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 13:42:52,844 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13196 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 13:42:52,848 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 13:42:52,849 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 13:42:53,680 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.615 seconds (JVM running for 2.841)
+2021-06-13 13:42:53,683 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 13:42:53,684 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 13:42:53,686 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 13:42:53,690 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 13:42:53,865 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 13:42:53,906 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:09:17,992 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 11680 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:09:17,995 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:09:17,996 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:09:18,811 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.628 seconds (JVM running for 2.735)
+2021-06-13 14:09:18,813 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:09:18,814 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:09:18,815 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:09:18,820 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:09:18,994 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:09:19,033 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:10:05,739 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 1460 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:10:05,745 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:10:05,746 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:10:06,569 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.644 seconds (JVM running for 2.771)
+2021-06-13 14:10:06,571 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:10:06,572 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:10:06,573 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:10:06,578 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:10:06,752 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:10:06,789 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:10:58,550 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18332 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:10:58,554 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:10:58,554 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:10:59,431 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.658 seconds (JVM running for 2.896)
+2021-06-13 14:10:59,433 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:10:59,434 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:10:59,436 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:10:59,440 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:10:59,615 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:10:59,652 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:21:07,665 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13380 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:21:07,670 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:21:07,671 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:21:08,538 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.665 seconds (JVM running for 2.792)
+2021-06-13 14:21:08,540 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:21:08,541 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:21:08,543 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:21:08,547 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:21:08,726 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:21:08,791 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:23:16,112 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 2008 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:23:16,116 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:23:16,122 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:23:17,050 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.651 seconds (JVM running for 2.875)
+2021-06-13 14:23:17,052 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:23:17,053 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:23:17,054 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:23:17,059 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:23:17,247 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:23:17,284 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-13 14:25:23,548 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 16712 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-13 14:25:23,553 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-13 14:25:23,554 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-13 14:25:24,377 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.566 seconds (JVM running for 2.716)
+2021-06-13 14:25:24,379 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-13 14:25:24,380 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-13 14:25:24,382 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-13 14:25:24,386 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-13 14:25:24,560 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-13 14:25:24,604 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC

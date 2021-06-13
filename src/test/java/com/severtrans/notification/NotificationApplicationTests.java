@@ -3,21 +3,33 @@ package com.severtrans.notification;
 import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.DateConverter;
-import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
-@SpringBootTest
+@JdbcTest
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+//@SpringBootTest
 class NotificationApplicationTests {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     void contextLoads() {
+    }
+
+//    @Sql({"/data.sql"})
+    @Test
+    void SqlTest() {
+        System.out.println("test");
     }
 
     @Test
@@ -55,11 +67,11 @@ class NotificationApplicationTests {
         not.setGoods(new ArrayList<>());
 
         NotificationItem i=new NotificationItem();
-        i.setLineNumber(1);
+//        i.setLineNumber(1);
         i.setArticle("HLGAD 161010");
         i.setName("Tesla крепление");
-        i.setExpirationDate("");
-        i.setProductionDate("29012020");
+        i.setExpirationDate(new Date());
+        i.setProductionDate(new Date());
 //        i.setLot(); TODO check me
         i.setSerialNum("777");
         i.setMarker("");
