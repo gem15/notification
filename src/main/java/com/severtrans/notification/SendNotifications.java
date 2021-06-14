@@ -2,26 +2,32 @@ package com.severtrans.notification;
 
 import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
+import com.thoughtworks.xstream.XStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
 @Repository
+//@Transactional(readOnly = true) must be placed in a service
 public class SendNotifications {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    NamedParameterJdbcTemplate jdbcTemplate;
 
     public SendNotifications() {
     }
 
-    protected void MainLoop() {
+    protected void send() {
         log.info("Main loop starting...");
 
         String sqlHeader = "select * from notif";
@@ -29,16 +35,20 @@ public class SendNotifications {
         for (Notification not : list) {
             System.out.println(not.getCustomer());
 
-            String sqlItems = "select * from notifdet where iddu = '"+not.getDu()+"'";
+//            String sqlItems = "select * from notifdet where iddu = '"+not.getDu()+"'";
+            String sqlItems = "select * from notifdet where iddu =:id";
             int lineNo = 0;
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");// HH:mm:ss
+            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("id", not.getDu());
             List<NotificationItem> items = jdbcTemplate.query(sqlItems,
+                    mapSqlParameterSource,
                     (rs, rowNum) -> new NotificationItem(
-//                            rs.getInt(1),
+//TODO rownum                            rs.getInt(1),
                             rs.getString("SKU_ID"),
                             rs.getString("NAME"),
-                            rs.getDate("EXPIRATION_DATE"),
-                            rs.getDate("PRODUCTION_DATE"),
+                            dateFormat.format(rs.getDate("EXPIRATION_DATE") == null ? new Date() : rs.getTimestamp("EXPIRATION_DATE")),
+                            dateFormat.format(rs.getDate("PRODUCTION_DATE") == null ? new Date() : rs.getTimestamp("PRODUCTION_DATE")),
                             rs.getString("LOT"),
                             rs.getString("SERIAL_NUM"),
                             rs.getString("MARKER"),
@@ -46,15 +56,16 @@ public class SendNotifications {
                             rs.getString("MARKER3"),
                             rs.getInt("QTY"),
                             rs.getString("COMMENTS")
-                    )//,
-//                    new MapSqlParameterSource() //.registerSqlType("id", Types.VARCHAR))
-//                            .addValue("id", not.getDu().toString(), Types.VARCHAR)
+                    )
             );
-//            System.out.println(items);
-            if (items.size() != 0){
-            for (NotificationItem item : items) {
-                    System.out.println(item.getArticle()+"   "+item.getName());
-            }} else System.out.print("---");
+            not.setGoods(items);
+            XStream xs = new XStream();
+            xs.omitField(Notification.class, "du"); //TODO check it
+            xs.alias("IssueReceiptForGoods", Notification.class); //IssueReceiptForGoods
+            xs.alias("Goods", NotificationItem.class);
+            xs.addImplicitCollection(Notification.class, "Goods");
+            System.out.println(xs.toXML(not));
+
         }
     }
 }

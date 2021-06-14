@@ -70,8 +70,8 @@ class NotificationApplicationTests {
 //        i.setLineNumber(1);
         i.setArticle("HLGAD 161010");
         i.setName("Tesla крепление");
-        i.setExpirationDate(new Date());
-        i.setProductionDate(new Date());
+//        i.setExpirationDate(new Date());
+//        i.setProductionDate(new Date());
 //        i.setLot(); TODO check me
         i.setSerialNum("777");
         i.setMarker("");

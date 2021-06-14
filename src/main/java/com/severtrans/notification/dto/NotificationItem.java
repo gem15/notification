@@ -17,8 +17,8 @@ public class NotificationItem {
     //TODO int LineNumber;// номер по порядку вставить в запрос rownum
     String Article;
     String Name;//наименование
-    Date ExpirationDate;//-дата окончания срока годности
-    Date ProductionDate;// дата производства
+    String ExpirationDate;//-дата окончания срока годности
+    String ProductionDate;// дата производства
     String Lot;// партия
     String SerialNum;// серийный номер
     String Marker = "-";

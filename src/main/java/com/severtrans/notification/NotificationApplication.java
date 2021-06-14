@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Slf4j
 //@EnableScheduling
@@ -23,6 +22,6 @@ public class NotificationApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("Start...");
 //        SendNotifications notifications = new SendNotifications();
-        notifications.MainLoop();
+        notifications.send();
     }
 }
