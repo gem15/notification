@@ -26,8 +26,8 @@ public class NotificationRowMapper implements RowMapper<Notification> {
         notification.setCustomer(rs.getString("n_zak"));
 //        notification.set(rs.getString("")); //<OrderType>Поставка</OrderType>');
 //        notification.set(rs.getString("")); //<TypeOfDelivery>Поставка</TypeOfDelivery>');
-        notification.setIDSupplier(rs.getString("n_zak"));
-        notification.setNameSupplier(rs.getString("id_suppl")); //IDSupplier - от кого пришёл товар (с какого завода хеламну) сотри 4101 куда схранялтсь данные теги
+        notification.setIDSupplier(rs.getString("id_suppl"));
+        notification.setNameSupplier(rs.getString("n_zak")); //IDSupplier - от кого пришёл товар (с какого завода хеламну) сотри 4101 куда схранялтсь данные теги
         notification.setAdressSupplier(rs.getString("n_zak"));
         notification.setAdressSupplier(rs.getString("ur_adr"));
         notification.setVN(rs.getInt("id_klient"));

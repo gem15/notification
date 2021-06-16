@@ -11,6 +11,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,7 +37,7 @@ class NotificationApplicationTests {
     }
 
     @Test
-    void printXMLTest() {
+    void printXMLTest() throws IOException {
         String _4102 = "IssueReceiptForGoods";
         String _4104 = "IssueOrderForGoods";
         String _4111 = "PickOrderForGoods";
@@ -114,8 +118,10 @@ class NotificationApplicationTests {
 //        xs.aliasField("Goods",NotificationItem.class,"Goods");
         System.out.println(xs.toXML(not));
 
-        String xml = xs.toXML(not);
-//        Notification notification = (Notification) xs.fromXML(xml);
+        Writer writer = new StringWriter();
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+        xs.toXML(not, writer);//        Notification notification = (Notification) xs.fromXML(xml);
+        System.out.println(writer.toString());
         System.out.println("stop");
 
     }

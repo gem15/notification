@@ -1,5 +1,6 @@
 package com.severtrans.notification;
 
+import com.severtrans.notification.service.Scheduler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,11 +18,14 @@ public class NotificationApplication implements CommandLineRunner {
 
     @Autowired
     SendNotifications notifications;
+    @Autowired
+    Scheduler scheduler;
 
     @Override
     public void run(String... args) throws Exception {
         log.info("Start...");
 //        SendNotifications notifications = new SendNotifications();
-        notifications.send();
+//        notifications.send();
+        scheduler.fixedDelaySch();
     }
 }

@@ -1,81 +1,94 @@
-2021-06-14 08:41:03,624 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 8524 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-14 08:41:03,630 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-14 08:41:03,631 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-14 08:41:04,503 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.741 seconds (JVM running for 2.934)
-2021-06-14 08:41:04,505 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-14 08:41:04,506 INFO com.severtrans.notification.NotificationApplication [main] Start...
-2021-06-14 08:41:04,508 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
-2021-06-14 08:41:04,513 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2021-06-14 08:41:04,698 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2021-06-14 08:41:04,806 INFO org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [main] 
-
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2021-06-14 08:41:04,832 ERROR org.springframework.boot.SpringApplication [main] Application run failed
-java.lang.IllegalStateException: Failed to execute CommandLineRunner
-	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798)
-	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:344)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1336)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1325)
-	at com.severtrans.notification.NotificationApplication.main(NotificationApplication.java:16)
-Caused by: org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [select * from notifdet where iddu =?]; nested exception is org.postgresql.util.PSQLException: Колонки  не найдено в этом ResultSet’’е.
-	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
-	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
-	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
-	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
-	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
-	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:713)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:738)
-	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:794)
-	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.query(NamedParameterJdbcTemplate.java:209)
-	at com.severtrans.notification.SendNotifications.MainLoop(SendNotifications.java:42)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:198)
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:782)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
-	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$6fc6c27c.MainLoop(<generated>)
-	at com.severtrans.notification.NotificationApplication.run(NotificationApplication.java:26)
-	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795)
-	... 5 common frames omitted
-Caused by: org.postgresql.util.PSQLException: Колонки  не найдено в этом ResultSet’’е.
-	at org.postgresql.jdbc.PgResultSet.findColumn(PgResultSet.java:2748)
-	at org.postgresql.jdbc.PgResultSet.getString(PgResultSet.java:2605)
-	at com.zaxxer.hikari.pool.HikariProxyResultSet.getString(HikariProxyResultSet.java)
-	at com.severtrans.notification.SendNotifications.lambda$MainLoop$0(SendNotifications.java:51)
-	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:94)
-	at org.springframework.jdbc.core.RowMapperResultSetExtractor.extractData(RowMapperResultSetExtractor.java:61)
-	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:723)
-	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
-	... 26 common frames omitted
-2021-06-14 08:41:04,836 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown initiated...
-2021-06-14 08:41:04,883 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Shutdown completed.
-2021-06-14 08:41:57,295 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 5884 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-14 08:41:57,299 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-14 08:41:57,299 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-14 08:41:58,250 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.673 seconds (JVM running for 2.821)
-2021-06-14 08:41:58,252 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-14 08:41:58,253 INFO com.severtrans.notification.NotificationApplication [main] Start...
-2021-06-14 08:41:58,254 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
-2021-06-14 08:41:58,260 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2021-06-14 08:41:58,437 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2021-06-14 08:41:58,609 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
-2021-06-14 09:33:29,725 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13736 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
-2021-06-14 09:33:29,733 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
-2021-06-14 09:33:29,734 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
-2021-06-14 09:33:30,575 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.661 seconds (JVM running for 2.862)
-2021-06-14 09:33:30,577 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
-2021-06-14 09:33:30,578 INFO com.severtrans.notification.NotificationApplication [main] Start...
-2021-06-14 09:33:30,580 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
-2021-06-14 09:33:30,586 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
-2021-06-14 09:33:30,761 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
-2021-06-14 09:33:30,936 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 08:47:39,255 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 7964 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 08:47:39,263 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 08:47:39,263 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 08:47:40,602 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.211 seconds (JVM running for 4.384)
+2021-06-15 08:47:40,606 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 08:47:40,607 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 08:47:40,610 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 08:47:40,619 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 08:47:40,835 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:07:36,689 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 09:08:08,807 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 16920 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 09:08:08,812 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 09:08:08,813 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 09:08:09,992 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.557 seconds (JVM running for 4.355)
+2021-06-15 09:08:09,994 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 09:08:09,995 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 09:08:10,010 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 09:08:10,016 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 09:08:10,232 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:08:10,440 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 09:11:20,125 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17756 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 09:11:20,130 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 09:11:20,130 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 09:11:21,116 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.89 seconds (JVM running for 3.6)
+2021-06-15 09:11:21,118 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 09:11:21,119 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 09:11:21,120 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 09:11:21.119
+2021-06-15 09:11:21,120 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 09:11:21,953 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 09:11:21,966 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 09:11:22,173 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:11:54,784 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 09:13:01,334 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 592 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 09:13:01,338 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 09:13:01,339 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 09:13:02,297 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.817 seconds (JVM running for 3.559)
+2021-06-15 09:13:02,299 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 09:13:02,300 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 09:13:02,301 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 09:13:02.301
+2021-06-15 09:13:02,301 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 09:13:03,102 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 09:13:03,109 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 09:13:03,301 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:16:29,349 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 09:16:29,346 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m50s902ms64µs700ns).
+2021-06-15 09:17:04,919 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 19048 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 09:17:04,924 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 09:17:04,925 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 09:17:06,141 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.179 seconds (JVM running for 3.909)
+2021-06-15 09:17:06,144 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 09:17:06,145 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 09:17:06,145 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 09:17:06.145
+2021-06-15 09:17:06,146 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 09:17:06,943 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 09:17:06,951 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 09:17:07,161 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:19:04,642 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m57s367ms515µs200ns).
+2021-06-15 09:19:04,654 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 09:19:11,309 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 17168 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 09:19:11,314 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 09:19:11,315 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 09:19:12,343 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.992 seconds (JVM running for 3.607)
+2021-06-15 09:19:12,346 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 09:19:12,347 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 09:19:12,349 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 09:19:12.349
+2021-06-15 09:19:12,350 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 09:19:13,234 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 09:19:13,240 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 09:19:13,438 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 09:19:18,196 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 10:46:44,018 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 13776 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 10:46:44,022 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 10:46:44,023 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 10:46:44,980 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.89 seconds (JVM running for 3.51)
+2021-06-15 10:46:44,982 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 10:46:44,984 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 10:46:44,984 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 10:46:44.984
+2021-06-15 10:46:44,984 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 10:46:45,848 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 10:46:45,856 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 10:46:46,049 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 10:47:04,283 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-15 10:49:02,344 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 16516 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-15 10:49:02,349 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-15 10:49:02,350 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-15 10:49:03,407 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.015 seconds (JVM running for 3.655)
+2021-06-15 10:49:03,409 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-15 10:49:03,410 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-15 10:49:03,411 INFO com.severtrans.notification.service.Scheduler [main] log 2021-06-15 10:49:03.411
+2021-06-15 10:49:03,411 INFO com.severtrans.notification.service.Scheduler [main] FTP
+2021-06-15 10:49:04,300 INFO com.severtrans.notification.SendNotifications [main] Main loop starting...
+2021-06-15 10:49:04,308 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2021-06-15 10:49:04,507 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2021-06-15 10:49:08,209 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC

@@ -2,16 +2,16 @@ package com.severtrans.notification;
 
 import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
+import com.severtrans.notification.service.NotificationType;
 import com.thoughtworks.xstream.XStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Types;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,14 +27,26 @@ public class SendNotifications {
     public SendNotifications() {
     }
 
-    protected void send() {
-        log.info("Main loop starting...");
+    InputStream is;
 
-        String sqlHeader = "select * from notif";
+    public InputStream send(NotificationType type) throws IOException {
+        String sqlHeader="", alias="";
+
+        switch (type){
+            case E4102:
+                sqlHeader = "select * from notif";
+                alias="IssueReceiptForGoods";
+                break;
+            case E4104:
+                sqlHeader = "select * from notif";
+                break;
+            case E4111:
+                break;
+        }
+
+//        String sqlHeader = "select * from notif";
         List<Notification> list = jdbcTemplate.query(sqlHeader, new NotificationRowMapper());
         for (Notification not : list) {
-            System.out.println(not.getCustomer());
-
 //            String sqlItems = "select * from notifdet where iddu = '"+not.getDu()+"'";
             String sqlItems = "select * from notifdet where iddu =:id";
             int lineNo = 0;
@@ -60,12 +72,18 @@ public class SendNotifications {
             );
             not.setGoods(items);
             XStream xs = new XStream();
-            xs.omitField(Notification.class, "du"); //TODO check it
-            xs.alias("IssueReceiptForGoods", Notification.class); //IssueReceiptForGoods
+            xs.omitField(Notification.class, "du");
+            xs.alias(alias, Notification.class);
             xs.alias("Goods", NotificationItem.class);
             xs.addImplicitCollection(Notification.class, "Goods");
-            System.out.println(xs.toXML(not));
 
+            try (Writer writer = new StringWriter()) {
+                writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+                xs.toXML(not, writer);//        Notification notification = (Notification) xs.fromXML(xml);
+//                System.out.println(writer.toString());
+                is = new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8));
+            }
         }
+        return is;
     }
 }
