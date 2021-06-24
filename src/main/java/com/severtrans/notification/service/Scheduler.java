@@ -82,8 +82,9 @@ public class Scheduler {
 //TODO create file name
     private void putFile(NotificationType type) throws IOException {
         InputStream inputStream = notifications.send(type);
-        boolean done = ftp.storeFile("test.xml", inputStream);
-        inputStream.close();
+        if (inputStream.available()>0) {
+            ftp.storeFile("test.xml", inputStream);// boolean done =
+            inputStream.close();
 
 /* ??
         boolean completed = ftp.completePendingCommand();
@@ -91,14 +92,13 @@ public class Scheduler {
             System.out.println("The second file is uploaded successfully.");
         }
 */
-
-
-        int reply = ftp.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(reply)) {
+            int reply = ftp.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
 //            throw new NotificationException("FTP error")
-        }
-        if (done) {
-            System.out.println("The first file is uploaded successfully.");
-        }
+            }
+//        if (done) {
+//            System.out.println("The first file is uploaded successfully.");
+//        }
+        }else System.out.println("empty");
     }
 }
