@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Товары
+ * Список товаров
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationItem {
-    //TODO int LineNumber;// номер по порядку вставить в запрос rownum
+    int LineNumber;// номер по порядку вставить в запрос rownum
     String Article;
     String Name;//наименование
     String ExpirationDate;//-дата окончания срока годности

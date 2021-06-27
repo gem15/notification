@@ -17,6 +17,7 @@ public class NotificationRowMapper implements RowMapper<Notification> {
     public Notification mapRow(ResultSet rs, int i) throws SQLException {
         Notification notification=new Notification();
         notification.setDu(rs.getString("id_du"));
+//        notification.setId_obsl(rs.getString("id_obsl"));
         notification.setDate(dateFormat.format(rs.getTimestamp("dt_sost")));
         notification.setVehicleFactlArrivalTime(dateFormat1.format(
                 rs.getTimestamp("dt_sost_end") == null ?new Date():rs.getTimestamp("dt_sost_end")));

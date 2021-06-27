@@ -23,13 +23,13 @@ public class Scheduler {
 
     private FTPClient ftp = new FTPClient();
     //    @Scheduled(fixedDelay = 10000, initialDelay = 3000)
-    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
+//    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void fixedDelaySch() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date now = new Date();
         String strDate = sdf.format(now);
 //        System.out.println("Fixed Delay scheduler:: " + strDate);
-        log.info("log " + strDate);
+//        log.info("log " + strDate);
 
 /*
         Set file type to be transferred to binary.
@@ -41,6 +41,7 @@ public class Scheduler {
         Logout and disconnect from the server.
 */
         log.info("FTP");
+/*
         try {
             ftp.connect("localhost", 21);
             ftp.enterLocalPassiveMode();
@@ -77,21 +78,25 @@ public class Scheduler {
                 ex.printStackTrace();
             }
         }
+*/
 
     }
 //TODO create file name
     private void putFile(NotificationType type) throws IOException {
+/*
         InputStream inputStream = notifications.send(type);
         if (inputStream.available()>0) {
             ftp.storeFile("test.xml", inputStream);// boolean done =
             inputStream.close();
 
+*/
 /* ??
         boolean completed = ftp.completePendingCommand();
         if (completed) {
             System.out.println("The second file is uploaded successfully.");
         }
-*/
+*//*
+
             int reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
 //            throw new NotificationException("FTP error")
@@ -100,5 +105,6 @@ public class Scheduler {
 //            System.out.println("The first file is uploaded successfully.");
 //        }
         }else System.out.println("empty");
+*/
     }
 }

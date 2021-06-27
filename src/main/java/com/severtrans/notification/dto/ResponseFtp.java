@@ -28,14 +28,12 @@ public class ResponseFtp  {
 
 //	private int ftpId;
 
-	/**
-	 *  Код события из справочника sv_hvoc
-	 */
-	private String voc;
-	
+//	/**
+//	 *  Код события из справочника sv_hvoc
+//	 */
+//	private String voc;
 	private int vn;
-	
 	private String path = "/";
-	
-
+	private String query;
+	private String alias;
 }
