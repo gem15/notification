@@ -13,7 +13,7 @@ import java.util.List;
 //@RequiredArgsConstructor()
 public class Notification {
     String du;//link two tables
-//    String id_obsl;
+    String orderID;
 
     String Date;
     String VehicleFactlArrivalTime; // фактическое время отгрузки
