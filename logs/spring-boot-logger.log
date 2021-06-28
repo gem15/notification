@@ -170,3 +170,285 @@ Caused by: org.postgresql.util.PSQLException: Колонки order_type не н�
 2021-06-28 11:36:17,313 INFO com.severtrans.notification.NotificationApplication [main] Start...
 2021-06-28 11:36:17,314 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
 2021-06-28 11:36:17,525 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:21:39,987 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 25204 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:21:39,991 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:21:39,991 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:21:41,551 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.335 seconds (JVM running for 4.05)
+2021-06-28 18:21:41,556 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:21:41,554 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:21:41,559 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:21:41,563 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:21:41,766 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:21:43,440 ERROR com.severtrans.notification.SendNotifications [scheduling-1] Не удалось загрузить IN_ЦБ-00000388_20210628.xml. Код 451
+2021-06-28 18:26:37,091 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 4620 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:26:37,095 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:26:37,095 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:26:38,234 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.324 seconds (JVM running for 4.145)
+2021-06-28 18:26:38,235 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:26:38,239 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:26:38,241 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:26:38,242 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:26:38,446 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:32:00,054 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m21s497ms481µs700ns).
+2021-06-28 18:32:42,152 ERROR org.springframework.scheduling.support.TaskUtils$LoggingErrorHandler [scheduling-1] Unexpected error occurred in scheduled task
+org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?)]; nested exception is org.postgresql.util.PSQLException: No hstore extension installed.
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:101)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1015)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1025)
+	at com.severtrans.notification.SendNotifications.send(SendNotifications.java:214)
+	at com.severtrans.notification.SendNotifications$$FastClassBySpringCGLIB$$50303347.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$93a4d965.send(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset$$$capture(FutureTask.java:305)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.postgresql.util.PSQLException: No hstore extension installed.
+	at org.postgresql.jdbc.PgPreparedStatement.setMap(PgPreparedStatement.java:504)
+	at org.postgresql.jdbc.PgPreparedStatement.setObject(PgPreparedStatement.java:998)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setObject(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:409)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:963)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 32 common frames omitted
+2021-06-28 18:35:54,105 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 21492 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:35:54,110 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:35:54,111 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:35:55,413 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.353 seconds (JVM running for 4.198)
+2021-06-28 18:35:55,412 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:35:55,418 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:35:55,421 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:35:55,423 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:35:55,659 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:36:07,203 ERROR org.springframework.scheduling.support.TaskUtils$LoggingErrorHandler [scheduling-1] Unexpected error occurred in scheduled task
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?)]; ОШИБКА: нулевое значение в столбце "id" нарушает ограничение NOT NULL
+  Подробности: Ошибочная строка содержит (null, null, 01023844543, KB_USL99771, null, null, null, null, null, 2021-06-28 18:36:02, 2021-06-28 18:36:02, null, test1.xml, null, null, null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null).; nested exception is org.postgresql.util.PSQLException: ОШИБКА: нулевое значение в столбце "id" нарушает ограничение NOT NULL
+  Подробности: Ошибочная строка содержит (null, null, 01023844543, KB_USL99771, null, null, null, null, null, 2021-06-28 18:36:02, 2021-06-28 18:36:02, null, test1.xml, null, null, null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null).
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:251)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1015)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1025)
+	at com.severtrans.notification.SendNotifications.send(SendNotifications.java:214)
+	at com.severtrans.notification.SendNotifications$$FastClassBySpringCGLIB$$50303347.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$91b5fa4b.send(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset$$$capture(FutureTask.java:305)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: нулевое значение в столбце "id" нарушает ограничение NOT NULL
+  Подробности: Ошибочная строка содержит (null, null, 01023844543, KB_USL99771, null, null, null, null, null, 2021-06-28 18:36:02, 2021-06-28 18:36:02, null, test1.xml, null, null, null, null, null, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null).
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2553)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2285)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:323)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:481)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:401)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:164)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:130)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:965)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 32 common frames omitted
+2021-06-28 18:38:42,745 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 24660 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:38:42,751 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:38:42,751 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:38:43,835 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 2.128 seconds (JVM running for 3.983)
+2021-06-28 18:38:43,839 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:38:43,845 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:38:43,846 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:38:43,848 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:38:44,059 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:38:55,419 ERROR org.springframework.scheduling.support.TaskUtils$LoggingErrorHandler [scheduling-1] Unexpected error occurred in scheduled task
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO kb_sost (id,id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?)]; Индекс колонки вне диапазона: 6. Допустимые значения: 1..5; nested exception is org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 6. Допустимые значения: 1..5
+	at org.springframework.jdbc.support.SQLStateSQLExceptionTranslator.doTranslate(SQLStateSQLExceptionTranslator.java:104)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:79)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1015)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1025)
+	at com.severtrans.notification.SendNotifications.send(SendNotifications.java:214)
+	at com.severtrans.notification.SendNotifications$$FastClassBySpringCGLIB$$50303347.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$ee2b3a9d.send(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset$$$capture(FutureTask.java:305)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 6. Допустимые значения: 1..5
+	at org.postgresql.core.v3.SimpleParameterList.bind(SimpleParameterList.java:69)
+	at org.postgresql.core.v3.SimpleParameterList.setStringParameter(SimpleParameterList.java:132)
+	at org.postgresql.jdbc.PgPreparedStatement.bindString(PgPreparedStatement.java:1060)
+	at org.postgresql.jdbc.PgPreparedStatement.setString(PgPreparedStatement.java:356)
+	at org.postgresql.jdbc.PgPreparedStatement.setString(PgPreparedStatement.java:342)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.setString(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setValue(StatementCreatorUtils.java:398)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValueInternal(StatementCreatorUtils.java:231)
+	at org.springframework.jdbc.core.StatementCreatorUtils.setParameterValue(StatementCreatorUtils.java:162)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.doSetValue(ArgumentPreparedStatementSetter.java:69)
+	at org.springframework.jdbc.core.ArgumentPreparedStatementSetter.setValues(ArgumentPreparedStatementSetter.java:50)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:963)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 32 common frames omitted
+2021-06-28 18:39:44,772 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 23992 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:39:44,776 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:39:44,777 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:39:45,813 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.942 seconds (JVM running for 3.577)
+2021-06-28 18:39:45,814 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:39:45,816 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:39:45,818 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:39:45,820 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:39:46,017 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:39:51,148 ERROR org.springframework.scheduling.support.TaskUtils$LoggingErrorHandler [scheduling-1] Unexpected error occurred in scheduled task
+org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO kb_sost (id,id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?,?)]; ОШИБКА: INSERT или UPDATE в таблице "kb_sost" нарушает ограничение внешнего ключа "fkkb_sost823000"
+  Подробности: Ключ (id_obsl)=(01023844543) отсутствует в таблице "kb_spros".; nested exception is org.postgresql.util.PSQLException: ОШИБКА: INSERT или UPDATE в таблице "kb_sost" нарушает ограничение внешнего ключа "fkkb_sost823000"
+  Подробности: Ключ (id_obsl)=(01023844543) отсутствует в таблице "kb_spros".
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:251)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:70)
+	at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1541)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:667)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1015)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:1025)
+	at com.severtrans.notification.SendNotifications.send(SendNotifications.java:214)
+	at com.severtrans.notification.SendNotifications$$FastClassBySpringCGLIB$$50303347.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692)
+	at com.severtrans.notification.SendNotifications$$EnhancerBySpringCGLIB$$2c952fb0.send(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset$$$capture(FutureTask.java:305)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: INSERT или UPDATE в таблице "kb_sost" нарушает ограничение внешнего ключа "fkkb_sost823000"
+  Подробности: Ключ (id_obsl)=(01023844543) отсутствует в таблице "kb_spros".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2553)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2285)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:323)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:481)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:401)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:164)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:130)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$2(JdbcTemplate.java:965)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:651)
+	... 32 common frames omitted
+2021-06-28 18:43:48,203 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 24836 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 18:43:48,208 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 18:43:48,208 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 18:43:49,277 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.975 seconds (JVM running for 4.992)
+2021-06-28 18:43:49,278 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 18:43:49,280 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 18:43:49,282 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 18:43:49,284 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 18:43:49,487 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 18:43:56,444 INFO com.severtrans.notification.SendNotifications [scheduling-1] Файл test1.xml успешно загружен
+2021-06-28 19:14:46,494 INFO org.springframework.boot.StartupInfoLogger [main] Starting NotificationApplication using Java 11.0.8 on DESKTOP-G3VGCPU with PID 18076 (C:\Users\Father\IdeaProjects\notification\target\classes started by Father in C:\Users\Father\IdeaProjects\notification)
+2021-06-28 19:14:46,498 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.5.0, Spring v5.3.7
+2021-06-28 19:14:46,499 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2021-06-28 19:14:47,535 INFO org.springframework.boot.StartupInfoLogger [main] Started NotificationApplication in 1.816 seconds (JVM running for 3.196)
+2021-06-28 19:14:47,536 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Starting...
+2021-06-28 19:14:47,538 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state LivenessState changed to CORRECT
+2021-06-28 19:14:47,541 INFO com.severtrans.notification.NotificationApplication [main] Start...
+2021-06-28 19:14:47,542 INFO org.springframework.boot.availability.ApplicationAvailabilityBean [main] Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2021-06-28 19:14:47,723 INFO com.zaxxer.hikari.HikariDataSource [scheduling-1] HikariPool-1 - Start completed.
+2021-06-28 19:14:49,453 INFO com.severtrans.notification.SendNotifications [scheduling-1] Файл IN_20210628191449.xml успешно загружен

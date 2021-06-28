@@ -25,7 +25,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -38,7 +40,7 @@ public class SendNotifications {
     JdbcTemplate jdbcTemplate;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");// HH:mm:ss
-    private SimpleDateFormat ts = new SimpleDateFormat("yyyyMMdd");// HH:mm:ss
+    private SimpleDateFormat ts = new SimpleDateFormat("yyyyMMddHHmmss");// HH:mm:ss
     private FTPClient ftpClient = new FTPClient();
     InputStream is;
 
@@ -77,6 +79,7 @@ public class SendNotifications {
 */
 // open FTP
             try {
+                //region open FTP session
                 ftpClient.connect(ftp.getHostname(), ftp.getPort());
                 ftpClient.enterLocalPassiveMode();
                 int reply = ftpClient.getReplyCode();
@@ -86,6 +89,8 @@ public class SendNotifications {
                 if (!ftpClient.login(ftp.getLogin(), ftp.getPassword())) {
                     throw new NotificationException("Не удалось авторизоваться на FTP. Ошибка " + reply);
                 }
+                //endregion
+
                 MapSqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", ftp.getId());
                 //region List<ResponseFtp> responses = namedParameterJdbcTemplate.query
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
@@ -170,7 +175,6 @@ public class SendNotifications {
                         xs.alias(resp.getAlias(), Notification.class);
                         xs.alias("Goods", NotificationItem.class);
                         xs.addImplicitCollection(Notification.class, "Goods");
-                        //endregion
 /*
                         System.out.println(xs.toXML(not));
 
@@ -187,9 +191,10 @@ public class SendNotifications {
                             System.out.println(writer.toString());
                             is = new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8));
                         }
+                        //endregion
                         //TODO имя файла
-                        System.out.println(ts.format(new Date()));
-                        String fileName = resp.getDirection() + "_" + not.getNumber() + "_" + ts.format(new Date()) + ".xml";
+                        System.out.println(ts.format(new Date()));//"test1.xml";//
+                        String fileName = resp.getDirection() + "_" + ts.format(new Date()) + ".xml";
                 /*
 SELECT SV_UTILITIES.FORM_KEY(SEQ_KB_XPEL_OUT.NextVal) INTO v_id FROM dual;
 SELECT p_direction || '_' || LPAD(TO_CHAR(v_id), 11, '0') || '_' || to_char(SYSDATE, 'DDMMYYYY') || '.xml'
@@ -199,29 +204,27 @@ SELECT p_direction || '_' || LPAD(TO_CHAR(v_id), 11, '0') || '_' || to_char(SYSD
                         boolean ok = ftpClient.storeFile(fileName, is);
                         is.close();
                         if (ok) {
-                            //TODO insert into sost
-                            //TODO log.info("The second file is uploaded successfully.");
-                            log.info("The second file is uploaded successfully.");
 /*
---добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
-IF p_id_obsl IS NOT NULL THEN
-INSERT INTO kb_sost
-        (id_obsl, id_sost, dt_sost, dt_sost_end, sost_doc, sost_prm)
-VALUES
-        (p_id_obsl, 'KB_USL99771', SYSDATE, SYSDATE, v_id, v_file_name);
+                            Map<String, Object> params = new HashMap<>();
+                            params.put("id_obsl", not.getOrderID());
+                            params.put("id_sost", "KB_USL99771");
+                            params.put("dt_sost", new Date());
+                            params.put("dt_sost_end", new Date());
+                            params.put("sost_prm", fileName);
 */
-
+                            //добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
+                            jdbcTemplate.update("INSERT INTO kb_sost (id,id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?,?)",
+                                    "2",not.getOrderID(),"KB_USL99771",new Date(),new Date(),fileName);
+                            log.info("Файл " + fileName + " успешно загружен");
                         } else {
-//TODO handle not ok
+                            throw new NotificationException("Не удалось загрузить " + fileName);
                         }
                     }
                 }
                 ftpClient.logout();
             } catch (IOException | NotificationException e) {
-                reply = ftpClient.getReplyCode();
-                log.error("Не удалось авторизоваться на FTP. Ошибка " + reply);
-
-                e.printStackTrace();
+                int reply = ftpClient.getReplyCode();
+                log.error(e.getMessage() + ". Код " + reply);
             } finally {
                 if (ftpClient.isConnected()) {
                     try {
@@ -231,7 +234,6 @@ VALUES
                     }
                 }
             }
-
         }
     }
 }
