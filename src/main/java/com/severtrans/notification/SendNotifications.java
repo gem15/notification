@@ -5,14 +5,13 @@ import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
 import com.severtrans.notification.dto.ResponseFtp;
 import com.severtrans.notification.service.NotificationException;
-import com.severtrans.notification.service.NotificationType;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,14 +19,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.transform.OutputKeys;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Repository
@@ -42,7 +38,7 @@ public class SendNotifications {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");// HH:mm:ss
     private SimpleDateFormat ts = new SimpleDateFormat("yyyyMMddHHmmss");// HH:mm:ss
     private FTPClient ftpClient = new FTPClient();
-    InputStream is;
+    private InputStream is;
 
     public SendNotifications() {
     }
@@ -50,7 +46,7 @@ public class SendNotifications {
     @Transactional
     @Scheduled(fixedDelay = Long.MAX_VALUE) //initialDelay = 1000 * 30,
 //    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
-    public void send() {
+    public void reply() {
 
         //region List<Ftp> ftps = jdbcTemplate.query
         List<Ftp> ftps = jdbcTemplate.query("select * from ftp",
@@ -78,6 +74,7 @@ public class SendNotifications {
             //endregion
 */
 // open FTP
+            //SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
             try {
                 //region open FTP session
                 ftpClient.connect(ftp.getHostname(), ftp.getPort());
@@ -127,11 +124,8 @@ public class SendNotifications {
                     }
 */
                     // Changes working directory
-                    if (!ftpClient.changeWorkingDirectory(resp.getPath())) {
-                        reply = ftpClient.getReplyCode();
-                        //TODO https://www.codejava.net/java-se/ftp/java-ftp-example-change-working-directory
-                        throw new NotificationException("Не удалось сменить директорию. Ошибка " + reply);
-                    }
+                    if (!ftpClient.changeWorkingDirectory(resp.getPath()))
+                        throw new NotificationException("Не удалось сменить директорию");
 
                     //TODO add VN = :id to query text
                     MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id", resp.getVn());
@@ -192,15 +186,10 @@ public class SendNotifications {
                             is = new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8));
                         }
                         //endregion
-                        //TODO имя файла
-                        System.out.println(ts.format(new Date()));//"test1.xml";//
-                        String fileName = resp.getDirection() + "_" + ts.format(new Date()) + ".xml";
-                /*
-SELECT SV_UTILITIES.FORM_KEY(SEQ_KB_XPEL_OUT.NextVal) INTO v_id FROM dual;
-SELECT p_direction || '_' || LPAD(TO_CHAR(v_id), 11, '0') || '_' || to_char(SYSDATE, 'DDMMYYYY') || '.xml'
-  INTO v_file_name
-  FROM DUAL;
-                 */
+
+                        // имя файла
+//                        String fileName = resp.getDirection() + "_" + ts.format(new Date()) + ".xml";
+                        String fileName = resp.getDirection() + "_" + new Date().getTime() + ".xml";
                         boolean ok = ftpClient.storeFile(fileName, is);
                         is.close();
                         if (ok) {
@@ -214,7 +203,7 @@ SELECT p_direction || '_' || LPAD(TO_CHAR(v_id), 11, '0') || '_' || to_char(SYSD
 */
                             //добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
                             jdbcTemplate.update("INSERT INTO kb_sost (id,id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?, ?,?)",
-                                    "2",not.getOrderID(),"KB_USL99771",new Date(),new Date(),fileName);
+                                    "3", not.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
                             log.info("Файл " + fileName + " успешно загружен");
                         } else {
                             throw new NotificationException("Не удалось загрузить " + fileName);
@@ -225,6 +214,8 @@ SELECT p_direction || '_' || LPAD(TO_CHAR(v_id), 11, '0') || '_' || to_char(SYSD
             } catch (IOException | NotificationException e) {
                 int reply = ftpClient.getReplyCode();
                 log.error(e.getMessage() + ". Код " + reply);
+            } catch (DataAccessException e) {
+                log.error(e.getMessage());
             } finally {
                 if (ftpClient.isConnected()) {
                     try {
