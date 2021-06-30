@@ -47,9 +47,10 @@ public class SendNotifications {
     @Scheduled(fixedDelay = Long.MAX_VALUE) //initialDelay = 1000 * 30,
 //    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
-
+        // int i=jdbcTemplate.queryForObject("select count(*) from kb_sost", Integer.class);
+        // log.info(">>>>>>>>>>>>>>>"+i);
         //region List<Ftp> ftps = jdbcTemplate.query
-        List<Ftp> ftps = jdbcTemplate.query("select * from ftp",
+        List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(
                         rs.getInt("id"),
                         rs.getString("login"),
@@ -73,18 +74,16 @@ public class SendNotifications {
             );
             //endregion
 */
-// open FTP
             //SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
             try {
-                //region open FTP session
+                //region open FTP sessionS
                 ftpClient.connect(ftp.getHostname(), ftp.getPort());
                 ftpClient.enterLocalPassiveMode();
-                int reply = ftpClient.getReplyCode();
-                if (!FTPReply.isPositiveCompletion(reply)) {
-                    throw new NotificationException("Не удалось подключиться к FTP. Ошибка " + reply);
+                if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
+                    throw new NotificationException("Не удалось подключиться к FTP");
                 }
                 if (!ftpClient.login(ftp.getLogin(), ftp.getPassword())) {
-                    throw new NotificationException("Не удалось авторизоваться на FTP. Ошибка " + reply);
+                    throw new NotificationException("Не удалось авторизоваться на FTP");
                 }
                 //endregion
 
