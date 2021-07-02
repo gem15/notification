@@ -34,7 +34,8 @@ public class ResponseFtp {
 //	private String voc;
 	private int vn;
 	private String path = "/";
-	private String query;
+	private String queryMaster;
+	private String queryDetails;
 	private String alias;
 	private String direction;
 	private String orderType;

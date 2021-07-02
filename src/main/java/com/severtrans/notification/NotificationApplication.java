@@ -24,9 +24,9 @@ public class NotificationApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Start...");
-//        SendNotifications notifications = new SendNotifications();
-//        notifications.send();
+        log.info(">>> Start notifications");
+    //    SendNotifications notifications = new SendNotifications();
+    //    notifications.reply();
 //        scheduler.fixedDelaySch();
     }
 }

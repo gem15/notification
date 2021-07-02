@@ -1,14 +1,16 @@
 package com.severtrans.notification.dto;
 
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import lombok.Data;
-
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.Data;
 
 /**
  * УВЕДОМЛЕНИЯ о подтверждении отгрузки на выход уходит файл с префиксом «OUT»
  */
+// @XmlRootElement
 @Data
 //@RequiredArgsConstructor()
 public class Notification {
@@ -28,12 +30,12 @@ public class Notification {
     int VN;// код клиента
     String NumberCar;// номе машины
     String Driver;// имя водителя
-    List<NotificationItem> Goods;// спсиок отгруженных товаров
+    List<NotificationItem> items = new ArrayList<>();// спсиок отгруженных товаров
 
-    public Notification(String s, String s1) {
-        this.OrderType = s;
-        this.TypeOfDelivery = s1;
-    }
+    // public Notification(String s, String s1) {
+    //     this.OrderType = s;
+    //     this.TypeOfDelivery = s1;
+    // }
 
     public Notification() {
     }

@@ -1,36 +1,20 @@
 package com.severtrans.notification;
 
-import com.severtrans.notification.dto.Notification;
-import com.severtrans.notification.dto.NotificationItem;
-import com.thoughtworks.xstream.XStream;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Date;
 
-@JdbcTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
-//@SpringBootTest
+import com.severtrans.notification.dto.Notification;
+import com.severtrans.notification.dto.NotificationItem;
+import com.thoughtworks.xstream.XStream;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
 class NotificationApplicationTests {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Test
-    void contextLoads() {
-    }
-
-//    @Sql({"/data.sql"})
     @Test
     void SqlTest() {
         System.out.println("test");
@@ -43,16 +27,7 @@ class NotificationApplicationTests {
         String _4111 = "PickOrderForGoods";
 
 
-        Notification not = new Notification("Отгрузка", "Отгрузка");
-
-/*
-        //TODO experiment
-        System.out.println(new Date());
-        Date ldt =  new Date();
-        not.setLdt(ldt);
-        SimpleDateFormat dateFormat_ = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        System.out.println("date: " + dateFormat_.format( new Date() ) );
-*/
+        Notification not = new Notification();//"Отгрузка", "Отгрузка"
 
         not.setDu("1212122"); //omitted field
         not.setDate("");
