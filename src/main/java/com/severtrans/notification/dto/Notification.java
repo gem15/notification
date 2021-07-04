@@ -3,8 +3,6 @@ package com.severtrans.notification.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import lombok.Data;
 
 /**
@@ -14,28 +12,24 @@ import lombok.Data;
 @Data
 //@RequiredArgsConstructor()
 public class Notification {
-    String du;//link two tables
-    String orderID;
 
-    String Date;
-    String VehicleFactlArrivalTime; // фактическое время отгрузки
-    String FactDeliveryDate;//время прибытия машины
-    String Number;//номер документа клиента
-    String Customer;// заказчик
-    String OrderType = "Отгрузка";// тип заказа
-    String TypeOfDelivery = "Отгрузка";// тип отгрузки
-    String IDSupplier;// получатель
-    String NameSupplier;// наименование получателя
-    String AdressSupplier;// адрес получателя
-    int VN;// код клиента
-    String NumberCar;// номе машины
-    String Driver;// имя водителя
-    List<NotificationItem> items = new ArrayList<>();// спсиок отгруженных товаров
+    private String du;//link two tables
+    private String orderID;
 
-    // public Notification(String s, String s1) {
-    //     this.OrderType = s;
-    //     this.TypeOfDelivery = s1;
-    // }
+    private String Date;
+    private String VehicleFactlArrivalTime; // фактическое время отгрузки
+    private String FactDeliveryDate;//время прибытия машины
+    private String Number;//номер документа клиента
+    private String Customer;// заказчик
+    private String OrderType = "Отгрузка";// тип заказа
+    private String TypeOfDelivery = "Отгрузка";// тип отгрузки
+    private String IDSupplier;// получатель
+    private String NameSupplier;// наименование получателя
+    private String AdressSupplier;// адрес получателя
+    private int VN;// код клиента
+    private String NumberCar;// номе машины
+    private String Driver;// имя водителя
+    private List items = new ArrayList();// спсиок отгруженных товаров
 
     public Notification() {
     }
