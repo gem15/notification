@@ -3,34 +3,51 @@ package com.severtrans.notification.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import lombok.Data;
 /**
  * УВЕДОМЛЕНИЯ о подтверждении отгрузки на выход уходит файл с префиксом «OUT»
  */
-// @XmlRootElement
+@JsonPropertyOrder({"Date","VehicleFactlArrivalTime","FactDeliveryDate","Number","Customer","OrderType","TypeOfDelivery","IDSupplier","NameSupplier","AdressSupplier","VN","NumberCar","Driver","items",})
+@JsonIgnoreProperties({"du","orderID"})
 @Data
-//@RequiredArgsConstructor()
 public class Notification {
+    @JsonProperty("Date")
+    String Date;
+    @JsonProperty("VehicleFactlArrivalTime")
+    String VehicleFactlArrivalTime; // фактическое время отгрузки
+    @JsonProperty("FactDeliveryDate")
+    String FactDeliveryDate;//время прибытия машины
+    @JsonProperty("Number")
+    String Number;//номер документа клиента
+    @JsonProperty("Customer")
+    String Customer;// заказчик
+    @JsonProperty("OrderType")
+    String OrderType;// тип заказа
+    @JsonProperty("TypeOfDelivery")
+    String TypeOfDelivery;// тип отгрузки
+    @JsonProperty("IDSupplier")
+    String IDSupplier;// получатель
+    @JsonProperty("NameSupplier")
+    String NameSupplier;// наименование получателя
+    @JsonProperty("AdressSupplier")
+    String AdressSupplier;// адрес получателя
+    @JsonProperty("VN")
+    int VN;// код клиента
+    @JsonProperty("NumberCar")
+    String NumberCar;// номе машины
+    @JsonProperty("Driver")
+    String Driver;// имя водителя
+    
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "Goods")
+     List<NotificationItem> items = new ArrayList<>();// спсиок отгруженных товаров
 
-    private String du;//link two tables
-    private String orderID;
-
-    private String Date;
-    private String VehicleFactlArrivalTime; // фактическое время отгрузки
-    private String FactDeliveryDate;//время прибытия машины
-    private String Number;//номер документа клиента
-    private String Customer;// заказчик
-    private String OrderType = "Отгрузка";// тип заказа
-    private String TypeOfDelivery = "Отгрузка";// тип отгрузки
-    private String IDSupplier;// получатель
-    private String NameSupplier;// наименование получателя
-    private String AdressSupplier;// адрес получателя
-    private int VN;// код клиента
-    private String NumberCar;// номе машины
-    private String Driver;// имя водителя
-    private List items = new ArrayList();// спсиок отгруженных товаров
-
-    public Notification() {
-    }
+    String du;//link two tables
+    String orderID;
 }
