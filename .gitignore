@@ -33,3 +33,4 @@ build/
 .vscode/
 /logs/**
 src/main/resources/env.properties
+env.properties

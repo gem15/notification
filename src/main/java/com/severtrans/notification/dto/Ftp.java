@@ -34,5 +34,7 @@ public class Ftp {
 	private String hostname;
 	
 	private int port = 21;
+
+	private String description;
 	
 }

@@ -1,8 +1,10 @@
 package com.severtrans.notification.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,8 +19,9 @@ import lombok.Data;
 @JsonIgnoreProperties({"du","orderID"})
 @Data
 public class Notification {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @JsonProperty("Date")
-    String Date;
+    Date Date;
     @JsonProperty("VehicleFactlArrivalTime")
     String VehicleFactlArrivalTime; // фактическое время отгрузки
     @JsonProperty("FactDeliveryDate")

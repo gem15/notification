@@ -45,3 +45,14 @@ END;
 
 /
 ALTER TRIGGER "SPRUT4"."FTP_BIR" ENABLE;
+
+
+------------------------------------------------------------------
+SELECT * FROM kb_sost s
+inner join kb_spros p on s.id_obsl = p.id
+inner join kb_zak z on p.id_zak =z.id
+where z.id_klient=300191
+and s.sost_prm like 'OUT_%'
+--and s.sost_prm='OUT_559_1625510865246.xml';
+;
+SELECT * FROM kb_spros where id='01023954359';

@@ -8,19 +8,15 @@ import java.util.Date;
 import org.springframework.jdbc.core.RowMapper;
 
 public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
+ 
         @Override
         public NotificationItem mapRow(ResultSet rs, int i) throws SQLException {
                 NotificationItem ni = new NotificationItem();
                 ni.setLineNumber(rs.getInt("ROWNUM"));
                 ni.setArticle(rs.getString("SKU_ID"));
                 ni.setName(rs.getString("NAME"));
-                ni.setExpirationDate(dateFormat.format(
-                                rs.getDate("EXPIRATION_DATE") == null ? new Date() : rs.getDate("EXPIRATION_DATE")));
-                ni.setProductionDate(dateFormat.format(
-                                rs.getDate("PRODUCTION_DATE") == null ? new Date() : rs.getDate("PRODUCTION_DATE")));
+                ni.setExpirationDate(d2s(rs.getDate("EXPIRATION_DATE")));
+                ni.setProductionDate(d2s(rs.getDate("PRODUCTION_DATE")));
                 ni.setLot(rs.getString("LOT"));
                 ni.setMarker(rs.getString("MARKER"));
                 ni.setMarker2(rs.getString("MARKER2"));
@@ -30,5 +26,14 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
                 ni.setSerialNum(rs.getString("SERIAL_NUM"));
                 return ni;
 
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        private String d2s(Date date) {
+                if (date == null)
+                        return "";
+                else
+                        return dateFormat.format(date);
         }
 }
