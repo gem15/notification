@@ -72,8 +72,8 @@ public class SendNotifications {
                 // region List<ResponseFtp> responses = namedParameterJdbcTemplate.query
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
                         "SELECT vn, path, e.master, e.details, alias_text alias, e.direction, e.order_type"
-                                + " FROM response_ftp r" + " INNER JOIN response_extra e ON r.response_extra_id = e.id"
-                                + " INNER JOIN ftps f ON r.ftp_id = f.id" + " WHERE r.ftp_id = :id",
+                                + " FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id"
+                                + " INNER JOIN ftps f ON r.ftp_id = f.id WHERE r.ftp_id = :id",
                         ftpParam,
                         (rs, rowNum) -> new ResponseFtp(rs.getInt("vn"), rs.getString("path"), rs.getString("master"),
                                 rs.getString("details"), rs.getString("alias"), rs.getString("direction"),
@@ -108,7 +108,8 @@ public class SendNotifications {
                             throw new NotificationException("Не удалось сменить директорию");
                         // передача на FTP
                         is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                        boolean ok = ftpClient.storeFile(fileName, is);
+                        boolean ok = ftpClient.storeFile(resp.getDirection() + "_" + master.getNumber().replaceAll("\\D+","") + "_" + new Date().getTime()
+                                + ".xml",new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
                         is.close();
                         if (ok) {
                             // добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
