@@ -3,8 +3,8 @@ package com.severtrans.notification.service;
 /**
  * https://www.baeldung.com/java-new-custom-exception
  */
-public class NotificationException extends Exception {
-    public NotificationException(String message) {
+public class FTPException extends Exception {
+    public FTPException(String message) {
         super(message);
     }
 }

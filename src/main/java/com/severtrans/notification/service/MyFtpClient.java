@@ -20,7 +20,7 @@ public class MyFtpClient {
         this.password = password;
     }
 
-    public void open() throws NotificationException {
+    public void open() throws FTPException {
         ftp = new FTPClient();
         try {
             ftp.setFileType(FTP.ASCII_FILE_TYPE);
@@ -40,7 +40,7 @@ public class MyFtpClient {
             }
         } catch (IOException e) {
             //e.printStackTrace();
-            throw new NotificationException(e.getMessage());
+            throw new FTPException(e.getMessage());
         }
     }
 

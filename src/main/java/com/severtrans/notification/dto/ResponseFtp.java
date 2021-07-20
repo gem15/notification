@@ -33,10 +33,12 @@ public class ResponseFtp {
 //	 */
 //	private String voc;
 	private int vn;
-	private String path = "/";
+	private String pathIn = "/";
+	private String pathOut = "/";
 	private String queryMaster;
 	private String queryDetails;
 	private String alias;
-	private String direction;
+	private String prefix;
 	private String orderType;
+	private int inOut;
 }
