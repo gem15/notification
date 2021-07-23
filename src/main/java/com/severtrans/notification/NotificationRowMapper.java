@@ -1,12 +1,11 @@
 package com.severtrans.notification;
 
-import com.severtrans.notification.dto.Notification;
-import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import com.severtrans.notification.dto.Notification;
+
+import org.springframework.jdbc.core.RowMapper;
 
 public class NotificationRowMapper implements RowMapper<Notification> {
 
@@ -16,10 +15,8 @@ public class NotificationRowMapper implements RowMapper<Notification> {
                 notification.setDu(rs.getString("id_du"));
                 notification.setOrderID(rs.getString("id_obsl"));
                 notification.setDate(rs.getTimestamp("dt_sost"));
-                notification.setVehicleFactlArrivalTime(d2s1(rs.getTimestamp("dt_sost_end")));
-                notification.setFactDeliveryDate(d2s1(rs.getTimestamp("dt_veh")));
-                // notification.setVehicleFactlArrivalTime(dateFormat1.format(rs.getTimestamp("dt_sost_end")));
-                // notification.setFactDeliveryDate(dateFormat1.format(rs.getTimestamp("dt_veh")));
+                notification.setVehicleFactlArrivalTime(rs.getTimestamp("dt_sost_end"));
+                notification.setFactDeliveryDate(rs.getTimestamp("dt_veh"));
                 notification.setNumber(rs.getString("sost_doc"));
                 notification.setCustomer(rs.getString("n_zak"));
                 // notification.setOrderType(rs.getString(""));
@@ -37,20 +34,4 @@ public class NotificationRowMapper implements RowMapper<Notification> {
                 return notification;
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-        //TODO make common on utils static
-        private String d2s(Date date) {
-                if (date == null)
-                        return "";
-                else
-                        return dateFormat.format(date);
-        }
-
-        private String d2s1(Date date) {
-                if (date == null)
-                        return "";
-                else
-                        return dateFormat1.format(date);
-        }
-}
+ }

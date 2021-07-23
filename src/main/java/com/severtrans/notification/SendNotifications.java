@@ -5,16 +5,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Types;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.severtrans.notification.dto.*;
+import com.severtrans.notification.dto.Customer;
+import com.severtrans.notification.dto.CustomerRowMapper;
+import com.severtrans.notification.dto.Ftp;
+import com.severtrans.notification.dto.Notification;
+import com.severtrans.notification.dto.NotificationItem;
+import com.severtrans.notification.dto.NotificationItemRowMapper;
+import com.severtrans.notification.dto.PartStock;
+import com.severtrans.notification.dto.PartStockLine;
+import com.severtrans.notification.dto.ResponseFtp;
+import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.service.FTPException;
-
 import com.severtrans.notification.service.MonitorException;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
@@ -33,9 +41,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Repository
@@ -49,9 +57,8 @@ public class SendNotifications {
     @Autowired
     FTPClient ftp;
     @Autowired
-    XmlMapper xmlMapper;// TODO @Autowired
+    XmlMapper xmlMapper;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");// HH:mm:ss
     private InputStream is;
 
     public SendNotifications() {
@@ -103,14 +110,14 @@ public class SendNotifications {
                             FTPFileFilter filter = ftpFile -> (ftpFile.isFile() && ftpFile.getName().endsWith(".xml"));
                             FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
                             for (FTPFile file : listFile) {
-                                String xmlText;//извлекаем файл в поток и преобразуем в строку
-                                try(InputStream remoteInput = ftp.retrieveFileStream(file.getName())){
-                                  xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8); 
-                                };
-                               if (!ftp.completePendingCommand()) {
+                                String xmlText;// извлекаем файл в поток и преобразуем в строку
+                                try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
+                                    xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
+                                }
+                                if (!ftp.completePendingCommand()) {
                                     throw new FTPException("Completing Pending Commands Not Successful");
                                 }
-                                 String filePrefix = file.getName().substring(0, 1).toUpperCase();
+                                String filePrefix = file.getName().substring(0, 1).toUpperCase();
                                 try {
                                     msgIn(xmlText, filePrefix);
                                     ftp.deleteFile(file.getName());// TODO удаляем принятый файл
@@ -193,7 +200,7 @@ public class SendNotifications {
         switch (filePrefix) {
             case "P": // PART_STOCK
                 PartStock stockRq = xmlMapper.readValue("dfdf", PartStock.class); // десериализуем (из потока
-                                                                                       // создаём объект)
+                                                                                  // создаём объект)
                 // regionПолучить клиента по ВН
                 // https://mkyong.com/spring/queryforobject-throws-emptyresultdataaccessexception-when-record-not-found/
                 try {
@@ -270,6 +277,8 @@ public class SendNotifications {
                 MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 Map<String, Object> out = jdbcCall.execute(in);
+                if (!out.get("P_ERR").equals("Загружено записей:"))
+                    Utils.emailAlert((String)out.get("P_ERR"));//TODO доработать
                 System.out.println(out.get("P_ERR"));
                 /*
                  * //region Получить клиента по ВН try { customer = jdbcTemplate.

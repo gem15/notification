@@ -118,19 +118,10 @@
       --=== создание заказа
       SELECT SV_UTILITIES.FORM_KEY(KB_SPROS_SEQ.NextVal) INTO v_id_obsl FROM dual;
     
-      -- имя файла без расширения
-/*
-       SELECT SUBSTR(regexp_substr(t.message_name, '[^\]*$'),
-                     1,
-                     INSTR(regexp_substr(t.message_name, '[^\]*$'), '.', -1) - 1)
-        INTO v_file_name
-        FROM KB_ICD_IN t
-       WHERE t.message_id = p_id_file;
- */    
       INSERT INTO kb_spros
         (n_gruz, dt_zakaz, id_zak, id_pok, is_postavka, id, id_spros, id_tir, id_kat)
       VALUES
-        (c_test || 'FTP УП -> ' || rec.number1, --- || ' -> ' || v_file_name
+        (c_test || 'FTP УП -> ' || rec.number1,
          to_char(SYSDATE, 'dd.mm.rr'),
          v_id_zak,
          v_new_rec,
@@ -181,9 +172,9 @@
       RETURNING id INTO v_id_sost;
       --добавляем событие 4301
       INSERT INTO kb_sost
-        (id_obsl, dt_sost, dt_sost_end, id_sost, sost_doc, sost_prm, id_isp)
+        (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp)--sost_doc,
       VALUES
-        (v_id_obsl, SYSDATE, SYSDATE, 'KB_USL99770', p_id_file, 'ПО_ХЛМ ' || v_file_name, '010277043');
+        (v_id_obsl, SYSDATE, SYSDATE, 'KB_USL99770', 'ПО', '010277043'); --p_id_file, 
     
       FOR rec_det IN (SELECT extractvalue(VALUE(t), '/Goods/LineNumber') AS LineNumber, --номер строки
                              extractvalue(VALUE(t), '/Goods/Article') AS Article, --артикул товара
@@ -292,7 +283,7 @@
       ROLLBACK;
     --   UPDATE KB_ICD_IN t SET t.message_status   = 'E', t.message_err_code = p_err WHERE t.message_id = p_id_file;
     --   COMMIT;
-      send_notification(p_id_file, p_err);
+    --   send_notification(p_id_file, p_err);
     
     WHEN OTHERS THEN
       ROLLBACK;

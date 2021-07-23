@@ -2,8 +2,6 @@ package com.severtrans.notification.dto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,8 +13,8 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
                 ni.setLineNumber(rs.getInt("ROWNUM"));
                 ni.setArticle(rs.getString("SKU_ID"));
                 ni.setName(rs.getString("NAME"));
-                ni.setExpirationDate(d2s(rs.getDate("EXPIRATION_DATE")));
-                ni.setProductionDate(d2s(rs.getDate("PRODUCTION_DATE")));
+                ni.setExpirationDate(rs.getDate("EXPIRATION_DATE"));
+                ni.setProductionDate(rs.getDate("PRODUCTION_DATE"));
                 ni.setLot(rs.getString("LOT"));
                 ni.setMarker(rs.getString("MARKER"));
                 ni.setMarker2(rs.getString("MARKER2"));
@@ -28,12 +26,4 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
 
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        private String d2s(Date date) {
-                if (date == null)
-                        return "";
-                else
-                        return dateFormat.format(date);
-        }
-}
+ }

@@ -23,14 +23,14 @@ class NotificationApplicationTests {
     @Test
     void printXMLTest() throws IOException {
         String _4102 = "IssueReceiptForGoods";
-        String _4104 = "IssueOrderForGoods";
-        String _4111 = "PickOrderForGoods";
+        // String _4104 = "IssueOrderForGoods";
+        // String _4111 = "PickOrderForGoods";
 
 
         Notification not = new Notification();//"Отгрузка", "Отгрузка"
 
         not.setDu("1212122"); //omitted field
-        not.setDate("");
+        // not.setDate("");
         not.setVehicleFactlArrivalTime("");
         not.setFactDeliveryDate("");
         not.setNumber("");
@@ -43,7 +43,7 @@ class NotificationApplicationTests {
         not.setVN(300227);
         not.setNumberCar("");
         not.setDriver("");
-        not.setGoods(new ArrayList<>());
+        // not.setGoods(new ArrayList<>());
 
         NotificationItem i=new NotificationItem();
 //        i.setLineNumber(1);
@@ -51,16 +51,16 @@ class NotificationApplicationTests {
         i.setName("Tesla крепление");
 //        i.setExpirationDate(new Date());
 //        i.setProductionDate(new Date());
-//        i.setLot(); TODO check me
+//        i.setLot();
         i.setSerialNum("777");
         i.setMarker("");
-//        i.setMarker2(""); TODO check me
+//        i.setMarker2("");
         i.setMarker3("");
         i.setCount(5);
         i.setComment("My comment");
         ArrayList<NotificationItem> items =new ArrayList<>();
         items.add(i);
-        not.setGoods(items);
+        // not.setGoods(items);
 
         XStream xs = new XStream();
 
