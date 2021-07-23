@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
@@ -100,14 +103,16 @@ public class SendNotifications {
                             FTPFileFilter filter = ftpFile -> (ftpFile.isFile() && ftpFile.getName().endsWith(".xml"));
                             FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
                             for (FTPFile file : listFile) {
-                                InputStream remoteInput = ftp.retrieveFileStream(file.getName()); // загрузка файла в
-                                                                                                  // виде потока
-                                if (!ftp.completePendingCommand()) {
+                                String xmlText;//извлекаем файл в поток и преобразуем в строку
+                                try(InputStream remoteInput = ftp.retrieveFileStream(file.getName())){
+                                  xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8); 
+                                };
+                               if (!ftp.completePendingCommand()) {
                                     throw new FTPException("Completing Pending Commands Not Successful");
                                 }
-                                String filePrefix = file.getName().substring(0, 1).toUpperCase();
+                                 String filePrefix = file.getName().substring(0, 1).toUpperCase();
                                 try {
-                                    msgIn(remoteInput, filePrefix);
+                                    msgIn(xmlText, filePrefix);
                                     ftp.deleteFile(file.getName());// TODO удаляем принятый файл
                                 } catch (MonitorException e) { // обработчик работы с данными
                                     e.printStackTrace(); // TODO документ email
@@ -183,11 +188,11 @@ public class SendNotifications {
     }
 
     @Transactional
-    public void msgIn(InputStream remoteInput, String filePrefix) throws IOException, MonitorException, FTPException {
+    public void msgIn(String xmlText, String filePrefix) throws IOException, MonitorException, FTPException {
         Customer customer;
         switch (filePrefix) {
             case "P": // PART_STOCK
-                PartStock stockRq = xmlMapper.readValue(remoteInput, PartStock.class); // десериализуем (из потока
+                PartStock stockRq = xmlMapper.readValue("dfdf", PartStock.class); // десериализуем (из потока
                                                                                        // создаём объект)
                 // regionПолучить клиента по ВН
                 // https://mkyong.com/spring/queryforobject-throws-emptyresultdataaccessexception-when-record-not-found/
@@ -258,11 +263,12 @@ public class SendNotifications {
                 System.out.println("stop");
                 break;
             case "S": // SKU
-                SKU sku = xmlMapper.readValue(remoteInput, SKU.class);
+                SKU sku = xmlMapper.readValue(xmlText, SKU.class);
                 System.out.println(sku.getClientId());
-                SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_TEST")
+                SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
-                SqlParameterSource in = new MapSqlParameterSource().addValue("p_vn", 300185).addValue("p_msg", null);//
+                MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 Map<String, Object> out = jdbcCall.execute(in);
                 System.out.println(out.get("P_ERR"));
                 /*
