@@ -17,39 +17,39 @@ import lombok.Data;
  * УВЕДОМЛЕНИЯ о подтверждении отгрузки на выход уходит файл с префиксом «OUT»
  */
 @JsonPropertyOrder({ "Date", "VehicleFactlArrivalTime", "FactDeliveryDate", "Number", "Customer", "OrderType",
-        "TypeOfDelivery", "IDSupplier", "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "items", })
+        "TypeOfDelivery", "IDSupplier", "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "Goods", })
 @JsonIgnoreProperties({ "du", "orderID" })
 @Data
 public class Notification {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
-    @JsonProperty("Date")
-    Date Date;
+    @JsonProperty("DateDoc")
+    Date orderDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @JsonProperty("VehicleFactlArrivalTime")
     Date VehicleFactlArrivalTime; // фактическое время отгрузки
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     @JsonProperty("FactDeliveryDate")
     Date FactDeliveryDate;// время прибытия машины
-    @JsonProperty("Number")
-    String Number;// номер документа клиента
+    @JsonProperty("NumberDoc")
+    String orderNo;// номер документа клиента
     @JsonProperty("Customer")
-    String Customer;// заказчик
+    String customerName;// заказчик
     @JsonProperty("OrderType")
-    String OrderType;// тип заказа
+    String orderType;// тип заказа
     @JsonProperty("TypeOfDelivery")
     String TypeOfDelivery;// тип отгрузки
     @JsonProperty("IDSupplier")
     String IDSupplier;// получатель
     @JsonProperty("NameSupplier")
-    String NameSupplier;// наименование получателя
+    String contractorName;// наименование получателя
     @JsonProperty("AdressSupplier")
-    String AdressSupplier;// адрес получателя
+    String contractorAddress;// адрес получателя
     @JsonProperty("VN")
-    int VN;// код клиента
+    int clientID;// код клиента
     @JsonProperty("NumberCar")
-    String NumberCar;// номе машины
+    String licencePlate;// номе машины
     @JsonProperty("Driver")
-    String Driver;// имя водителя
+    String driver;// имя водителя
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")

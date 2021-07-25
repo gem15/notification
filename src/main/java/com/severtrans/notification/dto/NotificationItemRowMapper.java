@@ -19,9 +19,9 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
                 ni.setMarker(rs.getString("MARKER"));
                 ni.setMarker2(rs.getString("MARKER2"));
                 ni.setMarker3(rs.getString("MARKER3"));
-                ni.setCount(rs.getInt("QTY"));
+                ni.setQty(rs.getInt("QTY"));
                 ni.setComment(rs.getString("COMMENTS"));
-                ni.setSerialNum(rs.getString("SERIAL_NUM"));
+                ni.setSn(rs.getString("SERIAL_NUM"));
                 return ni;
 
         }

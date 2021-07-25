@@ -148,7 +148,7 @@ public class SendNotifications {
                                         .writeValueAsString(master);
 
                                 // имя файла
-                                String fileName = resp.getPrefix() + "_" + master.getNumber().replaceAll("\\D+", "")
+                                String fileName = resp.getPrefix() + "_" + master.getOrderNo().replaceAll("\\D+", "")
                                         + "_" + new Date().getTime() + ".xml";
                                 // Changes working directory
                                 if (!ftp.changeWorkingDirectory(resp.getPathOut()))

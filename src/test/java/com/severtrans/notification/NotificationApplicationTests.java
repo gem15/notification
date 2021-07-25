@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
@@ -31,17 +32,17 @@ class NotificationApplicationTests {
 
         not.setDu("1212122"); //omitted field
         // not.setDate("");
-        not.setVehicleFactlArrivalTime("");
-        not.setFactDeliveryDate("");
-        not.setNumber("");
-        not.setCustomer("MyCustomer");
+        not.setVehicleFactlArrivalTime(new Date());
+        not.setFactDeliveryDate(new Date());
+        not.setOrderNo("");
+        not.setCustomerName("MyCustomer");
         not.setOrderType("");
         not.setTypeOfDelivery("");
         not.setIDSupplier("");
-        not.setNameSupplier("");
-        not.setAdressSupplier("");
-        not.setVN(300227);
-        not.setNumberCar("");
+        not.setContractorName("");
+        not.setContractorAddress("");
+        not.setClientID(300227);
+        not.setLicencePlate("");
         not.setDriver("");
         // not.setGoods(new ArrayList<>());
 
@@ -52,11 +53,11 @@ class NotificationApplicationTests {
 //        i.setExpirationDate(new Date());
 //        i.setProductionDate(new Date());
 //        i.setLot();
-        i.setSerialNum("777");
+        i.setSn("777");
         i.setMarker("");
 //        i.setMarker2("");
         i.setMarker3("");
-        i.setCount(5);
+        i.setQty(5);
         i.setComment("My comment");
         ArrayList<NotificationItem> items =new ArrayList<>();
         items.add(i);
