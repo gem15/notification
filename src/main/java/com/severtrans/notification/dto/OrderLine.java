@@ -1,10 +1,13 @@
 package com.severtrans.notification.dto;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
-@JsonPropertyOrder({"LineNumber","Article","Name","Marker","Marker2","Marker3","Count","Comment"}) //,"ExpirationDate","ProductionDate","Lot","SerialNum"
+@JsonPropertyOrder({"LineNumber","Article","Name","Category","StorageLife","Marker","Marker2","Marker3","Lot","Count","Comment"}) //,"ExpirationDate","ProductionDate","Lot","SerialNum"
 @Data
 public class OrderLine {
 
@@ -16,6 +19,9 @@ public class OrderLine {
     String name;
     @JsonProperty("Count")
     int qty;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @JsonProperty("StorageLife")
+    Date storageLife;
     @JsonProperty("Category")
     String category;
     @JsonProperty("Marker")
@@ -24,11 +30,25 @@ public class OrderLine {
     String mark2;
     @JsonProperty("Marker3")
     String mark3;
+    @JsonProperty("Lot") String lot ;// партия
     @JsonProperty("Comment")
     String comment;
-
 }
 /*
+<Goods> - список товаров на отгрузку
+        <LineNumber>1</LineNumber> - порядковый номер
+        <Article>CUPBCDGGECRE16</Article> - артикул товара
+        <Name>CUPBCDGGECRE16 ESPRESSO CREMOSO 16</Name> - наименование
+        <Category>0</Category> - категория товара
+        <StorageLife/> - срок годности
+        <Mark/> 
+        <Mark2>ТС-00000011</Mark2>
+        <Mark3/>
+        <Lot/> - партия
+        <Count>18</Count> количество
+        <Comment/> комментарий
+
+
   <Goods>');
   <LineNumber>' || TO_CHAR(i)</LineNumber>');
   <Article>' || substr(rec_dt.sku_id, 4)</Article>');

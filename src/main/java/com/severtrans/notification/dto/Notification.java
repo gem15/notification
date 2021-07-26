@@ -24,10 +24,10 @@ public class Notification {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @JsonProperty("DateDoc")
     Date orderDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
     @JsonProperty("VehicleFactlArrivalTime")
     Date VehicleFactlArrivalTime; // фактическое время отгрузки
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
     @JsonProperty("FactDeliveryDate")
     Date FactDeliveryDate;// время прибытия машины
     @JsonProperty("NumberDoc")

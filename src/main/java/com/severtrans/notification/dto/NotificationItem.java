@@ -17,11 +17,11 @@ public class NotificationItem {
     @JsonProperty("Name") String name;//наименование
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+            pattern = "dd.MM.yyyy")
     @JsonProperty("ExpirationDate") Date expirationDate;//-дата окончания срока годности
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
-            pattern = "dd-MM-yyyy hh:mm:ss")
+            pattern = "dd.MM.yyyy")
     @JsonProperty("ProductionDate") Date productionDate;// дата производства
     @JsonProperty("Lot") String lot ="";// партия
     @JsonProperty("SerialNum") String sn;// серийный номер

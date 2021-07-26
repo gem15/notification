@@ -16,6 +16,7 @@ import com.severtrans.notification.dto.Ftp;
 import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.NotificationItem;
 import com.severtrans.notification.dto.NotificationItemRowMapper;
+import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.PartStock;
 import com.severtrans.notification.dto.PartStockLine;
 import com.severtrans.notification.dto.ResponseFtp;
@@ -65,7 +66,7 @@ public class SendNotifications {
     }
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
-    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
+    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}") //TODO какую задержку и какого типа?
     public void reply() {
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
@@ -73,7 +74,7 @@ public class SendNotifications {
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
             if (!ftpLine.getHostname().equals("localhost"))
-                continue; // FIXME убрать
+                continue; // FIXME заглушка для отладки
 
             log.info("Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -90,7 +91,7 @@ public class SendNotifications {
                 // region List<ResponseFtp> responses = namedParameterJdbcTemplate.query
                 MapSqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", ftpLine.getId());
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
-                        "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix, e.order_type, t.inout_id"
+                        "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix, e.order_type, t.inout_id, f.hostname"
                                 + " FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id"
                                 + " INNER JOIN ftps f ON r.ftp_id = f.id"
                                 + " INNER JOIN response_type T ON T.ID = e.response_type_id" + " WHERE r.ftp_id = :id",
@@ -102,7 +103,7 @@ public class SendNotifications {
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    log.info("Processing " + resp.getAlias());// TODO заменить на тип сообщения
+                    log.info("Processing FTP " + resp.getVn());// TODO заменить на тип сообщения ?
                     // отдельно обрабатываем входящие и исходящие сообщения
                     switch (resp.getInOut()) {
                         case (1): { // все входящие сообщения
@@ -110,6 +111,7 @@ public class SendNotifications {
                             FTPFileFilter filter = ftpFile -> (ftpFile.isFile() && ftpFile.getName().endsWith(".xml"));
                             FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
                             for (FTPFile file : listFile) {
+                                log.info("Processing file "+file.getName());
                                 String xmlText;// извлекаем файл в поток и преобразуем в строку
                                 try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                     xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
@@ -121,10 +123,10 @@ public class SendNotifications {
                                 try {
                                     msgIn(xmlText, filePrefix);
                                     ftp.deleteFile(file.getName());// TODO удаляем принятый файл
-                                } catch (MonitorException e) { // обработчик работы с данными
-                                    e.printStackTrace(); // TODO документ email
-                                } catch (DataAccessException e) {
-                                    e.printStackTrace(); // TODO как обрабатывать? ошибка доступа
+                                } catch (MonitorException e) { // сообщения с разными ошибками
+                                    log.error(e.getMessage());// TODO документ email
+                                } catch (DataAccessException e) {// ошибки БД
+                                    e.printStackTrace(); // TODO  ошибка доступа
                                 }
                             }
                             break;
@@ -148,6 +150,8 @@ public class SendNotifications {
                                         .writeValueAsString(master);
 
                                 // имя файла
+                                if(master.getOrderNo() == null)
+                                    throw new IOException("Отсутствует номер заказа");//FIXME обсудить
                                 String fileName = resp.getPrefix() + "_" + master.getOrderNo().replaceAll("\\D+", "")
                                         + "_" + new Date().getTime() + ".xml";
                                 // Changes working directory
@@ -194,9 +198,10 @@ public class SendNotifications {
         }
     }
 
-    @Transactional
+    @Transactional // для отката при исключениях при работе с ДБ
     public void msgIn(String xmlText, String filePrefix) throws IOException, MonitorException, FTPException {
         Customer customer;
+        Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
             case "P": // PART_STOCK
                 PartStock stockRq = xmlMapper.readValue("dfdf", PartStock.class); // десериализуем (из потока
@@ -270,16 +275,19 @@ public class SendNotifications {
                 System.out.println("stop");
                 break;
             case "S": // SKU
-                SKU sku = xmlMapper.readValue(xmlText, SKU.class);
-                System.out.println(sku.getClientId());
+                // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
+                // System.out.println(sku.getClientId());
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
-                MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
-                Map<String, Object> out = jdbcCall.execute(in);
-                if (!out.get("P_ERR").equals("Загружено записей:"))
-                    Utils.emailAlert((String)out.get("P_ERR"));//TODO доработать
-                System.out.println(out.get("P_ERR"));
+                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
+                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
+                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null){
+                    Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
+                    System.out.println(p_err.get("P_ERR"));
+                    throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
+                }
                 /*
                  * //region Получить клиента по ВН try { customer = jdbcTemplate.
                  * queryForObject("SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT FROM kb_zak WHERE "
@@ -319,13 +327,33 @@ public class SendNotifications {
                  * sku.getArticle() + " отправлен в СОХ", "010277043");
                  */
                 break;
-            case ("I"): {
-                System.out.println("I");
+            case ("I"): {//IN
+                // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
+                // System.out.println("I");
+                SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName("MSG_4101");
+                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
+                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
+                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null){
+                    Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
+                    throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
+                }
                 break;
             }
             case ("O"): {
-                System.out.println("O");
-            }
+                SimpleJdbcCall jdbcCall_4103 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName("MSG_4103");
+                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
+                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                p_err = jdbcCall_4103.execute(new MapSqlParameterSource().addValue("P_MSG",
+                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null){
+                    Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
+                    throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
+                }
+           }
                 break;
             default:
                 break;

@@ -32,13 +32,13 @@ public class ResponseFtp {
 //	 *  Код события из справочника sv_hvoc
 //	 */
 //	private String voc;
-	private int vn;
-	private String pathIn = "/";
-	private String pathOut = "/";
-	private String queryMaster;
-	private String queryDetails;
-	private String alias;
-	private String prefix;
-	private String orderType;
-	private int inOut;
+	int vn;
+	String pathIn = "/";
+	String pathOut = "/";
+	String queryMaster;
+	String queryDetails;
+	String alias;
+	String prefix;
+	String orderType;
+	int inOut;
 }
