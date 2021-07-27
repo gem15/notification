@@ -48,7 +48,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-// @Transactional(readOnly = true) must be placed in a service
 public class SendNotifications {
 
     @Autowired
@@ -66,7 +65,7 @@ public class SendNotifications {
     }
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
-    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}") //TODO какую задержку и какого типа?
+    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}") // TODO какую задержку и какого типа?
     public void reply() {
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
@@ -103,7 +102,7 @@ public class SendNotifications {
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    log.info("Processing FTP " + resp.getVn());// TODO заменить на тип сообщения ?
+                    log.info("Клиент " + resp.getVn());// TODO заменить на тип сообщения ?
                     // отдельно обрабатываем входящие и исходящие сообщения
                     switch (resp.getInOut()) {
                         case (1): { // все входящие сообщения
@@ -111,7 +110,7 @@ public class SendNotifications {
                             FTPFileFilter filter = ftpFile -> (ftpFile.isFile() && ftpFile.getName().endsWith(".xml"));
                             FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
                             for (FTPFile file : listFile) {
-                                log.info("Processing file "+file.getName());
+                                log.info("Processing file " + file.getName());
                                 String xmlText;// извлекаем файл в поток и преобразуем в строку
                                 try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                     xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
@@ -121,12 +120,12 @@ public class SendNotifications {
                                 }
                                 String filePrefix = file.getName().substring(0, 1).toUpperCase();
                                 try {
-                                    msgIn(xmlText, filePrefix);
+                                    msgIn(xmlText, filePrefix);// TODO return p_err
                                     ftp.deleteFile(file.getName());// TODO удаляем принятый файл
                                 } catch (MonitorException e) { // сообщения с разными ошибками
                                     log.error(e.getMessage());// TODO документ email
                                 } catch (DataAccessException e) {// ошибки БД
-                                    e.printStackTrace(); // TODO  ошибка доступа
+                                    e.printStackTrace(); // TODO ошибка доступа
                                 }
                             }
                             break;
@@ -150,8 +149,8 @@ public class SendNotifications {
                                         .writeValueAsString(master);
 
                                 // имя файла
-                                if(master.getOrderNo() == null)
-                                    throw new IOException("Отсутствует номер заказа");//FIXME обсудить
+                                if (master.getOrderNo() == null)
+                                    throw new IOException("Отсутствует номер заказа");// FIXME обсудить
                                 String fileName = resp.getPrefix() + "_" + master.getOrderNo().replaceAll("\\D+", "")
                                         + "_" + new Date().getTime() + ".xml";
                                 // Changes working directory
@@ -194,7 +193,7 @@ public class SendNotifications {
                     }
                 }
             }
-            log.info("FINISH FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
+            log.info(" Закончена обработка FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
         }
     }
 
@@ -237,14 +236,12 @@ public class SendNotifications {
                 is.close();
                 ftp.changeWorkingDirectory("/in"); // FIXME из таблицы вернуть
                 if (ok) {
-                    // region Поиск/создание суточного заказа //TODO поле detail ? обсудить
-                    // HELLMAN_STOCK
+                    // region Поиск/создание суточного заказа
                     String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
-                    String dailyOrderId;// String.valueOf(++j);//fixme remove me
+                    String dailyOrderId;
                     try {
                         dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
                     } catch (EmptyResultDataAccessException e) {
-                        // FIXME доделать .withTableName("tab")
                         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
                                 .usingGeneratedKeyColumns("id");
                         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -271,8 +268,6 @@ public class SendNotifications {
                     throw new FTPException("Не удалось выгрузить " + fileName);
                 }
                 // endregion
-                System.out.println(xml);
-                System.out.println("stop");
                 break;
             case "S": // SKU
                 // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
@@ -280,10 +275,10 @@ public class SendNotifications {
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
                 // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
-                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null){
+                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null) {
                     Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
                     System.out.println(p_err.get("P_ERR"));
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
@@ -327,16 +322,16 @@ public class SendNotifications {
                  * sku.getArticle() + " отправлен в СОХ", "010277043");
                  */
                 break;
-            case ("I"): {//IN
+            case ("I"): {// IN
                 // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
                 // System.out.println("I");
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4101");
                 // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
-                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null){
+                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null) {
                     Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
@@ -346,17 +341,17 @@ public class SendNotifications {
                 SimpleJdbcCall jdbcCall_4103 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4103");
                 // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                //         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
+                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall_4103.execute(new MapSqlParameterSource().addValue("P_MSG",
-                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null){
+                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null) {
                     Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
-           }
+            }
                 break;
-            default:
-                break;
+            // default:
+            // break;
         }
     }
 
