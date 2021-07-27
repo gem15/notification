@@ -120,12 +120,16 @@ public class SendNotifications {
                                 }
                                 String filePrefix = file.getName().substring(0, 1).toUpperCase();
                                 try {
-                                    msgIn(xmlText, filePrefix);// TODO return p_err
-                                    ftp.deleteFile(file.getName());// TODO удаляем принятый файл
+                                    String error = msgIn(xmlText, filePrefix, resp.getPathOut());
+                                    if (error == null || error.isEmpty()) {
+                                        Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
+                                        // throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
+                                    }
+                                    ftp.deleteFile(file.getName());// TODO удаляем принятый файл с ошибкой переименовываем?
                                 } catch (MonitorException e) { // сообщения с разными ошибками
                                     log.error(e.getMessage());// TODO документ email
-                                } catch (DataAccessException e) {// ошибки БД
-                                    e.printStackTrace(); // TODO ошибка доступа
+                                } catch (DataAccessException e) {
+                                    e.printStackTrace(); // TODO ошибка доступа // ошибки БД
                                 }
                             }
                             break;
@@ -198,13 +202,15 @@ public class SendNotifications {
     }
 
     @Transactional // для отката при исключениях при работе с ДБ
-    public void msgIn(String xmlText, String filePrefix) throws IOException, MonitorException, FTPException {
-        Customer customer;
+    public String msgIn(String xmlText, String filePrefix, String pathOut)
+            throws IOException, MonitorException, FTPException {
+        Customer customer = new Customer();
+        String orderError = null; // для обработки заказов
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
             case "P": // PART_STOCK
-                PartStock stockRq = xmlMapper.readValue("dfdf", PartStock.class); // десериализуем (из потока
-                                                                                  // создаём объект)
+                PartStock stockRq = xmlMapper.readValue(xmlText, PartStock.class); // десериализуем (из потока
+                                                                                   // создаём объект)
                 // regionПолучить клиента по ВН
                 // https://mkyong.com/spring/queryforobject-throws-emptyresultdataaccessexception-when-record-not-found/
                 try {
@@ -213,7 +219,10 @@ public class SendNotifications {
                                     + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
                             new CustomerRowMapper(), stockRq.getClientId());
                 } catch (EmptyResultDataAccessException e) {
-                    throw new MonitorException("ВН " + stockRq.getClientId() + " не найден");
+                    orderError = "PART STOCK -->ВН " + stockRq.getClientId() + " не найден";
+                    break;
+                    // throw new MonitorException("PART STOCK -->ВН " + stockRq.getClientId() + " не
+                    // найден");
                 }
                 // endregion
                 // region Получить остатки
@@ -230,11 +239,10 @@ public class SendNotifications {
                 String xml = xmlMapper.writer().writeValueAsString(stockRq); // сериализация
 
                 // region выгрузка на FTP
-                ftp.changeWorkingDirectory("/response"); // FIXME из таблицы
+                ftp.changeWorkingDirectory(pathOut); // FIXME из таблицы
                 is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 boolean ok = ftp.storeFile(fileName, is);
                 is.close();
-                ftp.changeWorkingDirectory("/in"); // FIXME из таблицы вернуть
                 if (ok) {
                     // region Поиск/создание суточного заказа
                     String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
@@ -265,24 +273,18 @@ public class SendNotifications {
                     log.info("Выгружен " + fileName);
 
                 } else {
-                    throw new FTPException("Не удалось выгрузить " + fileName);
+                    throw new FTPException("Не удалось выгрузить " + fileName);// если текущий FTP кирдык выходим из
+                                                                               // цикла или нет?
                 }
                 // endregion
                 break;
             case "S": // SKU
                 // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
-                // System.out.println(sku.getClientId());
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
-                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null) {
-                    Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
-                    System.out.println(p_err.get("P_ERR"));
-                    throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
-                }
+                orderError = (String) p_err.get("P_ERR");
                 /*
                  * //region Получить клиента по ВН try { customer = jdbcTemplate.
                  * queryForObject("SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT FROM kb_zak WHERE "
@@ -324,35 +326,27 @@ public class SendNotifications {
                 break;
             case ("I"): {// IN
                 // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
-                // System.out.println("I");
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4101");
-                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null) {
-                    Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
-                    throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
-                }
+                orderError = (String) p_err.get("P_ERR");
                 break;
             }
             case ("O"): {
                 SimpleJdbcCall jdbcCall_4103 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4103");
-                // MapSqlParameterSource in = new MapSqlParameterSource().addValue("P_MSG",
-                // new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB);
                 p_err = jdbcCall_4103.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                orderError = (String) p_err.get("P_ERR");
                 if (p_err.get("P_ERR") != null) {
                     Utils.emailAlert((String) p_err.get("P_ERR"));// TODO доработать
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
             }
                 break;
-            // default:
-            // break;
         }
+        return orderError;
     }
 
 }
