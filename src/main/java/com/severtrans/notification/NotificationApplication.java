@@ -1,12 +1,16 @@
 package com.severtrans.notification;
 
+import java.io.IOException;
 import java.util.TimeZone;
+
+import javax.mail.MessagingException;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,9 +28,23 @@ public class NotificationApplication implements CommandLineRunner {
         SpringApplication.run(NotificationApplication.class, args);
     }
 
+    @Autowired
+    Email email;
     @Override
     public void run(String... args) throws Exception {
-        log.info(">>> Start MONITOR");
+        
+/*         try {
+            
+            email.sendEmail();
+            email.sendEmailWithAttachment();
+            
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+ */  
+      log.info(">>> Start MONITOR");
     }
 
     @Bean
