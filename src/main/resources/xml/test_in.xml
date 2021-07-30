@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://www.severtrans.com" xmlns:st="http://www.severtrans.com">
+   <msgType>delivery</msgType>
+   <customerID>300228</customerID>
+   <customer>Хеллманн</customer>
+   <deliveryOrder>
+      <orderNo>ТС-00000020</orderNo>
+      <orderDate>2020-10-14T09:12:00</orderDate>
+      <plannedDate>2020-10-15T01:12:00</plannedDate>
+      <orderType>Поставка</orderType>
+      <deliveryType>Приход от поставщика</deliveryType>
+      <contractor>
+         <code>УТ-УТ000047</code>
+         <name>Winch Solutions Ltd</name>
+         <address>109044, Москва г, 1-я Дубровская ул, дом 1, корпус 2, внутригородская территория муниципальный округ Таганский109044, Москва г, 1-я Дубровская ул, дом 1, корпус 2, внутригородская территория муниципальный округ Таганский</address>
+      </contractor>
+      <vehicle>
+         <licencePlate>ПР896Г/98</licencePlate>
+         <driver>Иванов Константин Александрович</driver>
+      </vehicle>
+      <lineItem>
+         <lineNumber>1</lineNumber>
+         <article>B2010015840A0</article>
+         <name>B2010015840A0 ignition coil</name>
+         <qty>30</qty>
+         <category>0</category>
+         <mark2>ТС-00000019</mark2>
+         <comment/>
+      </lineItem>
+      <lineItem>
+         <lineNumber>2</lineNumber>
+         <article>E1088837734C0</article>
+         <name>E1088837734C0 Прокладка головок блока цилиндров</name>
+         <qty>30</qty>
+         <category>0</category>
+         <mark2>ТС-00000019</mark2>
+         <comment/>
+      </lineItem>
+   </deliveryOrder>
+</Shell>
