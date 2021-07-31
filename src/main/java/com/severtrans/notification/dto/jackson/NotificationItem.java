@@ -1,10 +1,11 @@
-package com.severtrans.notification.dto;
-import java.util.Date;
+package com.severtrans.notification.dto.jackson;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * Список товаров

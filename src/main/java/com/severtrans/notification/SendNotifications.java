@@ -10,17 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.severtrans.notification.dto.Customer;
-import com.severtrans.notification.dto.CustomerRowMapper;
-import com.severtrans.notification.dto.Ftp;
-import com.severtrans.notification.dto.Notification;
-import com.severtrans.notification.dto.NotificationItem;
-import com.severtrans.notification.dto.NotificationItemRowMapper;
-import com.severtrans.notification.dto.Order;
-import com.severtrans.notification.dto.PartStock;
-import com.severtrans.notification.dto.PartStockLine;
-import com.severtrans.notification.dto.ResponseFtp;
-import com.severtrans.notification.dto.SKU;
+import com.severtrans.notification.model.Customer;
+import com.severtrans.notification.model.CustomerRowMapper;
+import com.severtrans.notification.model.Ftp;
+import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationItem;
+import com.severtrans.notification.model.NotificationItemRowMapper;
+import com.severtrans.notification.dto.jackson.PartStock;
+import com.severtrans.notification.dto.jackson.PartStockLine;
+import com.severtrans.notification.model.ResponseFtp;
 import com.severtrans.notification.service.FTPException;
 import com.severtrans.notification.service.MonitorException;
 

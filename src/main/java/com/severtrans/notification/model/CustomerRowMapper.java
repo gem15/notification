@@ -1,4 +1,4 @@
-package com.severtrans.notification.dto;
+package com.severtrans.notification.model;
 
 import org.springframework.jdbc.core.RowMapper;
 

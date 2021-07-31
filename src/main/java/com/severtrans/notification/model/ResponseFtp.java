@@ -11,7 +11,7 @@
  * Licensee: Gennady
  * License Type: Purchased
  */
-package com.severtrans.notification.dto;
+package com.severtrans.notification.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,8 +6,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.severtrans.notification.dto.Notification;
-import com.severtrans.notification.dto.NotificationItem;
+import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.thoughtworks.xstream.XStream;
 
 import org.junit.jupiter.api.Test;

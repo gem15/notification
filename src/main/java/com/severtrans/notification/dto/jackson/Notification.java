@@ -1,8 +1,4 @@
-package com.severtrans.notification.dto;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package com.severtrans.notification.dto.jackson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * УВЕДОМЛЕНИЯ о подтверждении отгрузки на выход уходит файл с префиксом «OUT»

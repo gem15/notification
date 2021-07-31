@@ -1,34 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:st="http://www.severtrans.com"
-    targetNamespace="http://www.severtrans.com" elementFormDefault="qualified"
-    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+           targetNamespace="http://www.severtrans.com" elementFormDefault="qualified"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
     <xs:annotation>
         <xs:appinfo>
             <jaxb:globalBindings>
                 <jaxb:javaType name="java.util.Calendar" xmlType="xs:dateTime"
-                    parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime"
-                    printMethod="javax.xml.bind.DatatypeConverter.printDateTime"/>
+                               parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime"
+                               printMethod="javax.xml.bind.DatatypeConverter.printDateTime"/>
             </jaxb:globalBindings>
         </xs:appinfo>
     </xs:annotation>
 
-    <xs:element name="Shell" xmlns="http://www.severtrans.com">
+<!--    <xs:complexType name="Shell" xmlns="http://www.severtrans.com">
+        <xs:sequence>
+            <xs:element name="customerID" type="xs:int"/>
+            <xs:element name="sku" type="st:SKU" nillable="true" minOccurs="0"/>
+            <xs:element name="partStockRq" type="st:PartStockRq" nillable="true" minOccurs="0"/>
+            <xs:element name="partStockRs" type="st:PartStockRs" nillable="true" minOccurs="0"/>
+            <xs:element name="order" type="st:Order" nillable="true" minOccurs="0"/>
+            <xs:element name="pickOrder" type="st:PickNotif" nillable="true" minOccurs="0"/>
+            <xs:element name="shipmentNotif" type="st:ShipmentNotif" nillable="true" minOccurs="0"/>
+            <xs:element name="deliveryNotif" type="st:DeliveryNotif" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+-->    
+    <xs:element name="Shell" type="Shell" xmlns="http://www.severtrans.com">
         <xs:annotation>
             <xs:documentation>Контейнер для всех сообщений</xs:documentation>
         </xs:annotation>
-        <xs:complexType>
-            <xs:sequence minOccurs="1" maxOccurs="1">
-                <xs:element name="customerID" type="xs:int" minOccurs="1"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+     </xs:element>
+
+    <xs:complexType name="Shell">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="customerID" type="xs:int" minOccurs="1"/>
+            <xs:element name="skuList" type="st:ListSKU" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Обновление SKU</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partStockRq" type="st:PartStockRq" minOccurs="0"/>
+            <xs:element name="partStockRs" type="st:PartStockRs" minOccurs="0"/>
+            <xs:element name="order" type="st:Order" minOccurs="0"/>
+            <xs:element name="pickOrder" type="st:PickNotif" minOccurs="0"/>
+            <xs:element name="shipmentNotif" type="st:ShipmentNotif" minOccurs="0"/>
+            <xs:element name="deliveryNotif" type="st:DeliveryNotif" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
 
     <xs:complexType name="Order">
         <xs:annotation>
             <xs:documentation>Заказ на поставку/отгрузку</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="guid" type="xs:string"/>
+            <xs:element name="guid" type="xs:string" minOccurs="0"/>
             <xs:element name="orderType">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -53,6 +79,7 @@
             <xs:element name="contrAddress" type="xs:string" minOccurs="0"/>
             <xs:element name="licencePlate" type="xs:string"/>
             <xs:element name="driver" type="xs:string"/>
+            <xs:element name="comment" type="xs:string" minOccurs="0"/>
             <xs:element name="orderLine" type="st:OrderLine" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
@@ -63,12 +90,12 @@
             <xs:element name="article" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="qty" type="xs:decimal"/>
-            <xs:element name="category" type="xs:string"/>
-            <xs:element name="mark" type="xs:string"/>
-            <xs:element name="mark2" type="xs:string"/>
-            <xs:element name="mark3" type="xs:string"/>
-            <xs:element name="lot" type="xs:string"/>
-            <xs:element name="comment" type="xs:string"/>
+            <xs:element name="category" type="xs:string" minOccurs="0"/>
+            <xs:element name="mark" type="xs:string" minOccurs="0"/>
+            <xs:element name="mark2" type="xs:string" minOccurs="0"/>
+            <xs:element name="mark3" type="xs:string" minOccurs="0"/>
+            <xs:element name="lot" type="xs:string" minOccurs="0"/>
+            <xs:element name="comment" type="xs:string" minOccurs="0"/>
             <!--         <ExpirationDate></ExpirationDate> -дата окончания срока годности
         <ProductionDate>29012020</ProductionDate> - дата производства
            -->
@@ -77,7 +104,7 @@
 
     <xs:complexType name="SKU">
         <xs:annotation>
-            <xs:documentation>Справочник товаров</xs:documentation>
+            <xs:documentation>Номенклатура</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="article" type="xs:string"/>
@@ -88,6 +115,18 @@
             <xs:element name="storageCondition" type="xs:string" minOccurs="0"/>
             <xs:element name="billingClass" type="xs:string" minOccurs="0"/>
             <xs:element name="division" type="xs:string" minOccurs="0"/>
+            <xs:element name="weight" type="xs:decimal" minOccurs="0"/>
+            <xs:element name="weightbrutto" type="xs:decimal" minOccurs="0"/>
+            <xs:element name="phvolume" type="xs:decimal" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ListSKU">
+        <xs:annotation>
+            <xs:documentation>Список номенклатуры</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="sku" type="st:SKU" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -156,7 +195,7 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="pickLine" type="st:PickNotifLine" minOccurs="1"
-                maxOccurs="unbounded"/>
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -218,15 +257,15 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="orderLine" type="st:ShipmentNotifLine" minOccurs="1"
-                maxOccurs="unbounded"/>
-            
+                        maxOccurs="unbounded"/>
+
             <!--    <Date>29.01.2020</Date> - плановая дата отгрузки
     <VehicleFactlArrivalTime>29.01.2020</VehicleFactlArrivalTime> - фактическое время отгрузки
     <FactDeliveryDate>29.01.2020</FactDeliveryDate> - время прибытия машины
             -->
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="ShipmentNotifLine">
         <xs:annotation>
             <xs:documentation>Уведомление о подтверждении отгрузки</xs:documentation>
@@ -251,7 +290,7 @@
             <xs:element name="productionDate" type="xs:date" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="DeliveryNotif">
         <xs:annotation>
             <xs:documentation>Уведомление о подтверждении отгрузки</xs:documentation>
@@ -285,10 +324,10 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="orderLine" type="st:DeliveryNotifLine" minOccurs="1"
-                maxOccurs="unbounded"/>
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="DeliveryNotifLine">
         <xs:annotation>
             <xs:documentation>Уведомление о подтверждении поставки</xs:documentation>
@@ -313,5 +352,5 @@
             <xs:element name="productionDate" type="xs:date" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
 </xs:schema>

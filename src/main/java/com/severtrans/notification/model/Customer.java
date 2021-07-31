@@ -1,7 +1,12 @@
-package com.severtrans.notification.dto;
+package com.severtrans.notification.model;
 
 import lombok.Data;
 
+/**
+ * Клиент
+Insert into KB_ZAK (ID,ID_SVH,ID_WMS,IS_HOLDER,ID_USR,N_ZAK,ID_KLIENT)
+ values ('0102315556','KB_SVH95476','10406','1','KB_USR99992','ТОРГОВЫЙ ДОМ РУСЬ','300254');
+ */
 @Data
 public class Customer {
     /**
@@ -29,8 +34,3 @@ public class Customer {
      */
    int clientId;
 }
-/*
-Insert into KB_ZAK (ID,ID_SVH,ID_WMS,IS_HOLDER,ID_USR,N_ZAK,ID_KLIENT)
- values ('0102315556','KB_SVH95476','10406','1','KB_USR99992','ТОРГОВЫЙ ДОМ РУСЬ','300254');
-I
-* */

@@ -3,7 +3,7 @@ package com.severtrans.notification;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.severtrans.notification.dto.Notification;
+import com.severtrans.notification.dto.jackson.Notification;
 
 import org.springframework.jdbc.core.RowMapper;
 

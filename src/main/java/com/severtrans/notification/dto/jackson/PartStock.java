@@ -1,4 +1,4 @@
-package com.severtrans.notification.dto;
+package com.severtrans.notification.dto.jackson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

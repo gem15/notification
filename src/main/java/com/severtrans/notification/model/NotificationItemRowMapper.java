@@ -1,9 +1,10 @@
-package com.severtrans.notification.dto;
+package com.severtrans.notification.model;
+
+import com.severtrans.notification.dto.jackson.NotificationItem;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.springframework.jdbc.core.RowMapper;
 
 public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
  
