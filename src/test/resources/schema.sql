@@ -1,6 +1,58 @@
-drop table if exists notif;
-drop table if exists notifdet;
-create table notif
+CREATE TABLE SV_HVOC
+(
+    VAL_ID        VARCHAR2(38),
+    HVOC_VAL_ID   VARCHAR2(38),
+    VOC_ID        VARCHAR2(6),
+    VAL_FULL      VARCHAR2(1000),
+    VAL_SHORT     VARCHAR2(30),
+    VAL_STATE     VARCHAR2(20),
+    VAL_CHANGES   VARCHAR2(20),
+    TOOLS         VARCHAR2(4000),
+    DATA_BEGIN    DATE ,
+    DATA_END      DATE,
+    MASTER_VAL_ID VARCHAR2(38),
+    POLICE_CODE   VARCHAR2(38)
+--     ,CONSTRAINT HVOC_PK PRIMARY KEY (VAL_ID)
+);
+
+
+CREATE TABLE KB_T_ARTICLE
+(	"ID_SOST" VARCHAR2(128),
+     "MARKER" VARCHAR2(128),
+     "PRICE" VARCHAR2(128),
+     "COMMENTS" VARCHAR2(1024),
+     "TIP_TOV" VARCHAR2(128),
+     "NUM" VARCHAR2(128),
+     "CATEG" VARCHAR2(128),
+     "UPC" VARCHAR2(128),
+     "CODE" VARCHAR2(128),
+     "EXPIRY_DATE" VARCHAR2(128),
+     "STR_SR_GODN" VARCHAR2(128),
+     "STR_PART" VARCHAR2(128),
+     "STR_SSCC" VARCHAR2(128),
+     "STR_SERT" VARCHAR2(128),
+     "STR_MU_CODE" VARCHAR2(128),
+     "N_MU_UNIT" VARCHAR2(128),
+     "ABC" VARCHAR2(128),
+     "STORAGE_POS" VARCHAR2(128),
+     "PRODUCER" VARCHAR2(128),
+     "VENDOR" VARCHAR2(128),
+     "COO" VARCHAR2(128),
+     "MEASURE" VARCHAR2(128),
+     "KIT_TYPE" VARCHAR2(128),
+     "USAGE_STATE" VARCHAR2(128),
+     "DESCRIPTION" VARCHAR2(1024)
+);
+
+
+/*create table unit
+(
+    id   VARCHAR(38),
+    code VARCHAR(255),
+    name VARCHAR(255)
+);*/
+
+CREATE TABLE notif
 (
     dt_sost     DATE default SYSDATE,
     dt_sost_end DATE,
@@ -8,8 +60,8 @@ create table notif
     sost_prm    VARCHAR(4000),
     id_du       VARCHAR(38),
     DT_VEH      DATE,
-    ID_SUPPL    VARCHAR(20), --ID_WMS	VARCHAR(20 BYTE)	Yes		62	ID клиента в СОХ
-    ID_KLIENT   INTEGER,      --VN
+    ID_SUPPL    VARCHAR(20), --ID_WMS	VARCHAR(20)	Yes		62	ID клиента в СОХ
+    ID_KLIENT   INTEGER,     --VN
     N_ZAK       VARCHAR(255),
     UR_ADR      VARCHAR(255),
     N_AVTO      VARCHAR(255),
@@ -18,7 +70,7 @@ create table notif
     ID_OBSL     VARCHAR(38)
 );
 
-create table notifdet
+CREATE TABLE notifdet
 (
     IDDU            VARCHAR(20),
     SKU_ID          VARCHAR(100),

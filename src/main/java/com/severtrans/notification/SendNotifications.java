@@ -163,9 +163,9 @@ public class SendNotifications {
                                 boolean ok = ftp.storeFile(fileName, is);
                                 is.close();
                                 if (ok) {
-                                    // добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
+                                    // FIXME добавляем 4302 подтверждение что по данному заказу мы отправили уведомление
                                     /*
-                                     * TODO jdbcTemplate.update(
+                                     *  jdbcTemplate.update(
                                      * "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)"
                                      * , master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
                                      */
@@ -199,6 +199,16 @@ public class SendNotifications {
         }
     }
 
+    /**
+     *  Обработчик входных сообщений старого формата
+     * @param xmlText
+     * @param filePrefix
+     * @param pathOut
+     * @return Текст ошибки для возрата клиенту
+     * @throws IOException
+     * @throws MonitorException
+     * @throws FTPException
+     */
     @Transactional // для отката при исключениях при работе с ДБ
     public String msgIn(String xmlText, String filePrefix, String pathOut)
             throws IOException, MonitorException, FTPException {

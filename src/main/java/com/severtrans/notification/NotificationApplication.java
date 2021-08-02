@@ -28,8 +28,10 @@ public class NotificationApplication implements CommandLineRunner {
         SpringApplication.run(NotificationApplication.class, args);
     }
 
+/*
     @Autowired
     Email email;
+*/
     @Override
     public void run(String... args) throws Exception {
         

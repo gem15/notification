@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:st="http://www.severtrans.com"
-           targetNamespace="http://www.severtrans.com" elementFormDefault="qualified"
-           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+    targetNamespace="http://www.severtrans.com" elementFormDefault="qualified"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!--           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">-->
     <xs:annotation>
-        <xs:appinfo>
+        <xs:documentation>Схема severtrans</xs:documentation>
+        <!--        <xs:appinfo>
             <jaxb:globalBindings>
                 <jaxb:javaType name="java.util.Calendar" xmlType="xs:dateTime"
                                parseMethod="javax.xml.bind.DatatypeConverter.parseDateTime"
                                printMethod="javax.xml.bind.DatatypeConverter.printDateTime"/>
             </jaxb:globalBindings>
         </xs:appinfo>
+-->
     </xs:annotation>
 
-<!--    <xs:complexType name="Shell" xmlns="http://www.severtrans.com">
-        <xs:sequence>
-            <xs:element name="customerID" type="xs:int"/>
-            <xs:element name="sku" type="st:SKU" nillable="true" minOccurs="0"/>
-            <xs:element name="partStockRq" type="st:PartStockRq" nillable="true" minOccurs="0"/>
-            <xs:element name="partStockRs" type="st:PartStockRs" nillable="true" minOccurs="0"/>
-            <xs:element name="order" type="st:Order" nillable="true" minOccurs="0"/>
-            <xs:element name="pickOrder" type="st:PickNotif" nillable="true" minOccurs="0"/>
-            <xs:element name="shipmentNotif" type="st:ShipmentNotif" nillable="true" minOccurs="0"/>
-            <xs:element name="deliveryNotif" type="st:DeliveryNotif" nillable="true" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
--->    
-    <xs:element name="Shell" type="Shell" xmlns="http://www.severtrans.com">
+    <xs:element name="Shell" type="st:Shell" xmlns="http://www.severtrans.com">
         <xs:annotation>
             <xs:documentation>Контейнер для всех сообщений</xs:documentation>
         </xs:annotation>
-     </xs:element>
+    </xs:element>
 
     <xs:complexType name="Shell">
         <xs:sequence minOccurs="0" maxOccurs="1">
@@ -47,7 +37,7 @@
             <xs:element name="deliveryNotif" type="st:DeliveryNotif" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    
+
 
     <xs:complexType name="Order">
         <xs:annotation>
@@ -55,15 +45,15 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="guid" type="xs:string" minOccurs="0"/>
-            <xs:element name="orderType">
-                <xs:simpleType>
+            <xs:element name="orderType" type="xs:boolean"/>
+<!--                <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:enumeration value="Поставка"/>
                         <xs:enumeration value="Отгрузка"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="orderNo" type="xs:string"/>
+-->            <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
             <xs:element name="plannedDate" type="xs:dateTime"/>
             <xs:element name="contrCode" type="xs:string" minOccurs="0">
@@ -107,17 +97,17 @@
             <xs:documentation>Номенклатура</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="article" type="xs:string"/>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="upc" type="xs:string" minOccurs="0"/>
-            <xs:element name="uofm" type="xs:string" minOccurs="0"/>
-            <xs:element name="storageLife" type="xs:int" minOccurs="0"/>
-            <xs:element name="storageCondition" type="xs:string" minOccurs="0"/>
-            <xs:element name="billingClass" type="xs:string" minOccurs="0"/>
-            <xs:element name="division" type="xs:string" minOccurs="0"/>
-            <xs:element name="weight" type="xs:decimal" minOccurs="0"/>
-            <xs:element name="weightbrutto" type="xs:decimal" minOccurs="0"/>
-            <xs:element name="phvolume" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="article" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="upc" type="xs:string" minOccurs="0"/>
+			<xs:element name="uofm" type="xs:string" minOccurs="0"/>
+			<xs:element name="storageLife" type="xs:int" minOccurs="0"/>
+			<xs:element name="storageCondition" type="xs:string" minOccurs="0"/>
+			<xs:element name="billingClass" type="xs:string" minOccurs="0"/>
+			<xs:element name="division" type="xs:string" minOccurs="0"/>
+			<xs:element name="weight" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="phvolume" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="upcList" type="st:upcList" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -194,8 +184,8 @@
                     <xs:documentation>фактическое время отгрузки</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="pickLine" type="st:PickNotifLine" minOccurs="1"
-                        maxOccurs="unbounded"/>
+            <xs:element name="pickLine" type="st:PickNotifLine" minOccurs="1" maxOccurs="unbounded"
+            />
         </xs:sequence>
     </xs:complexType>
 
@@ -257,7 +247,7 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="orderLine" type="st:ShipmentNotifLine" minOccurs="1"
-                        maxOccurs="unbounded"/>
+                maxOccurs="unbounded"/>
 
             <!--    <Date>29.01.2020</Date> - плановая дата отгрузки
     <VehicleFactlArrivalTime>29.01.2020</VehicleFactlArrivalTime> - фактическое время отгрузки
@@ -324,7 +314,7 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="orderLine" type="st:DeliveryNotifLine" minOccurs="1"
-                        maxOccurs="unbounded"/>
+                maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -352,5 +342,10 @@
             <xs:element name="productionDate" type="xs:date" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+	<xs:complexType name="upcList">
+		<xs:sequence>
+			<xs:element name="upcAlter" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
 
 </xs:schema>

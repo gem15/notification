@@ -19,29 +19,29 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * Заказ на поставку/отгрузку
+ * Уведомление о подтверждении отгрузки
  * 
- * <p>Java class for Order complex type.
+ * <p>Java class for DeliveryNotif complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Order">
+ * &lt;complexType name="DeliveryNotif">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="guid" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="orderType" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="guid" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="orderNo" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="orderDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="plannedDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="contrCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="contrrCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="contrName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="contrAddress" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="licencePlate" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="driver" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="orderLine" type="{http://www.severtrans.com}OrderLine" maxOccurs="unbounded"/>
+ *         &lt;element name="actualArrivalTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
+ *         &lt;element name="actualDeliveryTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
+ *         &lt;element name="orderLine" type="{http://www.severtrans.com}DeliveryNotifLine" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -51,24 +51,24 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Order", propOrder = {
+@XmlType(name = "DeliveryNotif", propOrder = {
     "guid",
-    "orderType",
     "orderNo",
     "orderDate",
     "plannedDate",
-    "contrCode",
+    "contrrCode",
     "contrName",
     "contrAddress",
     "licencePlate",
     "driver",
-    "comment",
+    "actualArrivalTime",
+    "actualDeliveryTime",
     "orderLine"
 })
-public class Order {
+public class DeliveryNotif {
 
+    @XmlElement(required = true)
     protected String guid;
-    protected boolean orderType;
     @XmlElement(required = true)
     protected String orderNo;
     @XmlElement(required = true)
@@ -77,16 +77,21 @@ public class Order {
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar plannedDate;
-    protected String contrCode;
+    protected String contrrCode;
     protected String contrName;
     protected String contrAddress;
     @XmlElement(required = true)
     protected String licencePlate;
     @XmlElement(required = true)
     protected String driver;
-    protected String comment;
     @XmlElement(required = true)
-    protected List<OrderLine> orderLine;
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar actualArrivalTime;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar actualDeliveryTime;
+    @XmlElement(required = true)
+    protected List<DeliveryNotifLine> orderLine;
 
     /**
      * Gets the value of the guid property.
@@ -110,22 +115,6 @@ public class Order {
      */
     public void setGuid(String value) {
         this.guid = value;
-    }
-
-    /**
-     * Gets the value of the orderType property.
-     * 
-     */
-    public boolean isOrderType() {
-        return orderType;
-    }
-
-    /**
-     * Sets the value of the orderType property.
-     * 
-     */
-    public void setOrderType(boolean value) {
-        this.orderType = value;
     }
 
     /**
@@ -201,27 +190,27 @@ public class Order {
     }
 
     /**
-     * Gets the value of the contrCode property.
+     * Gets the value of the contrrCode property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getContrCode() {
-        return contrCode;
+    public String getContrrCode() {
+        return contrrCode;
     }
 
     /**
-     * Sets the value of the contrCode property.
+     * Sets the value of the contrrCode property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setContrCode(String value) {
-        this.contrCode = value;
+    public void setContrrCode(String value) {
+        this.contrrCode = value;
     }
 
     /**
@@ -321,27 +310,51 @@ public class Order {
     }
 
     /**
-     * Gets the value of the comment property.
+     * Gets the value of the actualArrivalTime property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public String getComment() {
-        return comment;
+    public XMLGregorianCalendar getActualArrivalTime() {
+        return actualArrivalTime;
     }
 
     /**
-     * Sets the value of the comment property.
+     * Sets the value of the actualArrivalTime property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setComment(String value) {
-        this.comment = value;
+    public void setActualArrivalTime(XMLGregorianCalendar value) {
+        this.actualArrivalTime = value;
+    }
+
+    /**
+     * Gets the value of the actualDeliveryTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getActualDeliveryTime() {
+        return actualDeliveryTime;
+    }
+
+    /**
+     * Sets the value of the actualDeliveryTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setActualDeliveryTime(XMLGregorianCalendar value) {
+        this.actualDeliveryTime = value;
     }
 
     /**
@@ -362,13 +375,13 @@ public class Order {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link OrderLine }
+     * {@link DeliveryNotifLine }
      * 
      * 
      */
-    public List<OrderLine> getOrderLine() {
+    public List<DeliveryNotifLine> getOrderLine() {
         if (orderLine == null) {
-            orderLine = new ArrayList<OrderLine>();
+            orderLine = new ArrayList<DeliveryNotifLine>();
         }
         return this.orderLine;
     }
