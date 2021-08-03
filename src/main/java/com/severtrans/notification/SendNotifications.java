@@ -85,7 +85,7 @@ public class SendNotifications {
                     throw new FTPException("Не удалось авторизоваться на FTP");
                 }
                 // endregion
-                // region List<ResponseFtp> responses = namedParameterJdbcTemplate.query
+                // region запрос для главного цикла
                 MapSqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", ftpLine.getId());
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
                         "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix, e.order_type, t.inout_id, f.hostname"
@@ -93,10 +93,19 @@ public class SendNotifications {
                                 + " INNER JOIN ftps f ON r.ftp_id = f.id"
                                 + " INNER JOIN response_type T ON T.ID = e.response_type_id" + " WHERE r.ftp_id = :id",
                         ftpParam,
-                        (rs, rowNum) -> new ResponseFtp(rs.getInt("vn"), rs.getString("path_in"),
-                                rs.getString("path_out"), rs.getString("master"), rs.getString("details"),
-                                rs.getString("alias"), rs.getString("prefix"), rs.getString("order_type"),
-                                rs.getInt("inout_id")));
+                        (rs, rowNum) -> new ResponseFtp(
+                                rs.getInt("vn"),
+                                rs.getString("path_in"),
+                                rs.getString("path_out"),
+                                rs.getString("master"),
+                                rs.getString("details"),
+                                rs.getString("alias"),
+                                rs.getString("prefix"),
+                                rs.getString("order_type"),
+                                rs.getInt("inout_id"),
+                                rs.getString("hostname"),
+                                rs.getBoolean("legacy")
+                        ));
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
@@ -104,6 +113,7 @@ public class SendNotifications {
                     // отдельно обрабатываем входящие и исходящие сообщения
                     switch (resp.getInOut()) {
                         case (1): { // все входящие сообщения
+
                             ftp.changeWorkingDirectory(resp.getPathIn());
                             FTPFileFilter filter = ftpFile -> (ftpFile.isFile() && ftpFile.getName().endsWith(".xml"));
                             FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
@@ -127,12 +137,12 @@ public class SendNotifications {
                                 } catch (MonitorException e) { // сообщения с разными ошибками
                                     log.error(e.getMessage());// TODO документ email
                                 } catch (DataAccessException e) {
-                                    e.printStackTrace(); // TODO ошибка доступа // ошибки БД
+                                    log.error(e.getMessage()); // TODO ошибка доступа // ошибки БД
                                 }
                             }
                             break;
                         }
-                        case (2): { // все исходящие сообщения
+                        case (2): { // все исходящие сообщения (отбивки)
                             MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id", resp.getVn());
                             List<Notification> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
                                     queryParam, new NotificationRowMapper());
@@ -169,7 +179,7 @@ public class SendNotifications {
                                      * "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)"
                                      * , master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
                                      */
-                                    log.info("Uploaded " + fileName);
+                                    log.info("Выгружен " + fileName);
                                 } else {
                                     throw new FTPException("Не удалось выгрузить " + fileName);
                                 }
@@ -200,7 +210,8 @@ public class SendNotifications {
     }
 
     /**
-     *  Обработчик входных сообщений старого формата
+     * Обработчик входных сообщений старого формата
+     *
      * @param xmlText
      * @param filePrefix
      * @param pathOut
@@ -216,14 +227,14 @@ public class SendNotifications {
         String orderError = null; // для обработки заказов
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
-            case "P": // PART_STOCK
+            case "P": {// PART_STOCK
                 PartStock stockRq = xmlMapper.readValue(xmlText, PartStock.class); // десериализуем (из потока
-                                                                                   // создаём объект)
+                // создаём объект)
                 // regionПолучить клиента по ВН
                 // https://mkyong.com/spring/queryforobject-throws-emptyresultdataaccessexception-when-record-not-found/
                 try {
                     customer = jdbcTemplate.queryForObject(
-                            "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT FROM kb_zak WHERE "
+                            "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT,PRF_WMS FROM kb_zak WHERE "
                                     + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
                             new CustomerRowMapper(), stockRq.getClientId());
                 } catch (EmptyResultDataAccessException e) {
@@ -269,7 +280,7 @@ public class SendNotifications {
                     }
                     // endregion
 
-                    // добавляем событие 4301 в заказ Получено входящее сообщение
+                    // добавляем событие 4301 в суточный заказ Получено входящее сообщение
                     jdbcTemplate.update(
                             "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp)VALUES (?, ?, ?, ?,?,?)",
                             dailyOrderId, new Date(), new Date(), "KB_USL99770", "Получен запрос PART_STOCK",
@@ -282,11 +293,12 @@ public class SendNotifications {
 
                 } else {
                     throw new FTPException("Не удалось выгрузить " + fileName);// если текущий FTP кирдык выходим из
-                                                                               // цикла или нет?
+                    // цикла или нет?
                 }
                 // endregion
                 break;
-            case "S": // SKU
+            }
+            case "S": {// SKU
                 // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
@@ -317,13 +329,13 @@ public class SendNotifications {
                  * .addValue("n_gruz", "SKU") .addValue("usl", "Суточный заказ по пакетам SKU");
                  * KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                  * dailyOrderId = keyHolder.getKeyAs(String.class); } //endregion
-                 * 
+                 *
                  * jdbcTemplate.update("DELETE FROM KB_T_ARTICLE"); jdbcTemplate.
                  * update("INSERT INTO KB_T_ARTICLE (id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov) VALUES (?, ?, ?, ?,?,?,?)"
                  * , sku.getArticle(), sku.getName(), uofm, sku.getUpc(), sku.getProductLife(),
                  * sku.getStoragePos(), sku.getBillingClass()); //TODO UPDATE KB_T_ARTICLE SET
                  * COMMENTS = REPLACE(REPLACE(RTRIM(LT --- ???
-                 * 
+                 *
                  * // TODO kb_pack.wms3_updt_sku(l_id_zak, v_prf_wms, p_err); String p_err =
                  * null; if (p_err != null && p_err != "Загружено записей:") // добавляем
                  * событие 4301 в заказ Получено входящее сообщение jdbcTemplate.
@@ -332,7 +344,8 @@ public class SendNotifications {
                  * sku.getArticle() + " отправлен в СОХ", "010277043");
                  */
                 break;
-            case ("I"): {// IN
+            }
+            case ("I"): {// поставка
                 // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4101");
@@ -341,7 +354,7 @@ public class SendNotifications {
                 orderError = (String) p_err.get("P_ERR");
                 break;
             }
-            case ("O"): {
+            case ("O"): { //отгрузка
                 SimpleJdbcCall jdbcCall_4103 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("MSG_4103");
                 p_err = jdbcCall_4103.execute(new MapSqlParameterSource().addValue("P_MSG",
@@ -352,7 +365,7 @@ public class SendNotifications {
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
             }
-                break;
+            break;
         }
         return orderError;
     }

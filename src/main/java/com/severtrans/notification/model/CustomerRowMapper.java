@@ -15,6 +15,7 @@ public class CustomerRowMapper implements RowMapper<Customer> {
         customer.setGateId(rs.getString("ID_USR"));
         customer.setCustomerName(rs.getString("N_ZAK"));
         customer.setClientId(rs.getInt("ID_KLIENT"));
+        customer.setPrefix(rs.getString("PRF_WMS"));
         return customer;
     }
     //ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT

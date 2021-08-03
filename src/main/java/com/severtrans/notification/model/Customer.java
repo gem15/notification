@@ -10,7 +10,7 @@ Insert into KB_ZAK (ID,ID_SVH,ID_WMS,IS_HOLDER,ID_USR,N_ZAK,ID_KLIENT)
 @Data
 public class Customer {
     /**
-     * Код клиента
+     * Код клиента id_obsl
      */
    String id;
     /**
@@ -30,7 +30,11 @@ public class Customer {
      */
    String customerName;
     /**
-     * Внутренний номер клиента
+     * Внутренний номер клиента ВН
      */
    int clientId;
+    /**
+     * Префикс
+     */
+   String prefix;
 }

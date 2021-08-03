@@ -3,18 +3,23 @@ package com.severtrans.notification.service;
 import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.model.Customer;
+import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.Unit;
 import com.severtrans.notification.utils.XmlUtiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.SqlLobValue;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -24,6 +29,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,7 +47,7 @@ class UnitTest {
 //        Unit un = units.stream().filter(unit -> "шт".toUpperCase().equals(unit.getCode().toUpperCase())).findAny().orElse(null);
 //FIXME
         String xml = "<Shell xmlns=\"http://www.severtrans.com\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "\t<customerID>300000</customerID>\n" +
+                "\t<customerID>300185</customerID>\n" +
                 "\t<skuList>\n" +
                 "\t\t<sku>\n" +
                 "\t\t\t<article>00-07059331</article>\n" +
@@ -77,6 +83,7 @@ class UnitTest {
             e.printStackTrace(); //TODO
         }
 
+        //заполнить KB_T_ARTICLE
         ListSKU skus = shell.getSkuList();
         jdbcTemplate.update("DELETE FROM KB_T_ARTICLE");
         String sqlArt = "INSERT INTO KB_T_ARTICLE (id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov)\n" +
@@ -104,17 +111,54 @@ class UnitTest {
             }
         });
 
-        // Получить клиента по ВН
+        // Получить клиента по ВН try catch
+/*
+SELECT z.id, z.prf_wms, z.id_usr
+        INTO l_id_zak, v_prf_wms, v_id_usr
+        FROM kb_zak z
+       WHERE z.id_klient = vn
+             AND z.id_usr IN ('KB_USR92734', 'KB_USR99992');
+* */
+        Customer customer = jdbcTemplate.queryForObject(
+                "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT,PRF_WMS FROM kb_zak WHERE "
+                        + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
+                new CustomerRowMapper(), shell.getCustomerID());
+
         // передача в солво
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_PACK")
                 .withProcedureName("WMS3_UPDT_SKU");
+/*
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("dt_zakaz", new Date()).addValue();
+        params.addValue("l_id_zak", customer.getId())
+                .addValue("v_prf_wms",customer.getPrefix());
         //kb_pack.wms3_updt_sku(l_id_zak, v_prf_wms, p_err);
-        String p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
-                new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-        orderError = (String) p_err.get("P_ERR");
-        // daylyOrder
+*/
+        Map<String, Object> p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("L_ID_ZAK", customer.getId())
+                .addValue("V_PRF_WMS",customer.getPrefix()));
+        //orderError = (String) p_err.get("P_ERR");
+
+        // dailyOrder
+        // region Поиск/создание суточного заказа
+        String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
+        /*
+                                SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU'   AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = l_id_zak;
+                                SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+                                jdbcTemplate.queryForObject(sql, namedParameters, String.class);
+        */
+        String dailyOrderId;
+        try {
+            dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
+        } catch (EmptyResultDataAccessException e) {
+            SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
+                    .usingGeneratedKeyColumns("id");
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
+                    .addValue("id_pok", customer.getId()).addValue("n_gruz", "STOCK")
+                    .addValue("usl", "Суточный заказ по пакетам PS");
+            KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
+            dailyOrderId = keyHolder.getKeyAs(String.class);
+        }
+        // endregion
         //event_4301
 
         System.out.println(shell.getSkuList());
