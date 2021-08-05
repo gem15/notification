@@ -70,7 +70,7 @@ public class SKU {
     protected String name;
     protected String upc;
     protected String uofm;
-    protected Integer storageLife;
+    protected int storageLife;
     protected String storageCondition;
     protected String billingClass;
     protected String division;

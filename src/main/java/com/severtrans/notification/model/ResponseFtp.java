@@ -25,13 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseFtp {
-
-//	private int ftpId;
-
-	//	/**
-//	 *  Код события из справочника sv_hvoc
-//	 */
-//	private String voc;
 	int vn;
 	String pathIn ;
 	String pathOut;
@@ -43,4 +36,5 @@ public class ResponseFtp {
 	int inOut;
 	String hostname;
 	boolean legacy;
+
 }

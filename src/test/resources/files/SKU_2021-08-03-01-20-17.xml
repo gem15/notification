@@ -1,0 +1,96 @@
+<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<customerID>300185</customerID>
+	<skuList>
+		<sku>
+			<article>00-07059331</article>
+			<name>Офисное кресло EChair-304 TPU кожзам черн/сетка черн, пластик</name>
+			<upc>4630098164856</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>10.9</weight>
+			<phvolume>0.12019</phvolume>
+			<upcList>
+				<upcAlter>2630098164856</upcAlter>
+				<upcAlter>4630098164800</upcAlter>
+			</upcList>
+		</sku>
+		<sku>
+			<article>00-07064082</article>
+			<name>Офисное кресло EChair-685 LT ткань черный пластик</name>
+			<upc>4640118706171</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>12.35</weight>
+			<phvolume>0.157</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-07064083</article>
+			<name>Офисное кресло EChair-685 TС ткань черный пластик </name>
+			<upc>4640118706188</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>12.35</weight>
+			<phvolume>0.157</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-07066775</article>
+			<name>Кресло EChair-683 TPU кожзам черный, пластик</name>
+			<upc>4640118708564</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>17.2</weight>
+			<phvolume>0.173</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-07066776</article>
+			<name>Кресло EChair-683 TPU кожзам черный/серый, пластик</name>
+			<upc>4640118708557</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>17.2</weight>
+			<phvolume>0.173</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-01185415</article>
+			<name>Винт М6*30 Россия пресшайба</name>
+			<upc/>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>0.01</weight>
+			<phvolume>0.000003</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-07014052</article>
+			<name>Офисное кресло EChair 515 TPU экокожа бежевая, пластик</name>
+			<upc>4630098168700</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>21</weight>
+			<phvolume>0.21591</phvolume>
+			<upcList/>
+		</sku>
+		<sku>
+			<article>00-07028305</article>
+			<name>Офисное кресло EChair-641 TC ткань серый, пластик серый</name>
+			<upc>4630114811870</upc>
+			<uofm>шт</uofm>
+			<billingClass>КР</billingClass>
+			<division>"0371"</division>
+			<weight>24.5</weight>
+			<phvolume>0.237161</phvolume>
+			<upcList/>
+		</sku>
+	</skuList>
+</Shell>

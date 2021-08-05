@@ -46,8 +46,6 @@ public class XmlUtiles {
     public static <T> T unmarshaller(String content, Class<T> clasz) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//        Object o = jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)));
-        Object o1 =jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
     }
 

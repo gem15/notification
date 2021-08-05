@@ -24,6 +24,14 @@ import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.test.context.jdbc.Sql;
 
 import javax.xml.bind.JAXBException;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -45,8 +53,22 @@ class UnitTest {
         String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
         List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Unit.class));
 //        Unit un = units.stream().filter(unit -> "шт".toUpperCase().equals(unit.getCode().toUpperCase())).findAny().orElse(null);
-//FIXME
-        String xml = "<Shell xmlns=\"http://www.severtrans.com\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+//FIXME src\test\resources\data.sql
+// Path fileName = Path.of("./files/SKU_2021-08-03-01-20-17.xml");
+
+        String xml="",content  = "hello world !!";
+        try {
+                Path fileName = new File(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").getFile()).toPath();
+
+                // Path fileName = Paths.get(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").toURI().toString());//Path.of("./files/SKU_2021-08-03-01-20-17.xml");
+                // Files.writeString(fileName, content);
+                xml = Files.readString(fileName);
+        } catch (IOException |  NullPointerException e1) { //URISyntaxException |
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+        }
+         
+         xml = "<Shell xmlns=\"http://www.severtrans.com\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
                 "\t<customerID>300185</customerID>\n" +
                 "\t<skuList>\n" +
                 "\t\t<sku>\n" +
@@ -76,6 +98,7 @@ class UnitTest {
                 "\t\t</sku>\n" +
                 "\t</skuList>\n" +
                 "</Shell>";
+       System.out.println(xml);
         Shell shell = new Shell();
         try {
             shell = XmlUtiles.unmarshaller(xml, Shell.class);

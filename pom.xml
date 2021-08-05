@@ -102,6 +102,7 @@
         <artifactId>jackson-dataformat-xml</artifactId>
         <version>2.12.3</version>
       </dependency>
+    
     </dependencies>
 
     <build>
