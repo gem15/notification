@@ -26,9 +26,12 @@ import org.springframework.test.context.jdbc.Sql;
 import javax.xml.bind.JAXBException;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,60 +53,31 @@ class UnitTest {
 
     @Test
     void UnitTest() {
+        String ts = "SKU_2021-08-03-01-20-17.xml".split("_")[0];
+        ts = "Загружено записей:";
+        System.out.println(ts.split(" ")[0].equals("Загружено"));
+        System.out.println(ts);
+
         String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
         List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Unit.class));
 //        Unit un = units.stream().filter(unit -> "шт".toUpperCase().equals(unit.getCode().toUpperCase())).findAny().orElse(null);
 //FIXME src\test\resources\data.sql
 // Path fileName = Path.of("./files/SKU_2021-08-03-01-20-17.xml");
 
-        String xml="",content  = "hello world !!";
-        try {
-                Path fileName = new File(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").getFile()).toPath();
-
-                // Path fileName = Paths.get(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").toURI().toString());//Path.of("./files/SKU_2021-08-03-01-20-17.xml");
-                // Files.writeString(fileName, content);
-                xml = Files.readString(fileName);
-        } catch (IOException |  NullPointerException e1) { //URISyntaxException |
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-        }
-         
-         xml = "<Shell xmlns=\"http://www.severtrans.com\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                "\t<customerID>300185</customerID>\n" +
-                "\t<skuList>\n" +
-                "\t\t<sku>\n" +
-                "\t\t\t<article>00-07059331</article>\n" +
-                "\t\t\t<name>Офисное кресло EChair-304 TPU кожзам черн/сетка черн, пластик</name>\n" +
-                "\t\t\t<upc>4630098164856</upc>\n" +
-                "\t\t\t<uofm>шт</uofm>\n" +
-                "\t\t\t<billingClass>КР</billingClass>\n" +
-                "\t\t\t<division>\"0371\"</division>\n" +
-                "\t\t\t<weight>10.9</weight>\n" +
-                "\t\t\t<phvolume>0.12019</phvolume>\n" +
-                "\t\t\t<upcList>\n" +
-                "\t\t\t\t<upcAlter>2630098164856</upcAlter>\n" +
-                "\t\t\t\t<upcAlter>4630098164800</upcAlter>\n" +
-                "\t\t\t</upcList>\n" +
-                "\t\t</sku>\n" +
-                "\t\t<sku>\n" +
-                "\t\t\t<article>00-07064082</article>\n" +
-                "\t\t\t<name>Офисное кресло EChair-685 LT ткань черный пластик</name>\n" +
-                "\t\t\t<upc>4640118706171</upc>\n" +
-                "\t\t\t<uofm>шт</uofm>\n" +
-                "\t\t\t<billingClass>КР</billingClass>\n" +
-                "\t\t\t<division>\"0371\"</division>\n" +
-                "\t\t\t<weight>12.35</weight>\n" +
-                "\t\t\t<phvolume>0.157</phvolume>\n" +
-                "\t\t\t<upcList/>\n" +
-                "\t\t</sku>\n" +
-                "\t</skuList>\n" +
-                "</Shell>";
-       System.out.println(xml);
+        String xml = "";
+        InputStream is = null;
         Shell shell = new Shell();
         try {
+//                Path fileName = new File(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").getFile()).toPath();
+//                 Path path = Paths.get("src/test/resources/files/SKU_2021-08-03-01-20-17.xml");//.toURI().toString());//Path.of("./files/SKU_2021-08-03-01-20-17.xml");
+            // Files.writeString(fileName, content);
+            is = new FileInputStream("src/test/resources/files/SKU_2021-08-03-01-20-17.xml");
+            xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+//                xml = Files.readAllLines(path);
             shell = XmlUtiles.unmarshaller(xml, Shell.class);
-        } catch (JAXBException e) {
-            e.printStackTrace(); //TODO
+        } catch (IOException | NullPointerException | JAXBException e1) { //URISyntaxException |
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
 
         //заполнить KB_T_ARTICLE
@@ -157,7 +131,7 @@ SELECT z.id, z.prf_wms, z.id_usr
         //kb_pack.wms3_updt_sku(l_id_zak, v_prf_wms, p_err);
 */
         Map<String, Object> p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("L_ID_ZAK", customer.getId())
-                .addValue("V_PRF_WMS",customer.getPrefix()));
+                .addValue("V_PRF_WMS", customer.getPrefix()));
         //orderError = (String) p_err.get("P_ERR");
 
         // dailyOrder

@@ -2,9 +2,12 @@ package com.severtrans.notification;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
 
 import com.severtrans.notification.utils.XmlUtiles;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -118,7 +121,7 @@ public class SendNotifications {
                     }
                     log.info("Клиент " + resp.getVn());// TODO заменить на тип сообщения ?
                     // отдельно обрабатываем входящие и исходящие сообщения
-                    if (!resp.isLegacy()) {
+                    if (!resp.isLegacy()) { //формат xsd
                         log.info(">> New version with xsd");
                         switch (resp.getInOut()) {
                             case (1): { //TODO убрать повтор  потом
@@ -176,7 +179,7 @@ public class SendNotifications {
                                             // throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                                         }
                                         ftp.deleteFile(file.getName());// TODO удаляем принятый файл с ошибкой
-                                                                       // переименовываем?
+                                        // переименовываем?
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException e) {
@@ -257,6 +260,14 @@ public class SendNotifications {
         }
     }
 
+    /**
+     * Новый формат обработки входящих сообщений
+     * @param filePrefix
+     * @param shell
+     * @throws IOException
+     * @throws MonitorException
+     * @throws FTPException
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException, FTPException {
         Customer customer = new Customer();
@@ -334,17 +345,37 @@ public class SendNotifications {
                     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
                             .usingGeneratedKeyColumns("id");
                     MapSqlParameterSource params = new MapSqlParameterSource();
-                    params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
-                            .addValue("id_pok", customer.getId()).addValue("n_gruz", "SKU")
+                    params.addValue("dt_zakaz", new Date())
+                            .addValue("id_zak", customer.getId())
+                            .addValue("id_pok", customer.getId())
+                            .addValue("n_gruz", "SKU")
                             .addValue("usl", "Суточный заказ по пакетам SKU");
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                 }
                 // endregion
 
-                //TODO event_4301
+                // событие 4301 в суточный заказ Получено входящее сообщение
+                jdbcTemplate.update(
+                        "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
+                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Уточнить текст","010277043");
+
                 break;
-            } // PART_STOCK
+            } // SKU
+            case ("IN"):
+            case ("OUT"): {// поставка/отгрузка
+                Order order = shell.getOrder();
+                String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
+                // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
+/*
+                SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName("MSG_4101");
+                p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
+                (String )orderError = (String) p_err.get("P_ERR");
+*/
+                break;
+            }
         }
 
     }
@@ -505,7 +536,7 @@ public class SendNotifications {
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
             }
-                break;
+            break;
         }
         return orderError;
     }

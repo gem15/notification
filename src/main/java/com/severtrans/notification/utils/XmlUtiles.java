@@ -1,5 +1,5 @@
 package com.severtrans.notification.utils;
-
+import org.apache.commons.codec.binary.Hex;
 import com.severtrans.notification.dto.Shell;
 import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
@@ -19,6 +19,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.GregorianCalendar;
 
@@ -44,9 +45,53 @@ public class XmlUtiles {
      * @throws JAXBException
      */
     public static <T> T unmarshaller(String content, Class<T> clasz) throws JAXBException {
+        //check for  UTF8_BOM
+        if (content.startsWith("\uFEFF")) {
+            content = content.substring(1);
+        }
         JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
+    }
+
+    @Deprecated
+    public static <T> T unmarshaller(InputStream content, Class<T> clasz) throws JAXBException, IOException {
+//        InputStream inStream = new FileInputStream( "employee.xml" );
+//        Employee employee = (Employee) jaxbUnmarshaller.unmarshal( inStream );
+        ByteBuffer bb = null;
+        // BOM encoded as ef bb bf
+        if (isContainBOM(content)) {
+            byte[] bytes = content.readAllBytes();//Files.readAllBytes(path);
+//            bytes = content.read();
+            bb = ByteBuffer.wrap(bytes);
+            System.out.println("Found BOM!");
+             // get the first 3 bytes
+            byte[] bom = new byte[3];
+            bb.get(bom, 0, bom.length);
+
+            // remaining
+            byte[] contentAfterFirst3Bytes = new byte[bytes.length - 3];
+            bb.get(contentAfterFirst3Bytes, 0, contentAfterFirst3Bytes.length);
+
+            System.out.println("Remove the first 3 bytes, and overwrite the file!");
+        }
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(clasz);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        return (T) jaxbUnmarshaller.unmarshal(content);
+    }
+
+    private static boolean isContainBOM(InputStream content) throws IOException {
+         boolean result = false;
+        byte[] bom = new byte[3];
+            // read 3 bytes of a file.
+            content.read(bom);
+            // BOM encoded as ef bb bf
+            String content1 = new String(Hex.encodeHex(bom));
+            if ("efbbbf".equalsIgnoreCase(content1)) {
+                result = true;
+            }
+        return result;
     }
 
     /**

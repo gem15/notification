@@ -47,15 +47,7 @@
             <xs:element name="guid" type="xs:string" minOccurs="0"/>
             <xs:element name="orderType" type="xs:boolean"/>
             <xs:element name="orderKind" type="xs:string"/>
-            
-            <!--                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:enumeration value="Поставка"/>
-                        <xs:enumeration value="Отгрузка"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
--->            <xs:element name="orderNo" type="xs:string"/>
+            <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
             <xs:element name="plannedDate" type="xs:dateTime"/>
             <xs:element name="contrCode" type="xs:string" minOccurs="0">

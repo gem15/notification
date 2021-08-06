@@ -25,31 +25,33 @@ public class Order {
     @JsonProperty("DateDoc")
     private Date orderDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
-    @JsonProperty("PlannedDeliveryDate")
+    @JsonProperty("PlannedDeliveryDate")//TODO PlannedShipmentDate
     private Date plannedDate;
     @JsonProperty("OrderType")
     private String orderType;
     @JsonProperty("TypeOfDelivery")
     private String deliveryType;
-    @JsonProperty("IDSupplier")
-    private String contractorId;
-    @JsonProperty("NameSupplier")
-    private String contractorName;
-    @JsonProperty("AdressSupplier")
-    private String contractorAddress;
-    private String carrierId;
+    @JsonProperty("IDSupplier")//TODO IDConsignee
+    private String contrCode;
+    @JsonProperty("NameSupplier")//TODO NameConsignee
+    private String contrName;
+    @JsonProperty("AdressSupplier")//TODO AdressConsignee
+    private String contrAddress;
+//    private String carrierId;
     // TODO <TypeCar>10</TypeCar> нафига? private String vehicleType;
     @JsonProperty("NumberCar")
     private String licencePlate;
     @JsonProperty("Driver")
     private String driver;
+    @JsonProperty("Comment")
+    String comment;
 
     /*
      * private Contractor contractor; private Vehicle vehicle;
      */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")
-    private List<OrderLine> orderLines;
+    private List<OrderLine> orderLine;
 
 }
 /**

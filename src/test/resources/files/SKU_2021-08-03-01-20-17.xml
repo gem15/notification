@@ -1,5 +1,5 @@
-<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<customerID>300185</customerID>
+﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<customerID>300000</customerID>
 	<skuList>
 		<sku>
 			<article>00-07059331</article>
