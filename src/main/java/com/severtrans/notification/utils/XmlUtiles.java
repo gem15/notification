@@ -49,6 +49,10 @@ public class XmlUtiles {
         if (content.startsWith("\uFEFF")) {
             content = content.substring(1);
         }
+/*
+        String initialString = "text";
+        InputStream targetStream = new ByteArrayInputStream(initialString.getBytes());
+*/
         JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();

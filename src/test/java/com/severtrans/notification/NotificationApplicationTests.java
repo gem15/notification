@@ -1,17 +1,13 @@
 package com.severtrans.notification;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.severtrans.notification.dto.jackson.Notification;
 import com.severtrans.notification.dto.jackson.NotificationItem;
-import com.thoughtworks.xstream.XStream;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 @SpringBootTest
 class NotificationApplicationTests {
@@ -63,41 +59,6 @@ class NotificationApplicationTests {
         items.add(i);
         // not.setGoods(items);
 
-        XStream xs = new XStream();
-
-/*
-        String dateFormat = "dd.MM.yyyy HH:mm:ss";
-//        String timeFormat = "HH:mm:ss";
-        String[] acceptableFormats = {dateFormat};
-        xs.registerConverter(new DateConverter(dateFormat,acceptableFormats));
-*/
-
-/*
-        String[] formats ={"yyyy-MM-dd HH:mm"};
-        xs.registerConverter(new DateConverter("yyyy-MM-dd HH:mm", formats));
-*/
-
-
-        xs.omitField(Notification.class,"du");
-//        XStream.setupDefaultSecurity(xs);
-/*
-        XStream xstream = new XStream();
-        xstream.alias("comments", Comments.class);
-        xstream.alias("comment", Comment.class);
-        xstream.addImplicitCollection(Comments.class, "comments");
-        Comments comments = (Comments)xstream.fromXML(xml);
-*/
-
-        xs.alias(_4102, Notification.class); //IssueReceiptForGoods
-        xs.alias("Goods",NotificationItem.class);
-        xs.addImplicitCollection(Notification.class,"Goods");
-//        xs.aliasField("Goods",NotificationItem.class,"Goods");
-        System.out.println(xs.toXML(not));
-
-        Writer writer = new StringWriter();
-        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-        xs.toXML(not, writer);//        Notification notification = (Notification) xs.fromXML(xml);
-        System.out.println(writer.toString());
         System.out.println("stop");
 
     }

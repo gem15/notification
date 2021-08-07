@@ -16,7 +16,7 @@ import lombok.Data;
 @JsonPropertyOrder({ "VN", "NumberDoc", "DateDoc", "PlannedDeliveryDate", "OrderType", "TypeOfDelivery", "IDSupplier",
         "NameSupplier", "AdressSupplier", "NumberCar", "Driver", "Goods", })
 @Data
-public class Order {
+public class OrderJack {
     @JsonProperty("VN")
     private int clientID;
     @JsonProperty("NumberDoc")
@@ -51,7 +51,7 @@ public class Order {
      */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")
-    private List<OrderLine> orderLine;
+    private List<OrderLineJack> orderLine;
 
 }
 /**

@@ -74,6 +74,7 @@
             <xs:element name="article" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="qty" type="xs:decimal"/>
+            <xs:element name="storageLife" type="xs:date" minOccurs="0"/>
             <xs:element name="category" type="xs:string" minOccurs="0"/>
             <xs:element name="mark" type="xs:string" minOccurs="0"/>
             <xs:element name="mark2" type="xs:string" minOccurs="0"/>

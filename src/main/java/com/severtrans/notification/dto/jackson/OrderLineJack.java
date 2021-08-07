@@ -9,7 +9,7 @@ import java.util.Date;
 
 @JsonPropertyOrder({"LineNumber","Article","Name","Category","StorageLife","Marker","Marker2","Marker3","Lot","Count","Comment"}) //,"ExpirationDate","ProductionDate","Lot","SerialNum"
 @Data
-public class OrderLine {
+public class OrderLineJack {
 
     @JsonProperty("LineNumber")
     int lineNo;

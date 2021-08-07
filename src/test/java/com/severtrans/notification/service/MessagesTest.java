@@ -1,13 +1,18 @@
 package com.severtrans.notification.service;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.dto.jackson.OrderJack;
 import com.severtrans.notification.model.Customer;
 import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.Unit;
+import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -25,10 +30,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import javax.xml.bind.JAXBException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -47,38 +49,41 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 @JdbcTest
 //@Sql({"/schema.sql"})//, "/data.sql" https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-spring-jdbc
-class UnitTest {
+class MessagesTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    XmlMapper xmlMapper;
 
     @Test
-    void UnitTest() {
-        String ts = "SKU_2021-08-03-01-20-17.xml".split("_")[0];
-        ts = "Загружено записей:";
-        System.out.println(ts.split(" ")[0].equals("Загружено"));
-        System.out.println(ts);
+    void OrderTest() throws IOException, JAXBException {
+        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
+        String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
+        Order order = shell.getOrder();
+        ModelMapper mp=new ModelMapper();
+        //OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        mp.addConverter(new CalendarConverter());
+        OrderJack jack= mp.map(order,OrderJack.class);
+
+        // to XML
+        String xml_out = xmlMapper.writer()//.withRootName(resp.getAlias())
+                .writeValueAsString(jack);
+        System.out.println(xml_out);
+    }
+
+    @Test
+    void SkuTest() throws IOException, NullPointerException, JAXBException {
 
         String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
         List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Unit.class));
-//        Unit un = units.stream().filter(unit -> "шт".toUpperCase().equals(unit.getCode().toUpperCase())).findAny().orElse(null);
-//FIXME src\test\resources\data.sql
-// Path fileName = Path.of("./files/SKU_2021-08-03-01-20-17.xml");
 
         String xml = "";
-        InputStream is = null;
         Shell shell = new Shell();
-        try {
-//                Path fileName = new File(getClass().getResource("/files/SKU_2021-08-03-01-20-17.xml").getFile()).toPath();
-//                 Path path = Paths.get("src/test/resources/files/SKU_2021-08-03-01-20-17.xml");//.toURI().toString());//Path.of("./files/SKU_2021-08-03-01-20-17.xml");
-            // Files.writeString(fileName, content);
-            is = new FileInputStream("src/test/resources/files/SKU_2021-08-03-01-20-17.xml");
-            xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-//                xml = Files.readAllLines(path);
-            shell = XmlUtiles.unmarshaller(xml, Shell.class);
-        } catch (IOException | NullPointerException | JAXBException e1) { //URISyntaxException |
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+        InputStream is = new FileInputStream("src/test/resources/files/SKU_2021-08-03-01-20-17.xml");
+        is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
+        xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
         //заполнить KB_T_ARTICLE
         ListSKU skus = shell.getSkuList();
@@ -109,13 +114,6 @@ class UnitTest {
         });
 
         // Получить клиента по ВН try catch
-/*
-SELECT z.id, z.prf_wms, z.id_usr
-        INTO l_id_zak, v_prf_wms, v_id_usr
-        FROM kb_zak z
-       WHERE z.id_klient = vn
-             AND z.id_usr IN ('KB_USR92734', 'KB_USR99992');
-* */
         Customer customer = jdbcTemplate.queryForObject(
                 "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT,PRF_WMS FROM kb_zak WHERE "
                         + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
@@ -124,12 +122,6 @@ SELECT z.id, z.prf_wms, z.id_usr
         // передача в солво
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_PACK")
                 .withProcedureName("WMS3_UPDT_SKU");
-/*
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("l_id_zak", customer.getId())
-                .addValue("v_prf_wms",customer.getPrefix());
-        //kb_pack.wms3_updt_sku(l_id_zak, v_prf_wms, p_err);
-*/
         Map<String, Object> p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("L_ID_ZAK", customer.getId())
                 .addValue("V_PRF_WMS", customer.getPrefix()));
         //orderError = (String) p_err.get("P_ERR");
