@@ -5,7 +5,8 @@ import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
-import com.severtrans.notification.dto.jackson.OrderJack;
+import com.severtrans.notification.dto.jackson.OrderJackIn;
+import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.Customer;
 import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.Unit;
@@ -13,6 +14,7 @@ import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -23,28 +25,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.jdbc.support.lob.DefaultLobHandler;
-import org.springframework.test.context.jdbc.Sql;
 
 import javax.xml.bind.JAXBException;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestDatabase
 @JdbcTest
@@ -57,18 +48,39 @@ class MessagesTest {
 
     @Test
     void OrderTest() throws IOException, JAXBException {
-        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
+//        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
+        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
         Order order = shell.getOrder();
-        ModelMapper mp=new ModelMapper();
-        //OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+        ModelMapper mp = new ModelMapper();
         mp.addConverter(new CalendarConverter());
-        OrderJack jack= mp.map(order,OrderJack.class);
+/*
+        PropertyMap<Order, OrderJackIn> orderMap = new PropertyMap<Order, OrderJackIn>() {
+            protected void configure() {
+                map().setBillingStreet(source.getBillingAddress().getStreet());
+                map(source.billingAddress.getCity(), destination.billingCity);
+            }
+        });
+        modelMapper.addMappings(orderMap);
+*/
 
-        // to XML
-        String xml_out = xmlMapper.writer()//.withRootName(resp.getAlias())
-                .writeValueAsString(jack);
+        String xml_out;
+        if (!order.isOrderType()) {
+            OrderJackIn jack = mp.map(order, OrderJackIn.class);
+            jack.setOrderType("Поставка");
+            jack.setDeliveryType("Поставка");
+            xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods")
+                    .writeValueAsString(jack);
+        } else {
+            OrderJackOut jack = mp.map(order, OrderJackOut.class);
+            jack.setClientID(shell.getCustomerID());
+            jack.setOrderType("Отгрузка");
+            jack.setDeliveryType("Отгрузка");
+            xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods")
+                    .writeValueAsString(jack);
+        }
+
         System.out.println(xml_out);
     }
 

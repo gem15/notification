@@ -1,22 +1,21 @@
 package com.severtrans.notification.dto.jackson;
 
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import lombok.Data;
 
-@JsonIgnoreProperties({ "Error", "TypeCar", "Customer", "IDCarrier" })
-@JsonPropertyOrder({ "VN", "NumberDoc", "DateDoc", "PlannedDeliveryDate", "OrderType", "TypeOfDelivery", "IDSupplier",
-        "NameSupplier", "AdressSupplier", "NumberCar", "Driver", "Goods", })
+import java.util.Date;
+import java.util.List;
+
+@JsonIgnoreProperties({"Error", "TypeCar", "Customer", "IDCarrier"})
+@JsonPropertyOrder({"VN", "NumberDoc", "DateDoc", "OrderType", "TypeOfDelivery", "PlannedShipmentDate", "IDConsignee",
+        "NameConsignee", "AdressConsignee", "NumberCar", "Driver","Comment", "Goods",})
 @Data
-public class OrderJack {
+public class OrderJackOut {
     @JsonProperty("VN")
     private int clientID;
     @JsonProperty("NumberDoc")
@@ -25,19 +24,19 @@ public class OrderJack {
     @JsonProperty("DateDoc")
     private Date orderDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
-    @JsonProperty("PlannedDeliveryDate")//TODO PlannedShipmentDate
+    @JsonProperty("PlannedShipmentDate")
     private Date plannedDate;
     @JsonProperty("OrderType")
     private String orderType;
     @JsonProperty("TypeOfDelivery")
     private String deliveryType;
-    @JsonProperty("IDSupplier")//TODO IDConsignee
+    @JsonProperty("IDConsignee")
     private String contrCode;
-    @JsonProperty("NameSupplier")//TODO NameConsignee
+    @JsonProperty("NameConsignee")
     private String contrName;
-    @JsonProperty("AdressSupplier")//TODO AdressConsignee
+    @JsonProperty("AdressConsignee")
     private String contrAddress;
-//    private String carrierId;
+    //    private String carrierId;
     // TODO <TypeCar>10</TypeCar> нафига? private String vehicleType;
     @JsonProperty("NumberCar")
     private String licencePlate;
@@ -46,9 +45,6 @@ public class OrderJack {
     @JsonProperty("Comment")
     String comment;
 
-    /*
-     * private Contractor contractor; private Vehicle vehicle;
-     */
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")
     private List<OrderLineJack> orderLine;
