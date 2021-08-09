@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
-
+import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
 
 import java.io.ByteArrayInputStream;
@@ -27,6 +27,8 @@ import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Shell;
 import com.severtrans.notification.dto.jackson.Notification;
 import com.severtrans.notification.dto.jackson.NotificationItem;
+import com.severtrans.notification.dto.jackson.OrderJackIn;
+import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.dto.jackson.PartStock;
 import com.severtrans.notification.dto.jackson.PartStockLine;
@@ -39,6 +41,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.apache.commons.net.ftp.FTPReply;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -143,7 +146,8 @@ public class SendNotifications {
                                         throw new FTPException("Completing Pending Commands Not Successful");
                                     }
                                     try {
-                                        msgInNew(file.getName().split("_")[0], XmlUtiles.unmarshaller(xmlText, Shell.class));
+                                        msgInNew(file.getName().split("_")[0],
+                                                XmlUtiles.unmarshaller(xmlText, Shell.class));
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException | JAXBException e) {
@@ -365,16 +369,33 @@ public class SendNotifications {
             case ("IN"):
             case ("OUT"): {// поставка/отгрузка
                 Order order = shell.getOrder();
+                ModelMapper mp = new ModelMapper();
+                mp.addConverter(new CalendarConverter());
+       
+                String xml_out;
+                if (!order.isOrderType()) {
+                    OrderJackIn jack = mp.map(order, OrderJackIn.class);
+                    jack.setOrderType("Поставка");
+                    jack.setDeliveryType("Поставка");
+                    xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods")
+                            .writeValueAsString(jack);
+                } else {
+                    OrderJackOut jack = mp.map(order, OrderJackOut.class);
+                    jack.setClientID(shell.getCustomerID());
+                    jack.setOrderType("Отгрузка");
+                    jack.setDeliveryType("Отгрузка");
+                    xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods")
+                            .writeValueAsString(jack);
+                }
                 String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
-                // Order orderIn =xmlMapper.readValue(xmlText, Order.class);
-/*
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
-                        .withProcedureName("MSG_4101");
+                        .withProcedureName(procedureName);
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
-                        new SqlLobValue(xmlText, new DefaultLobHandler()), Types.CLOB));
-                (String )orderError = (String) p_err.get("P_ERR");
-*/
-                break;
+                        new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
+                if (p_err != null)
+                    throw new MonitorException((String)p_err.get("P_ERR"));
+   
+               break;
             }
         }
 
@@ -536,7 +557,7 @@ public class SendNotifications {
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
             }
-            break;
+                break;
         }
         return orderError;
     }
