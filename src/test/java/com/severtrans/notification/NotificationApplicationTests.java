@@ -28,15 +28,15 @@ class NotificationApplicationTests {
 
         not.setDu("1212122"); //omitted field
         // not.setDate("");
-        not.setVehicleFactlArrivalTime(new Date());
-        not.setFactDeliveryDate(new Date());
+        not.setActualArrivalTime(new Date());
+        not.setActualDeliveryTime(new Date());
         not.setOrderNo("");
         not.setCustomerName("MyCustomer");
         not.setOrderType("");
         not.setTypeOfDelivery("");
-        not.setIDSupplier("");
-        not.setContractorName("");
-        not.setContractorAddress("");
+        not.setContrCode("");
+        not.setContrName("");
+        not.setContrAddress("");
         not.setClientID(300227);
         not.setLicencePlate("");
         not.setDriver("");

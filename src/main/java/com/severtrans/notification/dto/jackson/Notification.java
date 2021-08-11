@@ -20,35 +20,37 @@ import java.util.List;
 @JsonIgnoreProperties({ "du", "orderID" })
 @Data
 public class Notification {
+    @JsonProperty("NumberDoc")
+    String orderNo;// номер документа клиента
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @JsonProperty("DateDoc")
     Date orderDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
-    @JsonProperty("VehicleFactlArrivalTime")
-    Date VehicleFactlArrivalTime; // фактическое время отгрузки
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
-    @JsonProperty("FactDeliveryDate")
-    Date FactDeliveryDate;// время прибытия машины
-    @JsonProperty("NumberDoc")
-    String orderNo;// номер документа клиента
-    @JsonProperty("Customer")
-    String customerName;// заказчик
-    @JsonProperty("OrderType")
-    String orderType;// тип заказа
-    @JsonProperty("TypeOfDelivery")
-    String TypeOfDelivery;// тип отгрузки
     @JsonProperty("IDSupplier")
-    String IDSupplier;// получатель
+    String contrCode;// получатель
     @JsonProperty("NameSupplier")
-    String contractorName;// наименование получателя
+    String contrName;// наименование получателя
     @JsonProperty("AdressSupplier")
-    String contractorAddress;// адрес получателя
+    String contrAddress;// адрес получателя
     @JsonProperty("VN")
     int clientID;// код клиента
     @JsonProperty("NumberCar")
     String licencePlate;// номе машины
     @JsonProperty("Driver")
     String driver;// имя водителя
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
+    @JsonProperty("VehicleFactlArrivalTime")
+    Date actualArrivalTime; // фактическое время прибытия/отбытия машины
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
+    @JsonProperty("FactDeliveryDate")
+    Date actualDeliveryTime;// время разгрузки/погрузки    //время прибытия машины
+
+    @JsonProperty("Customer")
+    String customerName;// заказчик нафига ?
+    @JsonProperty("OrderType")
+    String orderType;// тип заказа // нафига?
+    @JsonProperty("TypeOfDelivery")
+    String TypeOfDelivery;// тип отгрузки // нафига?
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")

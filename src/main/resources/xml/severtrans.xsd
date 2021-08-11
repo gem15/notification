@@ -217,7 +217,6 @@
             <xs:element name="guid" type="xs:string"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
-            <xs:element name="plannedDate" type="xs:dateTime"/>
             <xs:element name="contrCode" type="xs:string" minOccurs="0"/>
             <xs:element name="contrName" type="xs:string" minOccurs="0"/>
             <xs:element name="contrAddress" type="xs:string" minOccurs="0"/>
@@ -284,8 +283,7 @@
             <xs:element name="guid" type="xs:string"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
-            <xs:element name="plannedDate" type="xs:dateTime"/>
-            <xs:element name="contrrCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="contrCode" type="xs:string" minOccurs="0"/>
             <xs:element name="contrName" type="xs:string" minOccurs="0"/>
             <xs:element name="contrAddress" type="xs:string" minOccurs="0"/>
             <xs:element name="licencePlate" type="xs:string">

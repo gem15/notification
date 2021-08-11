@@ -1,17 +1,16 @@
 package com.severtrans.notification.utils;
+
 import org.apache.commons.codec.binary.Hex;
 import com.severtrans.notification.dto.Shell;
 import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -69,7 +68,7 @@ public class XmlUtiles {
 //            bytes = content.read();
             bb = ByteBuffer.wrap(bytes);
             System.out.println("Found BOM!");
-             // get the first 3 bytes
+            // get the first 3 bytes
             byte[] bom = new byte[3];
             bb.get(bom, 0, bom.length);
 
@@ -86,15 +85,15 @@ public class XmlUtiles {
     }
 
     private static boolean isContainBOM(InputStream content) throws IOException {
-         boolean result = false;
+        boolean result = false;
         byte[] bom = new byte[3];
-            // read 3 bytes of a file.
-            content.read(bom);
-            // BOM encoded as ef bb bf
-            String content1 = new String(Hex.encodeHex(bom));
-            if ("efbbbf".equalsIgnoreCase(content1)) {
-                result = true;
-            }
+        // read 3 bytes of a file.
+        content.read(bom);
+        // BOM encoded as ef bb bf
+        String content1 = new String(Hex.encodeHex(bom));
+        if ("efbbbf".equalsIgnoreCase(content1)) {
+            result = true;
+        }
         return result;
     }
 
@@ -120,13 +119,21 @@ public class XmlUtiles {
 
     }
 
-    public void marshaller(Shell shell) throws JAXBException {
+    public static void marshaller(Shell shell,OutputStream outputStream) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        // jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
-        // TODO убрать в релизе
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(shell, new PrintWriter(System.out));
+        // jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
+
+        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
+/*
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(jaxbElement, new PrintWriter(System.out));
+//        jaxbMarshaller.marshal(jaxbElement, sw);
+        System.out.println(sw.toString());
+*/
+//https://stackoverflow.com/a/23874232/2289282 PipedInputStream in = new PipedInputStream();
+        jaxbMarshaller.marshal(jaxbElement, outputStream);
     }
 
     /**

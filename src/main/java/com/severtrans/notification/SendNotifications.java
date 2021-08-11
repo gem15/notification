@@ -139,15 +139,16 @@ public class SendNotifications {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
 
-                                    //TODO доделать - копировать в loaded
-                                    ftp.deleteFile(file.getName());// TODO удаляем принятый файл/переименовываем?
-
-                                    if (!ftp.completePendingCommand()) {
-                                        throw new FTPException("Completing Pending Commands Not Successful");
-                                    }
                                     try {
                                         msgInNew(file.getName().split("_")[0],
                                                 XmlUtiles.unmarshaller(xmlText, Shell.class));
+                                        //TODO доделать - копировать в loaded
+                                        ftp.deleteFile(file.getName());// TODO удаляем принятый файл/переименовываем?
+
+                                        if (!ftp.completePendingCommand()) {
+                                            throw new FTPException("Completing Pending Commands Not Successful");
+                                        }
+
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException | JAXBException e) {
@@ -155,8 +156,12 @@ public class SendNotifications {
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
                                     }
                                 }
-                                break;
                             }
+                            break;
+                            case (2): {// все исходящие сообщения (отбивки)
+
+                            }
+                            break;
                         }
                     } else {//старый формат
                         switch (resp.getInOut()) {
@@ -275,7 +280,6 @@ public class SendNotifications {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException, FTPException {
         Customer customer = new Customer();
-        // String orderError = null; // FIXME заменить на throw MonExcep
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
             case "SKU": {

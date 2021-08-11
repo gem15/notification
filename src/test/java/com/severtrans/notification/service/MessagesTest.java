@@ -27,7 +27,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.KeyHolder;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -47,11 +49,51 @@ class MessagesTest {
     XmlMapper xmlMapper;
 
     @Test
+    void outTest() throws IOException, JAXBException { //test выходных сообщений
+        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
+        String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        XmlUtiles.marshaller(shell,outputStream);
+        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+        System.out.println(targetStream.toString());
+
+    }
+
+    @Test
     void OrderTest() throws IOException, JAXBException {
 //        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
+
+/*
+        PipedInputStream in = new PipedInputStream();
+        final PipedOutputStream out = new PipedOutputStream(in);
+        new Thread(() -> {
+            try {
+                // write the original OutputStream to the PipedOutputStream
+                // note that in order for the below method to work, you need
+                // to ensure that the data has finished writing to the
+                // ByteArrayOutputStream
+                outputStream.writeTo(out);
+            }
+            catch (IOException e) {
+                // logging and exception handling should go here
+            }
+            finally {
+                 if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+*/
+
         Order order = shell.getOrder();
         ModelMapper mp = new ModelMapper();
         mp.addConverter(new CalendarConverter());
