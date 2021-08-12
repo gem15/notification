@@ -21,8 +21,76 @@ values ('0102315643',null,'10406','KB_USR92734','Перекресток-онла
 Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT) values ('0102315727',null,'35666',null,'Зельгрос Одинцово','300254');
 
 
--- header
-Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('21.05.21','DD.MM.RR'),to_date('21.05.21','DD.MM.RR'),'ЦБ-00000442','01023891461','316490',to_date('21.05.21','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','BI7382X','Анищик В.Н.','KB_USR99992');
+--master
+-- SELECT DISTINCT st.dt_sost, -- Дата заявки
+--                                 st2.dt_sost_end /*фактическая дата закрытия заказа*/, st.sost_doc, --Номер ПО
+--                                 sp.id AS id_obsl, st2.id_du, -- № объекта в солво для прихода: № УП для расхода № заказа в терминах солво
+--                                 (SELECT MIN(st4.dt_sost_end)
+--                                     FROM kb_sost st4
+--                                     JOIN sv_hvoc hv
+--                                       ON hv.val_id = st4.id_sost
+--                                    WHERE hv.val_short = '3021'
+--                                          AND hv.voc_id = 'KB_USL'
+--                                          AND tir.id = st4.id_tir) dt_veh, --Фактическое время прибытия машины
+--                                 z.id_wms id_suppl, --IDSupplier
+--                                 z.id_klient, --VN
+--                                 z.n_zak, -- name
+--                                 z.ur_adr, tir.n_avto, tir.vodit, z2.id_usr
+--                   FROM kb_spros sp, kb_sost st, kb_sost st2, kb_zak z2, kb_zak z -- supplier
+--                       , kb_tir tir
+--                  WHERE sp.id = st.id_obsl
+--                        AND st.id_sost = 'KB_USL60173' --4101
+--                        AND sp.id = st2.id_obsl
+--                        AND st2.id_sost = 'KB_USL60174' --4102
+--                        AND NOT EXISTS (SELECT 1 --4302 ещё не отправлено уведомление
+--                           FROM kb_sost
+--                          WHERE id_obsl = sp.id
+--                                AND id_sost = 'KB_USL99771'
+--                                AND sost_prm LIKE 'IN_%')
+--                        AND sp.id_zak IN (SELECT id
+--                                            FROM kb_zak z
+--                                           WHERE z.id_klient =300191
+--                                                 AND z.id_usr IS NOT NULL /*'KB_USR92734'*/
+--                                          )
+--                        AND sp.id_pok = z.id --поставщик заказа IDSupplier
+--                        AND sp.id_tir = tir.id --водиьеля и номер машины
+--                        AND sp.id_zak = z2.id
+-- 							  and st2.dt_sost_end > to_date('01-08-2021', 'dd-MM-yyyy');
+-- -- detail
+-- WITH cte AS ( SELECT DISTINCT r.inc_id as iddu, 0,s.sku_id, s.name, l.expiration_date, l.production_date, l.lot, l.marker, l.marker2, l.marker3
+-- 		, CASE WHEN sn.serial_num IS NULL THEN l.units ELSE 1 END AS units, l.comments, sn.serial_num
+-- 	  FROM wms.rcn_detail@wms3 r
+-- 	  INNER JOIN wms.loads@wms3   l ON r.rcn_id = l.rcn_id
+-- 	  INNER JOIN wms.sku@wms3     s ON l.sku_id = s.id
+-- 	  LEFT JOIN wms.wms_serial_num@wms3   sn ON sn.sku_id = s.id AND l.id = sn.receive_load_id
+-- 	  WHERE r.inc_id = 325918 AND r.sku_id = l.sku_id --УП
+-- 	)
+-- 	SELECT
+-- 	iddu,rownum,sku_id, name, expiration_date, production_date, lot, marker, marker2, marker3, SUM(units) qty, comments, serial_num
+-- 	FROM cte
+-- 	GROUP BY sku_id, name, expiration_date, production_date, lot, marker, marker2, marker3, comments, serial_num
+-- , rownum,iddu;
+
+Insert into MASTER (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR)
+ values (to_date('06.08.21','DD.MM.RR'),to_date('06.08.21','DD.MM.RR'),'617','01024119512','325918',to_date('06.08.21','DD.MM.RR'),'10321','300191','КЗ ГУЛЬКЕВИЧСКИЙ ООО ЭЙ.СИ. ДИСТРИБЬЮШН','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','A603AX790','Локтев','KB_USR99992');
+Insert into MASTER (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR)
+ values (to_date('04.08.21','DD.MM.RR'),to_date('04.08.21','DD.MM.RR'),'612','01024112332','325695',to_date('04.08.21','DD.MM.RR'),'10321','300191','КЗ ГУЛЬКЕВИЧСКИЙ ООО ЭЙ.СИ. ДИСТРИБЬЮШН','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','K038YO777','Багиров Э.Н.','KB_USR99992');
+
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325918','1','GUL17283','Крахмал кукурузный крафт 25',null,to_date('06.08.21','DD.MM.RR'),'080521S1','-','-','-','1000',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325918','2','GUL17283','Крахмал кукурузный крафт 25',null,to_date('06.08.21','DD.MM.RR'),'080521S1','-','-','-','500',null,null);
+
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM)
+ values ('325695','2','GUL17283','Крахмал кукурузный крафт 25',null,to_date('04.08.21','DD.MM.RR'),'020821S3','-','-','-','500',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325695','4','GUL17283','Крахмал кукурузный крафт 25',null,to_date('04.08.21','DD.MM.RR'),'310721S4','-','-','-','1000',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325695','5','GUL17283','Крахмал кукурузный крафт 25',null,to_date('04.08.21','DD.MM.RR'),'310721S1','-','-','-','1000',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325695','3','GUL20177','Мальтодекстрин (DE 17-24) крафт 25',null,to_date('04.08.21','DD.MM.RR'),'280721S2','-','-','-','1000',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325695','6','GUL17283','Крахмал кукурузный крафт 25',null,to_date('04.08.21','DD.MM.RR'),'300721S4','-','-','-','1000',null,null);
+Insert into DETAIL (IDDU,"ROWNUM",SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('325695','1','GUL17283','Крахмал кукурузный крафт 25',null,to_date('04.08.21','DD.MM.RR'),'020821S3','-','-','-','1000',null,null);
+
+
+-- master уведомление
+Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR)
+ values (to_date('21.05.21','DD.MM.RR'),to_date('21.05.21','DD.MM.RR'),'ЦБ-00000442','01023891461','316490',to_date('21.05.21','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','BI7382X','Анищик В.Н.','KB_USR99992');
 Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('25.05.21','DD.MM.RR'),to_date('25.05.21','DD.MM.RR'),'ЦБ-00000456','01023903847','317101',to_date('25.05.21','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','M274HE799','Сыроквашин О.','KB_USR99992');
 Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('30.04.21','DD.MM.RR'),to_date('01.05.21','DD.MM.RR'),'ЦБ-00000388','01023844543','314665',null,'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','E427CT197','Вишняков Л.В.','KB_USR99992');
 Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('16.04.21','DD.MM.RR'),to_date('19.04.21','DD.MM.RR'),'ЦБ-00000342','01023811232','313020',to_date('16.04.21','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','E074PO76','Грибушков А.В.','KB_USR99992');
@@ -32,7 +100,7 @@ Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID
 Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('01.10.20','DD.MM.RR'),to_date('01.10.20','DD.MM.RR'),'ЦБ-00000834','01023425894','158714',to_date('01.10.20','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','А350ТН777','Переверзев В.П.','KB_USR99992');
 Insert into notif (DT_SOST,DT_SOST_END,SOST_DOC,ID_OBSL,ID_DU,DT_VEH,ID_SUPPL,ID_KLIENT,N_ZAK,UR_ADR,N_AVTO,VODIT,ID_USR) values (to_date('28.04.20','DD.MM.RR'),to_date('29.04.20','DD.MM.RR'),'XPEL protec','01023208212','143438',to_date('28.04.20','DD.MM.RR'),'10376','300227','XPEL ЭЙ.СИ.ДИСТРИБЬ.','188508,Ленинградская область, Ломоносовский район, ПГТ Горелово, ул. Волхонское,  д. 2а, квартал 5','A783BY67','Pavel Daukshys','KB_USR99992');
 
-
+-- detail уведомления
 Insert into notifdet (IDDU,SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM)
  values ('143438','XPEB204','4" Black Smoothee',null,to_date('28.04.20','DD.MM.RR'),'-','-','-','-','77',null,null);
 Insert into notifdet (IDDU,SKU_ID,NAME,EXPIRATION_DATE,PRODUCTION_DATE,LOT,MARKER,MARKER2,MARKER3,QTY,COMMENTS,SERIAL_NUM) values ('143438','XPEXPF60US50','Самоклеющаяся защитная пленка XPEL STEALTH Paint Protection Film 60?x50? (Арт. XPF60US50)',null,to_date('28.04.20','DD.MM.RR'),'-','-','-','-','25',null,null);

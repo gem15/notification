@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +17,18 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.severtrans.notification.NotificationRowMapper;
 import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.Customer;
 import com.severtrans.notification.model.CustomerRowMapper;
+import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.model.Unit;
 import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
@@ -37,6 +43,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.KeyHolder;
@@ -48,10 +55,19 @@ class MessagesTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
+    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Autowired
     XmlMapper xmlMapper;
 
     @Test
-    void outTest() throws IOException, JAXBException { //test выходных сообщений
+    void outOrderTest() throws IOException, JAXBException { //test выходных сообщений
+/*
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
+        String strDate = dateFormat.format(new Date());
+        System.out.println(strDate);
+*/
+
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
@@ -126,6 +142,20 @@ class MessagesTest {
         }
 
         System.out.println(xml_out);
+    }
+
+    @Test
+    void notificationTest() { //уведомления
+//        String sql = "SELECT * FROM notif";
+        List<Notification> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
+        for (Notification master : listMaster) {
+            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+                    .addValue("id", master.getDu());
+            List<NotificationItem> items = namedParameterJdbcTemplate.query(
+                    "SELECT * FROM detail WHERE iddu = :id", mapSqlParameterSource,
+                    new NotificationItemRowMapper());
+            System.out.println("Zupinka");
+        }
     }
 
     @Test

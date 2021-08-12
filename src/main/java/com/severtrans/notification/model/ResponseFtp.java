@@ -36,5 +36,7 @@ public class ResponseFtp {
 	int inOut;
 	String hostname;
 	boolean legacy;
+	int typeID;
+	String typeName;
 
 }
