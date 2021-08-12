@@ -17,6 +17,8 @@ import lombok.Data;
         "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "Comment","Goods", })
 @Data
 public class OrderJackIn {
+    @JsonProperty("GUID")
+    private String guid;
     @JsonProperty("VN")
     private int clientID;
     @JsonProperty("NumberDoc")

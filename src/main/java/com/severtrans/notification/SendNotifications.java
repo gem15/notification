@@ -1,17 +1,11 @@
 package com.severtrans.notification;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import com.severtrans.notification.dto.Order;
-import com.severtrans.notification.dto.SKU;
-import com.severtrans.notification.utils.CalendarConverter;
-import com.severtrans.notification.utils.XmlUtiles;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Date;
 import java.util.List;
@@ -20,22 +14,25 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.severtrans.notification.model.Customer;
-import com.severtrans.notification.model.CustomerRowMapper;
-import com.severtrans.notification.model.Ftp;
 import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.Order;
+import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
 import com.severtrans.notification.dto.jackson.Notification;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
-import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.dto.jackson.PartStock;
 import com.severtrans.notification.dto.jackson.PartStockLine;
+import com.severtrans.notification.model.Customer;
+import com.severtrans.notification.model.CustomerRowMapper;
+import com.severtrans.notification.model.Ftp;
+import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.model.ResponseFtp;
 import com.severtrans.notification.model.Unit;
 import com.severtrans.notification.service.FTPException;
 import com.severtrans.notification.service.MonitorException;
+import com.severtrans.notification.utils.XmlUtiles;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -138,7 +135,6 @@ public class SendNotifications {
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
-
                                     try {
                                         msgInNew(file.getName().split("_")[0],
                                                 XmlUtiles.unmarshaller(xmlText, Shell.class));
@@ -166,7 +162,6 @@ public class SendNotifications {
                     } else {//старый формат
                         switch (resp.getInOut()) {
                             case (1): { // все входящие сообщения
-
                                 ftp.changeWorkingDirectory(resp.getPathIn());
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
@@ -374,13 +369,17 @@ public class SendNotifications {
             case ("OUT"): {// поставка/отгрузка
                 Order order = shell.getOrder();
                 ModelMapper mp = new ModelMapper();
-                mp.addConverter(new CalendarConverter());
+                // mp.addConverter(new CalendarConverter());
        
                 String xml_out;
                 if (!order.isOrderType()) {
                     OrderJackIn jack = mp.map(order, OrderJackIn.class);
                     jack.setOrderType("Поставка");
                     jack.setDeliveryType("Поставка");
+                    jack.setClientID(shell.getCustomerID());
+                    //FIXME
+                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
+                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
                     xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods")
                             .writeValueAsString(jack);
                 } else {
@@ -388,6 +387,10 @@ public class SendNotifications {
                     jack.setClientID(shell.getCustomerID());
                     jack.setOrderType("Отгрузка");
                     jack.setDeliveryType("Отгрузка");
+                    jack.setClientID(shell.getCustomerID());
+                    //FIXME 
+                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
+                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
                     xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods")
                             .writeValueAsString(jack);
                 }

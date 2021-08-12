@@ -1,5 +1,19 @@
 package com.severtrans.notification.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXBException;
+
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
@@ -12,9 +26,9 @@ import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.Unit;
 import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
+
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -26,18 +40,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.KeyHolder;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @AutoConfigureTestDatabase
 @JdbcTest

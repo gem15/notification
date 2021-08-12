@@ -1,5 +1,5 @@
 ﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<customerID>300000</customerID>
+	<customerID>300185</customerID>
 	<order>
 		<guid>cf843545-9eb5-11eb-80c0-00155d0c6c19</guid>
 		<orderType>false</orderType>
@@ -14,7 +14,7 @@
 		<driver/>
 		<orderLine>
 			<lineNumber>1</lineNumber>
-			<article>00-01185415</article>
+			<article>00-07064083</article>
 			<name>Винт М6*30 Россия пресшайба</name>
 			<qty>50000</qty>
 			<category>КР</category>
