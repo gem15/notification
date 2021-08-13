@@ -17,9 +17,9 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
                 ni.setExpirationDate(rs.getDate("EXPIRATION_DATE"));
                 ni.setProductionDate(rs.getDate("PRODUCTION_DATE"));
                 ni.setLot(rs.getString("LOT"));
-                ni.setMarker(rs.getString("MARKER"));
-                ni.setMarker2(rs.getString("MARKER2"));
-                ni.setMarker3(rs.getString("MARKER3"));
+                ni.setMark(rs.getString("MARKER"));
+                ni.setMark2(rs.getString("MARKER2"));
+                ni.setMark3(rs.getString("MARKER3"));
                 ni.setQty(rs.getInt("QTY"));
                 ni.setComment(rs.getString("COMMENTS"));
                 ni.setSn(rs.getString("SERIAL_NUM"));

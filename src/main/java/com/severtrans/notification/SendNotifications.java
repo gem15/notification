@@ -131,7 +131,7 @@ public class SendNotifications {
                     if (!resp.isLegacy()) { //формат xsd
                         log.info(">> New version with xsd");
                         switch (resp.getInOut()) {
-                            case (1): { //TODO убрать повтор  потом
+                            case (1): { //входящие
                                 ftp.changeWorkingDirectory(resp.getPathIn());
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
@@ -176,7 +176,7 @@ public class SendNotifications {
                                             new NotificationItemRowMapper());
                                     if (items.size() == 0)
                                         continue;
-                                    master.setItems(items);
+                                    master.setOrderLine(items);
 
                                     // region имя файла
                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
@@ -262,7 +262,7 @@ public class SendNotifications {
                                             new NotificationItemRowMapper());
                                     if (items.size() == 0)
                                         continue;
-                                    master.setItems(items);
+                                    master.setOrderLine(items);
 
                                     // region имя файла
                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");

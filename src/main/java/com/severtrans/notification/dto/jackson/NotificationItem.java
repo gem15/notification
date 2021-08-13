@@ -26,9 +26,9 @@ public class NotificationItem {
     @JsonProperty("ProductionDate") Date productionDate;// дата производства
     @JsonProperty("Lot") String lot ="";// партия
     @JsonProperty("SerialNum") String sn;// серийный номер
-    @JsonProperty("Marker") String marker = "-";
-    @JsonProperty("Marker2") String marker2 = "-";
-    @JsonProperty("Marker3") String marker3 = "-";
+    @JsonProperty("Marker") String mark = "-";
+    @JsonProperty("Marker2") String mark2 = "-";
+    @JsonProperty("Marker3") String mark3 = "-";
     @JsonProperty("Count") int qty;// количество
     @JsonProperty("Comment") String comment ="comment";
 

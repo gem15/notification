@@ -54,7 +54,7 @@ public class Notification {
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Goods")
-    List<NotificationItem> items = new ArrayList<>();// спсиок отгруженных товаров
+    List<NotificationItem> orderLine = new ArrayList<>();// спсиок отгруженных товаров
 
     String du;// link two tables
     String orderID;

@@ -50,9 +50,9 @@ class NotificationApplicationTests {
 //        i.setProductionDate(new Date());
 //        i.setLot();
         i.setSn("777");
-        i.setMarker("");
+        i.setMark("");
 //        i.setMarker2("");
-        i.setMarker3("");
+        i.setMark3("");
         i.setQty(5);
         i.setComment("My comment");
         ArrayList<NotificationItem> items =new ArrayList<>();

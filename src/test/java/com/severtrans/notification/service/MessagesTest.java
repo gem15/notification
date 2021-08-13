@@ -8,20 +8,16 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.NotificationRowMapper;
-import com.severtrans.notification.dto.ListSKU;
-import com.severtrans.notification.dto.Order;
-import com.severtrans.notification.dto.SKU;
-import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.dto.*;
 import com.severtrans.notification.dto.jackson.Notification;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
@@ -62,25 +58,20 @@ class MessagesTest {
 
     @Test
     void outOrderTest() throws IOException, JAXBException { //test выходных сообщений
-/*
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-        String strDate = dateFormat.format(new Date());
-        System.out.println(strDate);
-*/
 
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        XmlUtiles.marshaller(shell,outputStream);
+        XmlUtiles.marshaller(shell, outputStream);
         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
         System.out.println(targetStream.toString());
 
     }
 
     @Test
-    void OrderTest() throws IOException, JAXBException {
+    void OrderTest() throws IOException, JAXBException { //
 //        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -145,8 +136,8 @@ class MessagesTest {
     }
 
     @Test
-    void notificationTest() { //уведомления
-//        String sql = "SELECT * FROM notif";
+    void notificationTest() throws JAXBException, IOException { //уведомления
+        ModelMapper mp = new ModelMapper();
         List<Notification> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
         for (Notification master : listMaster) {
             MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
@@ -154,6 +145,25 @@ class MessagesTest {
             List<NotificationItem> items = namedParameterJdbcTemplate.query(
                     "SELECT * FROM detail WHERE iddu = :id", mapSqlParameterSource,
                     new NotificationItemRowMapper());
+            DeliveryNotif deliveryNotif = mp.map(master, DeliveryNotif.class);
+            List<DeliveryNotifLine> deliveryNotifLines = items
+                    .stream()
+                    .map(line -> mp.map(line, DeliveryNotifLine.class))
+                    .collect(Collectors.toList());
+            deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
+            Shell shell = new Shell();
+
+            shell.setCustomerID(300185);//TODO
+            deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+
+            shell.setDeliveryNotif(deliveryNotif);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            XmlUtiles.marshaller(shell, outputStream);
+            InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+            String xmlText = new String(targetStream.readAllBytes(), StandardCharsets.UTF_8);
+            System.out.println(xmlText);
+
             System.out.println("Zupinka");
         }
     }
