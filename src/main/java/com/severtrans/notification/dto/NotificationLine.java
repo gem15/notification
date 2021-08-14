@@ -20,12 +20,12 @@ import javax.xml.datatype.XMLGregorianCalendar;
 /**
  * Уведомление о подтверждении поставки
  * 
- * <p>Java class for DeliveryNotifLine complex type.
+ * <p>Java class for NotificationLine complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DeliveryNotifLine">
+ * &lt;complexType name="NotificationLine">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -51,7 +51,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DeliveryNotifLine", propOrder = {
+@XmlType(name = "NotificationLine", propOrder = {
     "lineNumber",
     "article",
     "name",
@@ -66,7 +66,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "expirationDate",
     "productionDate"
 })
-public class DeliveryNotifLine {
+public class NotificationLine {
 
     protected int lineNumber;
     @XmlElement(required = true)

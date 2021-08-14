@@ -124,6 +124,7 @@ public class XmlUtiles {
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
+//        jaxbMarshaller.setProperty(Marshaller., true); // without prolog
 
         JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
 /*

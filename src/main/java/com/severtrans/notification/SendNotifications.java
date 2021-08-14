@@ -21,7 +21,7 @@ import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
-import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
@@ -164,9 +164,9 @@ public class SendNotifications {
                             case (2): {//new все исходящие сообщения (отбивки)
                                 MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
                                         resp.getVn());
-                                List<Notification> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
+                                List<NotificationJack> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
                                         queryParam, new NotificationRowMapper());
-                                for (Notification master : listMaster) {
+                                for (NotificationJack master : listMaster) {
                                     master.setOrderType(resp.getOrderType());// Отгрузка/Поставка
                                     master.setTypeOfDelivery(resp.getOrderType());
                                     MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
@@ -250,9 +250,9 @@ public class SendNotifications {
                             case (2): { // все исходящие сообщения (отбивки)
                                 MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
                                         resp.getVn());
-                                List<Notification> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
+                                List<NotificationJack> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
                                         queryParam, new NotificationRowMapper());
-                                for (Notification master : listMaster) {
+                                for (NotificationJack master : listMaster) {
                                     master.setOrderType(resp.getOrderType());// Отгрузка/Поставка
                                     master.setTypeOfDelivery(resp.getOrderType());
                                     MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()

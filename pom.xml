@@ -8,9 +8,9 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.severtrans</groupId>
-    <artifactId>notification</artifactId>
+    <artifactId>notificationJack</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notification</name>
+    <name>notificationJack</name>
     <description>Уведомления о приёмке/отгрузке</description>
     <properties>
         <java.version>11</java.version>

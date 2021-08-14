@@ -19,14 +19,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * Уведомление о подтверждении отгрузки
+ * Базовй класс для уведомлений
  * 
- * <p>Java class for DeliveryNotif complex type.
+ * <p>Java class for Notification complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DeliveryNotif">
+ * &lt;complexType name="Notification">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -40,7 +40,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="driver" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="actualArrivalTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="actualDeliveryTime" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="orderLine" type="{http://www.severtrans.com}DeliveryNotifLine" maxOccurs="unbounded"/>
+ *         &lt;element name="notifLines" type="{http://www.severtrans.com}NotificationLine" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,7 +50,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DeliveryNotif", propOrder = {
+@XmlType(name = "Notification", propOrder = {
     "guid",
     "orderNo",
     "orderDate",
@@ -61,9 +61,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "driver",
     "actualArrivalTime",
     "actualDeliveryTime",
-    "orderLine"
+    "notifLines"
 })
-public class DeliveryNotif {
+public class Notification {
 
     @XmlElement(required = true)
     protected String guid;
@@ -86,7 +86,7 @@ public class DeliveryNotif {
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar actualDeliveryTime;
     @XmlElement(required = true)
-    protected List<DeliveryNotifLine> orderLine;
+    protected List<NotificationLine> notifLines;
 
     /**
      * Gets the value of the guid property.
@@ -329,32 +329,32 @@ public class DeliveryNotif {
     }
 
     /**
-     * Gets the value of the orderLine property.
+     * Gets the value of the notifLines property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the orderLine property.
+     * This is why there is not a <CODE>set</CODE> method for the notifLines property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getOrderLine().add(newItem);
+     *    getNotifLines().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link DeliveryNotifLine }
+     * {@link NotificationLine }
      * 
      * 
      */
-    public List<DeliveryNotifLine> getOrderLine() {
-        if (orderLine == null) {
-            orderLine = new ArrayList<DeliveryNotifLine>();
+    public List<NotificationLine> getNotifLines() {
+        if (notifLines == null) {
+            notifLines = new ArrayList<NotificationLine>();
         }
-        return this.orderLine;
+        return this.notifLines;
     }
 
 }

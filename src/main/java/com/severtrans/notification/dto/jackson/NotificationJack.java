@@ -19,7 +19,7 @@ import java.util.List;
         "TypeOfDelivery", "IDSupplier", "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "Goods", })
 @JsonIgnoreProperties({ "du", "orderID" })
 @Data
-public class Notification {
+public class NotificationJack {
     @JsonProperty("NumberDoc")
     String orderNo;// номер документа клиента
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")

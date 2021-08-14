@@ -1,6 +1,6 @@
 package com.severtrans.notification;
 
-import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +24,7 @@ class NotificationApplicationTests {
         // String _4111 = "PickOrderForGoods";
 
 
-        Notification not = new Notification();//"Отгрузка", "Отгрузка"
+        NotificationJack not = new NotificationJack();//"Отгрузка", "Отгрузка"
 
         not.setDu("1212122"); //omitted field
         // not.setDate("");

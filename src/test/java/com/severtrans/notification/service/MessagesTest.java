@@ -11,14 +11,14 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.NotificationRowMapper;
+import com.severtrans.notification.Utils;
 import com.severtrans.notification.dto.*;
-import com.severtrans.notification.dto.jackson.Notification;
+import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
@@ -71,7 +71,7 @@ class MessagesTest {
     }
 
     @Test
-    void OrderTest() throws IOException, JAXBException { //
+    void OrderTest() throws IOException, JAXBException {
 //        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -138,28 +138,59 @@ class MessagesTest {
     @Test
     void notificationTest() throws JAXBException, IOException { //уведомления
         ModelMapper mp = new ModelMapper();
-        List<Notification> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
-        for (Notification master : listMaster) {
+        List<NotificationJack> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
+        for (NotificationJack master : listMaster) {
+            Shell shell = new Shell();
+            shell.setCustomerID(300185);//TODO
             MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                     .addValue("id", master.getDu());
             List<NotificationItem> items = namedParameterJdbcTemplate.query(
                     "SELECT * FROM detail WHERE iddu = :id", mapSqlParameterSource,
                     new NotificationItemRowMapper());
-            DeliveryNotif deliveryNotif = mp.map(master, DeliveryNotif.class);
-            List<DeliveryNotifLine> deliveryNotifLines = items
-                    .stream()
-                    .map(line -> mp.map(line, DeliveryNotifLine.class))
-                    .collect(Collectors.toList());
-            deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
-            Shell shell = new Shell();
 
-            shell.setCustomerID(300185);//TODO
-            deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+            int notificationType = 1;
+            switch (notificationType) {
+/*
+                case (1): {//NotificationLine
+                    List<NotificationLine> notificationLines = Utils.mapList(items, NotificationLine.class, mp);
+                    Notification notif = mp.map(master, Notification.class);
+                    notif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
 
-            shell.setDeliveryNotif(deliveryNotif);
+                    shell.setDeliveryNotif((DeliveryNotif) notif);
+                    notif.getNotifLines().addAll(notificationLines);
+                }
+*/
+                case (1): {
+                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class, mp);
+                    DeliveryNotif deliveryNotif = mp.map(master, DeliveryNotif.class);
+                    deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
+                    deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+                    shell.setDeliveryNotif(deliveryNotif);
+                }
+                break;
+                case (2):{
+                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class, mp);
+                    ShipmentNotif shipmentNotif = mp.map(master, ShipmentNotif.class);
+                    shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
+                    shipmentNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+                    shell.setShipmentNotif(shipmentNotif);
+                }
+                    break;
+                case (3):{
+                    List<PickNotifLine> pickNotifLines = Utils.mapList(items, PickNotifLine.class, mp);
+                    PickNotif pickNotif = mp.map(master, PickNotif.class);
+                    pickNotif.getPickLine().addAll(pickNotifLines);
+                    pickNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+                    shell.setPickNotif(pickNotif);
+                }
+                    break;
+            }
+
+            // region сохранение xml
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             XmlUtiles.marshaller(shell, outputStream);
             InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+            // endregion
 
             String xmlText = new String(targetStream.readAllBytes(), StandardCharsets.UTF_8);
             System.out.println(xmlText);
