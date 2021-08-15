@@ -17,9 +17,13 @@ import java.util.List;
  */
 @JsonPropertyOrder({ "Date", "VehicleFactlArrivalTime", "FactDeliveryDate", "Number", "Customer", "OrderType",
         "TypeOfDelivery", "IDSupplier", "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "Goods", })
-@JsonIgnoreProperties({ "du", "orderID" })
+@JsonIgnoreProperties({ "du", "orderID","guid"})
 @Data
 public class NotificationJack {
+    /**
+     * GUID заказа
+     */
+    String guid;
     @JsonProperty("NumberDoc")
     String orderNo;// номер документа клиента
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")

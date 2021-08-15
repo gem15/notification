@@ -12,6 +12,7 @@ public class NotificationRowMapper implements RowMapper<NotificationJack> {
         @Override
         public NotificationJack mapRow(ResultSet rs, int i) throws SQLException {
                 NotificationJack notificationJack = new NotificationJack();
+                notificationJack.setGuid(rs.getString("order_id")); //GUID
                 notificationJack.setDu(rs.getString("id_du"));
                 notificationJack.setOrderID(rs.getString("id_obsl"));
                 notificationJack.setOrderDate(rs.getTimestamp("dt_sost"));

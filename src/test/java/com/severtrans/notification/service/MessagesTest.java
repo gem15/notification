@@ -49,12 +49,14 @@ import org.springframework.jdbc.support.KeyHolder;
 //@Sql({"/schema.sql"})//, "/data.sql" https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-spring-jdbc
 class MessagesTest {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
     @Autowired
     XmlMapper xmlMapper;
+    @Autowired
+    ModelMapper modelMapper;
+
 
     @Test
     void outOrderTest() throws IOException, JAXBException { //test выходных сообщений
@@ -137,7 +139,7 @@ class MessagesTest {
 
     @Test
     void notificationTest() throws JAXBException, IOException { //уведомления
-        ModelMapper mp = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         List<NotificationJack> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
         for (NotificationJack master : listMaster) {
             Shell shell = new Shell();
@@ -161,24 +163,24 @@ class MessagesTest {
                 }
 */
                 case (1): {
-                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class, mp);
-                    DeliveryNotif deliveryNotif = mp.map(master, DeliveryNotif.class);
+                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class, modelMapper);
+                    DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
                     deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
                     deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setDeliveryNotif(deliveryNotif);
                 }
                 break;
                 case (2):{
-                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class, mp);
-                    ShipmentNotif shipmentNotif = mp.map(master, ShipmentNotif.class);
+                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class, modelMapper);
+                    ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
                     shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
                     shipmentNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setShipmentNotif(shipmentNotif);
                 }
                     break;
                 case (3):{
-                    List<PickNotifLine> pickNotifLines = Utils.mapList(items, PickNotifLine.class, mp);
-                    PickNotif pickNotif = mp.map(master, PickNotif.class);
+                    List<PickNotifLine> pickNotifLines = Utils.mapList(items, PickNotifLine.class, modelMapper);
+                    PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
                     pickNotif.getPickLine().addAll(pickNotifLines);
                     pickNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setPickNotif(pickNotif);

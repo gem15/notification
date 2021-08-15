@@ -66,6 +66,7 @@ CREATE TABLE KB_T_ARTICLE
 
 CREATE TABLE master
 (
+    order_id VARCHAR(38),
     dt_sost     DATE default SYSDATE,
     dt_sost_end DATE,
     sost_doc    VARCHAR(100),
