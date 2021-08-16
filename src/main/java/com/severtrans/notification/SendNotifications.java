@@ -108,7 +108,7 @@ public class SendNotifications {
                 MapSqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", ftpLine.getId());
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
                         "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix," +
-                                " e.order_type, t.inout_id, f.hostname, r.legacy,t.name as type_name, t.id as type_id"
+                                " e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id"
                                 + " FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id"
                                 + " INNER JOIN ftps f ON r.ftp_id = f.id"
                                 + " INNER JOIN response_type T ON T.ID = e.response_type_id"
@@ -137,7 +137,7 @@ public class SendNotifications {
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
                                 for (FTPFile file : listFile) {
-                                    log.info("Processing file " + file.getName());
+                                    log.info("Обрабатывается файл " + file.getName());
                                     String xmlText;// извлекаем файл в поток и преобразуем в строку
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
@@ -145,14 +145,16 @@ public class SendNotifications {
                                     try {
                                         msgInNew(file.getName().split("_")[0],
                                                 XmlUtiles.unmarshaller(xmlText, Shell.class));
-                                        //FIXME доделать - копировать в loaded
-
-                                        ftp.deleteFile(file.getName());// TODO удаляем принятый файл/переименовываем?
-
+                                        //TODO не тестировано
+                                        // region  сохранять обработанные в отдельной папке
+                                        boolean ok = ftp.rename(resp.getPathIn()+"/"+file.getName(), resp.getPathOut()+"/"+file.getName());
+                                        if (ok)
+                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в " + resp.getPathOut());
+//                                        ftp.deleteFile(file.getName());// TODO удаляем принятый файл/переименовываем?
+                                        // endregion
                                         if (!ftp.completePendingCommand()) {// завершение FTP транзакции
                                             throw new FTPException("Completing Pending Commands Not Successful");
                                         }
-
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException | JAXBException e) {
@@ -213,7 +215,7 @@ public class SendNotifications {
                                         String fileName = resp.getPrefix() + "_"
                                                 + master.getOrderNo() + "_" + dateFormat.format(new Date()) + ".xml";
                                         // endregion
-                                        if (!ftp.changeWorkingDirectory(resp.getPathOut()))
+                                       if (!ftp.changeWorkingDirectory(resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
                                         boolean ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
