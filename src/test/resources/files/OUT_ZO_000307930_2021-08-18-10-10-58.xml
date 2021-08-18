@@ -1,0 +1,23 @@
+﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<customerID>300185</customerID>
+	<order>
+		<guid>965e4682-9ec3-11eb-80c0-00155d0c0000</guid>
+		<orderType>true</orderType>
+		<orderKind>Задание на отгрузку</orderKind>
+		<orderNo>С000307930</orderNo>
+		<orderDate>2021-08-18T20:10:58</orderDate>
+		<plannedDate>2021-08-20T20:10:58</plannedDate>
+		<contrCode>015030</contrCode>
+		<contrName>КОМУС</contrName>
+		<contrAddress>105005, г. Москва, набережная Академика Туполева, дом 15, корпус 29, этаж 5, помещение I, кабинет 18</contrAddress>
+		<licencePlate>K597MA77</licencePlate>
+		<driver>Кокин</driver>
+		<orderLine>
+			<lineNumber>1</lineNumber>
+			<article>00-07064083</article>
+			<name>Офисное кресло EChair-685 TС ткань черный пластик</name>
+			<qty>1</qty>
+			<category>0</category>
+		</orderLine>
+	</order>
+</Shell>

@@ -4,20 +4,20 @@
 		<guid>cf843545-9eb5-11eb-80c0-00155d0c6c19</guid>
 		<orderType>false</orderType>
 		<orderKind>Поступление товаров и услуг</orderKind>
-		<orderNo>MK00-010610</orderNo>
-		<orderDate>2021-04-18T20:00:59</orderDate>
-		<plannedDate>2021-04-18T20:00:59</plannedDate>
+		<orderNo>MK00-010611</orderNo>
+		<orderDate>2021-08-17T01:00:59</orderDate>
+		<plannedDate>2021-08-18T20:00:59</plannedDate>
 		<contrCode>019597</contrCode>
 		<contrName>ЦТО+ ООО</contrName>
 		<contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
-		<licencePlate/>
-		<driver/>
+		<licencePlate>K597MA77</licencePlate>
+		<driver>Кукуин</driver>
 		<orderLine>
 			<lineNumber>1</lineNumber>
 			<article>00-07064083</article>
-			<name>Винт М6*30 Россия пресшайба</name>
-			<qty>50000</qty>
-			<category>КР</category>
+			<name>Офисное кресло EChair-685 TС ткань черный пластик</name>
+			<qty>5</qty>
+			<category>0</category>
 		</orderLine>
 	</order>
 </Shell>

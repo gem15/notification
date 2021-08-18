@@ -13,12 +13,12 @@ public class NotificationRowMapper implements RowMapper<NotificationJack> {
         public NotificationJack mapRow(ResultSet rs, int i) throws SQLException {
                 NotificationJack notificationJack = new NotificationJack();
                 notificationJack.setGuid(rs.getString("order_id")); //GUID
-                notificationJack.setDu(rs.getString("id_du"));
+               notificationJack.setDu(rs.getString("id_du"));
                 notificationJack.setOrderID(rs.getString("id_obsl"));
                 notificationJack.setOrderDate(rs.getTimestamp("dt_sost"));
                 notificationJack.setActualArrivalTime(rs.getTimestamp("dt_sost_end"));
-                notificationJack.setActualDeliveryTime(rs.getTimestamp("dt_veh"));
                 notificationJack.setOrderNo(rs.getString("sost_doc"));
+                 notificationJack.setActualDeliveryTime(rs.getTimestamp("dt_veh"));
                 notificationJack.setCustomerName(rs.getString("n_zak"));
                 // notification.setOrderType(rs.getString(""));
                 // //<OrderType>Поставка</OrderType>');
