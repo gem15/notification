@@ -1,5 +1,5 @@
 ﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<customerID>300000</customerID>
+	<customerID>300185</customerID>
 	<skuList>
 		<sku>
 			<article>00-07059331</article>
@@ -7,7 +7,7 @@
 			<upc>4630098164856</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>10.9</weight>
 			<phvolume>0.12019</phvolume>
 			<upcList>
@@ -21,7 +21,7 @@
 			<upc>4640118706171</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>12.35</weight>
 			<phvolume>0.157</phvolume>
 			<upcList/>
@@ -32,7 +32,7 @@
 			<upc>4640118706188</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>12.35</weight>
 			<phvolume>0.157</phvolume>
 			<upcList/>
@@ -43,7 +43,7 @@
 			<upc>4640118708564</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>17.2</weight>
 			<phvolume>0.173</phvolume>
 			<upcList/>
@@ -54,7 +54,7 @@
 			<upc>4640118708557</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>17.2</weight>
 			<phvolume>0.173</phvolume>
 			<upcList/>
@@ -65,7 +65,7 @@
 			<upc/>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>0.01</weight>
 			<phvolume>0.000003</phvolume>
 			<upcList/>
@@ -76,7 +76,7 @@
 			<upc>4630098168700</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>21</weight>
 			<phvolume>0.21591</phvolume>
 			<upcList/>
@@ -87,7 +87,7 @@
 			<upc>4630114811870</upc>
 			<uofm>шт</uofm>
 			<billingClass>КР</billingClass>
-			<division>"0371"</division>
+			<division>0371</division>
 			<weight>24.5</weight>
 			<phvolume>0.237161</phvolume>
 			<upcList/>

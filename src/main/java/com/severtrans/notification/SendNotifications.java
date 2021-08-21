@@ -62,7 +62,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-@Transactional
 public class SendNotifications {
 
     @Autowired
@@ -76,9 +75,13 @@ public class SendNotifications {
 
     @Autowired
     ModelMapper modelMapper;
+    /**
+     *  FTP root directory
+     */
+    private String rootDir;
 
-    public SendNotifications() {
-    }
+    // public SendNotifications() {
+    // }
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
@@ -88,54 +91,55 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (!ftpLine.getHostname().equals("localhost"))
+            if (!ftpLine.getHostname().equals("91.228.118.220"))
                 continue; // FIXME заглушка для отладки
 
-            log.info("Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
+            log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
                 // region open FTP session
+                ftp.setControlEncoding("UTF-8");
+                ftp.setAutodetectUTF8(true);
                 ftp.connect(ftpLine.getHostname(), ftpLine.getPort());
                 ftp.enterLocalPassiveMode();
+                ftp.sendCommand("OPTS UTF8 ON");
                 if (!FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
                     throw new FTPException("Не удалось подключиться к FTP");
                 }
                 if (!ftp.login(ftpLine.getLogin(), ftpLine.getPassword())) {
                     throw new FTPException("Не удалось авторизоваться на FTP");
                 }
+                rootDir = ftp.printWorkingDirectory();
                 // endregion
                 // region запрос для главного цикла
                 MapSqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", ftpLine.getId());
                 List<ResponseFtp> responses = namedParameterJdbcTemplate.query(
-                        "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix," +
-                                " e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id"
+                        "SELECT vn, path_in, path_out, e.master, e.details, alias_text alias, e.prefix,"
+                                + " e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id"
                                 + " FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id"
                                 + " INNER JOIN ftps f ON r.ftp_id = f.id"
-                                + " INNER JOIN response_type T ON T.ID = e.response_type_id"
-                                + " WHERE r.ftp_id = :id",
+                                + " INNER JOIN response_type T ON T.ID = e.response_type_id" + " WHERE r.ftp_id = :id",
                         ftpParam,
                         (rs, rowNum) -> new ResponseFtp(rs.getInt("vn"), rs.getString("path_in"),
                                 rs.getString("path_out"), rs.getString("master"), rs.getString("details"),
                                 rs.getString("alias"), rs.getString("prefix"), rs.getString("order_type"),
                                 rs.getInt("inout_id"), rs.getString("hostname"), rs.getBoolean("legacy"),
-                                rs.getInt("type_id"), rs.getString("type_name")
-                        ));
+                                rs.getInt("type_id"), rs.getString("type_name")));
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    if (resp.isLegacy() ) {//FIXME remove me ||resp.getTypeID()!=4
+                    if (resp.isLegacy()) {//FIXME remove me ||resp.getTypeID()!=4
                         continue;
                     }
-                    log.info("VN " + resp.getVn());// TODO заменить на тип сообщения ?
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
-                        log.info(resp.getTypeName()+" новая версия (xsd)");
+                        log.info("VN " + resp.getVn() + " " + resp.getTypeName() + ". Новая версия (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
                                 ftp.changeWorkingDirectory(resp.getPathIn());
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
-                                FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
-                                for (FTPFile file : listFile) {
+                                FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
+                                for (FTPFile file : listFiles) {
                                     log.info("Обрабатывается файл " + file.getName());
                                     String xmlText;// извлекаем файл в поток и преобразуем в строку
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
@@ -148,24 +152,29 @@ public class SendNotifications {
                                             throw new FTPException("Completing Pending Commands Not Successful");
                                         }
                                         // region  сохранять обработанные в отдельной папке
-                                        boolean ok = ftp.rename(resp.getPathIn()+"/"+file.getName(), resp.getPathOut()+"/"+file.getName());
+                                        boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
+                                                rootDir + resp.getPathOut() + "/" + file.getName());
                                         if (!ok)
-                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в " + resp.getPathOut());
+                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в "
+                                                    + resp.getPathOut());
                                         // endregion
-                                    } catch (MonitorException e) { // сообщения с разными ошибками
+                                    } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException | JAXBException e) {
+                                        // e.printStackTrace();//FIXME removeme
                                         log.error(e.getMessage());
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
                                     }
                                 }
                             }
-                            break;
+                                break;
                             case (2): {// NEW все исходящие сообщения (отбивки)
-                                MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id", resp.getVn());
-                                        List<NotificationJack> listMaster;
-                                 listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(), queryParam, new NotificationRowMapper());
-                                    
+                                MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
+                                        resp.getVn());
+                                List<NotificationJack> listMaster;
+                                listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(), queryParam,
+                                        new NotificationRowMapper());
+
                                 for (NotificationJack master : listMaster) {
                                     MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                                             .addValue("id", master.getDu());
@@ -179,7 +188,8 @@ public class SendNotifications {
                                     shell.setCustomerID(resp.getVn());
                                     switch (resp.getTypeID()) {
                                         case (3): {//поставка
-                                            List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class, modelMapper);
+                                            List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items,
+                                                    DeliveryNotifLine.class, modelMapper);
                                             DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
                                             deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
                                             deliveryNotif.setGuid(master.getGuid());
@@ -187,7 +197,8 @@ public class SendNotifications {
                                             break;
                                         }
                                         case (4): {//отгрузка
-                                            List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class, modelMapper);
+                                            List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items,
+                                                    ShipmentNotifLine.class, modelMapper);
                                             ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
                                             shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
                                             shipmentNotif.setGuid(master.getGuid());
@@ -195,7 +206,8 @@ public class SendNotifications {
                                             break;
                                         }
                                         case (7): {//сборка
-                                            List<PickNotifLine> pickNotifLines = Utils.mapList(items, PickNotifLine.class, modelMapper);
+                                            List<PickNotifLine> pickNotifLines = Utils.mapList(items,
+                                                    PickNotifLine.class, modelMapper);
                                             PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
                                             pickNotif.getPickLine().addAll(pickNotifLines);
                                             pickNotif.setGuid(master.getGuid());
@@ -209,10 +221,10 @@ public class SendNotifications {
                                         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
                                         // region имя файла
                                         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                        String fileName = resp.getPrefix() + "_"
-                                                + master.getOrderNo() + "_" + dateFormat.format(new Date()) + ".xml";
+                                        String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
+                                                + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
                                         // endregion
-                                       if (!ftp.changeWorkingDirectory(resp.getPathOut()))
+                                        if (!ftp.changeWorkingDirectory(resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
                                         // if (!ftp.completePendingCommand()) {// завершение FTP транзакции
                                         //     throw new FTPException("Completing Pending Commands Not Successful");
@@ -220,11 +232,12 @@ public class SendNotifications {
                                         boolean ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
                                         outputStream.close();
-                                        if (ok) {
+                                        if (ok) { //FIXME WTF
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
                                             jdbcTemplate.update(
-                                                    "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)"
-                                                    , master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
+                                                    "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
+                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
+                                                    fileName);
                                             log.info("Выгружен " + fileName);
                                         } else {
                                             throw new FTPException("Не удалось выгрузить " + fileName);
@@ -232,12 +245,12 @@ public class SendNotifications {
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
                                         //FIXME ошибка обработки XML  валидацию ?
-//                                        throw new MonitorException(e.getMessage());
-//                                        e.printStackTrace();
+                                        //                                        throw new MonitorException(e.getMessage());
+                                        //                                        e.printStackTrace();
                                     }
                                 }
                             }
-                            break;
+                                break;
                         }
                     } else {//старый формат
                         switch (resp.getInOut()) {
@@ -275,8 +288,8 @@ public class SendNotifications {
                             case (2): { // все исходящие сообщения (отбивки)
                                 MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
                                         resp.getVn());
-                                List<NotificationJack> listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(),
-                                        queryParam, new NotificationRowMapper());
+                                List<NotificationJack> listMaster = namedParameterJdbcTemplate
+                                        .query(resp.getQueryMaster(), queryParam, new NotificationRowMapper());
                                 for (NotificationJack master : listMaster) {
                                     master.setOrderType(resp.getOrderType());// Отгрузка/Поставка
                                     master.setTypeOfDelivery(resp.getOrderType());
@@ -291,8 +304,8 @@ public class SendNotifications {
 
                                     // region имя файла
                                     DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                    String fileName = resp.getPrefix() + "_"
-                                            + master.getOrderNo() + "_" + dateFormat.format(new Date()) + ".xml";
+                                    String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
+                                            + dateFormat.format(new Date()) + ".xml";
                                     // endregion
 
                                     // Changes working directory
@@ -308,8 +321,8 @@ public class SendNotifications {
                                     if (ok) {
                                         // 4302 подтверждение что по данному заказу мы отправили уведомление
                                         jdbcTemplate.update(
-                                                "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)"
-                                                , master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
+                                                "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
+                                                master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
                                         log.info("Выгружен " + fileName);
                                     } else {
                                         throw new FTPException("Не удалось выгрузить " + fileName);
@@ -320,8 +333,8 @@ public class SendNotifications {
                         }
                     }
                 }
-
                 ftp.logout();
+                log.info("<<< Закончена обработка FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             } catch (IOException e) {
                 // FTP and XmlMapper
                 e.printStackTrace();
@@ -337,7 +350,6 @@ public class SendNotifications {
                     }
                 }
             }
-            log.info(" Закончена обработка FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
         }
     }
 
@@ -350,8 +362,8 @@ public class SendNotifications {
      * @throws MonitorException
      * @throws FTPException
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException  {
+    // @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException {
         Customer customer = new Customer();
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
@@ -364,7 +376,7 @@ public class SendNotifications {
                 ListSKU skus = shell.getSkuList();
                 jdbcTemplate.update("DELETE FROM KB_T_ARTICLE");
                 String sqlArt = "INSERT INTO KB_T_ARTICLE (id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov)\n"
-                        + "    VALUES (?,?,?, ?,?,?,?)";
+                        + "    VALUES (?,?,?, ?,?,?,?)"; //(article, art_name, v_uof, upc, control_date, storage_pos, billing_class);
                 //https://javabydeveloper.com/spring-jdbctemplate-batch-update-with-maxperformance/
                 jdbcTemplate.batchUpdate(sqlArt, new BatchPreparedStatementSetter() {
 
@@ -379,7 +391,7 @@ public class SendNotifications {
                                 .findAny().orElse(null);
                         ps.setString(3, um == null ? null : um.getId());
                         ps.setString(4, sku.getUpc());
-                        ps.setString(5, String.valueOf(sku.getStorageLife()));
+                        ps.setInt(5, sku.getStorageLife()== null ? 0 : sku.getStorageLife());
                         ps.setString(6, sku.getStorageCondition());
                         ps.setString(7, sku.getBillingClass());
                     }
@@ -389,6 +401,7 @@ public class SendNotifications {
                         return skus.getSku().size();
                     }
                 });
+                // List<Map<String, Object>> test = jdbcTemplate.queryForList("select id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov from KB_T_ARTICLE");
                 // endregion
 
                 // region Получить клиента по ВН
@@ -403,22 +416,17 @@ public class SendNotifications {
                 // endregion
 
                 //  region передача в солво
-                SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_PACK")
+                SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("WMS3_UPDT_SKU");
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_ID", customer.getId())
                         .addValue("P_PREF", customer.getPrefix()));
                 String orderError = (String) p_err.get("P_ERR");
-                if (!orderError.split(" ")[0].equals("Загружено"))//TODO так себе проверка
+                if (orderError !=null)//TODO так себе проверка
                     throw new MonitorException(orderError);
                 // endregion
 
                 // region Поиск/создание суточного заказа
                 String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
-                /*
-                                SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU'   AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = l_id_zak;
-                                SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-                                jdbcTemplate.queryForObject(sql, namedParameters, String.class);
-                */
                 String dailyOrderId;
                 try {
                     dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
@@ -426,20 +434,19 @@ public class SendNotifications {
                     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
                             .usingGeneratedKeyColumns("id");
                     MapSqlParameterSource params = new MapSqlParameterSource();
-                    params.addValue("dt_zakaz", new Date())
-                            .addValue("id_zak", customer.getId())
-                            .addValue("id_pok", customer.getId())
-                            .addValue("n_gruz", "SKU")
-                            .addValue("usl", "Суточный заказ по пакетам SKU");
+                    params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
+                            .addValue("id_pok", customer.getId()).addValue("n_gruz", "SKU")
+                            .addValue("usl", "Суточный заказ по пакетам SKU")
+                            .addValue("ORA_USER_EDIT_ROW_LOCK", 0);
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                 }
-                // endregion
-
                 // событие 4301 в суточный заказ Получено входящее сообщение
                 jdbcTemplate.update(
                         "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
                         dailyOrderId, new Date(), new Date(), "KB_USL99770", "Уточнить текст", "010277043");
+                // endregion
+
 
                 break;
             } // SKU
@@ -457,8 +464,7 @@ public class SendNotifications {
                     //FIXME
                     jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
                     jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods")
-                            .writeValueAsString(jack);
+                    xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods").writeValueAsString(jack);
                 } else {
                     OrderJackOut jack = modelMapper.map(order, OrderJackOut.class);
                     jack.setClientID(shell.getCustomerID());
@@ -468,8 +474,7 @@ public class SendNotifications {
                     //FIXME 
                     jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
                     jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods")
-                            .writeValueAsString(jack);
+                    xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
                 }
                 String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
@@ -481,6 +486,8 @@ public class SendNotifications {
 
                 break;
             }
+            default:
+                throw new MonitorException("Неизвестный префикс файла");
         }
 
     }
@@ -496,7 +503,7 @@ public class SendNotifications {
      * @throws MonitorException
      * @throws FTPException
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)// для отката при исключениях при работе с ДБ
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // для отката при исключениях при работе с ДБ
     public String msgIn(String xmlText, String filePrefix, String pathOut)
             throws IOException, MonitorException, FTPException {
         Customer customer = new Customer();
@@ -641,7 +648,7 @@ public class SendNotifications {
                     throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
                 }
             }
-            break;
+                break;
         }
         return orderError;
     }
