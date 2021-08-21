@@ -391,7 +391,7 @@ public class SendNotifications {
                                 .findAny().orElse(null);
                         ps.setString(3, um == null ? null : um.getId());
                         ps.setString(4, sku.getUpc());
-                        ps.setInt(5, sku.getStorageLife()== null ? 0 : sku.getStorageLife());
+                        ps.setInt(5, sku.getStorageLife() == null ? 0 : sku.getStorageLife());
                         ps.setString(6, sku.getStorageCondition());
                         ps.setString(7, sku.getBillingClass());
                     }
@@ -421,7 +421,7 @@ public class SendNotifications {
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_ID", customer.getId())
                         .addValue("P_PREF", customer.getPrefix()));
                 String orderError = (String) p_err.get("P_ERR");
-                if (orderError !=null)//TODO так себе проверка
+                if (orderError != null)//TODO так себе проверка
                     throw new MonitorException(orderError);
                 // endregion
 
@@ -435,9 +435,10 @@ public class SendNotifications {
                             .usingGeneratedKeyColumns("id");
                     MapSqlParameterSource params = new MapSqlParameterSource();
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
-                            .addValue("id_pok", customer.getId()).addValue("n_gruz", "SKU")
+                            .addValue("id_pok", customer.getId())
+                            .addValue("n_gruz", customer.getCustomerName() + " SKU")
                             .addValue("usl", "Суточный заказ по пакетам SKU")
-                            .addValue("ORA_USER_EDIT_ROW_LOCK", 0);
+                            .addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                 }
@@ -446,7 +447,6 @@ public class SendNotifications {
                         "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
                         dailyOrderId, new Date(), new Date(), "KB_USL99770", "Уточнить текст", "010277043");
                 // endregion
-
 
                 break;
             } // SKU
