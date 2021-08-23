@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
@@ -135,7 +136,7 @@ public class SendNotifications {
                         log.info("VN " + resp.getVn() + " " + resp.getTypeName() + ". Новая версия (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
-                                ftp.changeWorkingDirectory(resp.getPathIn());
+                                ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
@@ -220,11 +221,12 @@ public class SendNotifications {
                                         XmlUtiles.marshaller(shell, outputStream);
                                         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
                                         // region имя файла
-                                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                        String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
-                                                + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
+                                        // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
+                                        // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
+                                        //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
+                                        String fileName = master.getGuid() + ".xml";//UUID.randomUUID().toString();
                                         // endregion
-                                        if (!ftp.changeWorkingDirectory(resp.getPathOut()))
+                                        if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
                                         // if (!ftp.completePendingCommand()) {// завершение FTP транзакции
                                         //     throw new FTPException("Completing Pending Commands Not Successful");
@@ -232,14 +234,14 @@ public class SendNotifications {
                                         boolean ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
                                         outputStream.close();
-                                        if (ok) { //FIXME WTF
+                                        if (ok) { 
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
-                                            jdbcTemplate.update(
+/*                                             jdbcTemplate.update(
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
                                                     master.getOrderID(), "KB_USL99771", new Date(), new Date(),
-                                                    fileName);
+                                                    "PICK_"+fileName);//TODO ТАЙПИТ
                                             log.info("Выгружен " + fileName);
-                                        } else {
+ */                                        } else {
                                             throw new FTPException("Не удалось выгрузить " + fileName);
                                         }
                                     } catch (JAXBException e) {
@@ -255,7 +257,7 @@ public class SendNotifications {
                     } else {//старый формат
                         switch (resp.getInOut()) {
                             case (1): { // все входящие сообщения
-                                ftp.changeWorkingDirectory(resp.getPathIn());
+                                ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
@@ -309,7 +311,7 @@ public class SendNotifications {
                                     // endregion
 
                                     // Changes working directory
-                                    if (!ftp.changeWorkingDirectory(resp.getPathOut()))
+                                    if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                         throw new FTPException("Не удалось сменить директорию");
                                     // to XML
                                     String xml = xmlMapper.writer().withRootName(resp.getAlias())
@@ -437,8 +439,7 @@ public class SendNotifications {
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
                             .addValue("id_pok", customer.getId())
                             .addValue("n_gruz", customer.getCustomerName() + " SKU")
-                            .addValue("usl", "Суточный заказ по пакетам SKU")
-                            .addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF !!!!!!!!!!!!!!!!
+                            .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                 }
@@ -541,7 +542,7 @@ public class SendNotifications {
                 String xml = xmlMapper.writer().writeValueAsString(stockRq); // сериализация
 
                 // region выгрузка на FTP
-                ftp.changeWorkingDirectory(pathOut); // FIXME из таблицы
+                ftp.changeWorkingDirectory(rootDir + pathOut); // FIXME из таблицы
                 InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 boolean ok = ftp.storeFile(fileName, is);
                 is.close();
