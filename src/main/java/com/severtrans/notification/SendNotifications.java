@@ -162,7 +162,6 @@ public class SendNotifications {
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());// TODO документ email
                                     } catch (DataAccessException | JAXBException e) {
-                                        // e.printStackTrace();//FIXME removeme
                                         log.error(e.getMessage());
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
                                     }
@@ -224,29 +223,25 @@ public class SendNotifications {
                                         // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
                                         // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
                                         //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
-                                        String fileName = master.getGuid() + ".xml";//UUID.randomUUID().toString();
+                                        String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
                                         if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
-                                        // if (!ftp.completePendingCommand()) {// завершение FTP транзакции
-                                        //     throw new FTPException("Completing Pending Commands Not Successful");
-                                        // }
                                         boolean ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
                                         outputStream.close();
-                                        if (ok) { 
+                                        if (ok) { //FIXMEuncomment 4302
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
 /*                                             jdbcTemplate.update(
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
-                                                    "PICK_"+fileName);//TODO ТАЙПИТ
-                                            log.info("Выгружен " + fileName);
- */                                        } else {
+                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),fileName);
+ */                                            log.info("Выгружен " + fileName);
+                                        } else {
                                             throw new FTPException("Не удалось выгрузить " + fileName);
                                         }
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
-                                        //FIXME ошибка обработки XML  валидацию ?
+                                        //TODO ошибка обработки XML  валидацию ?
                                         //                                        throw new MonitorException(e.getMessage());
                                         //                                        e.printStackTrace();
                                     }
@@ -423,7 +418,7 @@ public class SendNotifications {
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_ID", customer.getId())
                         .addValue("P_PREF", customer.getPrefix()));
                 String orderError = (String) p_err.get("P_ERR");
-                if (orderError != null)//TODO так себе проверка
+                if (orderError != null)
                     throw new MonitorException(orderError);
                 // endregion
 
@@ -439,7 +434,7 @@ public class SendNotifications {
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
                             .addValue("id_pok", customer.getId())
                             .addValue("n_gruz", customer.getCustomerName() + " SKU")
-                            .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF !!!!!!!!!!!!!!!!
+                            .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                 }
@@ -462,7 +457,6 @@ public class SendNotifications {
                     jack.setOrderType("Поставка");
                     jack.setDeliveryType("Поставка");
                     jack.setClientID(shell.getCustomerID());
-                    //FIXME
                     jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
                     jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
                     xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods").writeValueAsString(jack);
@@ -472,7 +466,6 @@ public class SendNotifications {
                     jack.setOrderType("Отгрузка");
                     jack.setDeliveryType("Отгрузка");
                     jack.setClientID(shell.getCustomerID());
-                    //FIXME 
                     jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
                     jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
                     xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
@@ -488,7 +481,7 @@ public class SendNotifications {
                 break;
             }
             default:
-                throw new MonitorException("Неизвестный префикс файла");
+                throw new MonitorException("Неизвестный префикс файла - " + filePrefix);
         }
 
     }
@@ -542,7 +535,7 @@ public class SendNotifications {
                 String xml = xmlMapper.writer().writeValueAsString(stockRq); // сериализация
 
                 // region выгрузка на FTP
-                ftp.changeWorkingDirectory(rootDir + pathOut); // FIXME из таблицы
+                ftp.changeWorkingDirectory(rootDir + pathOut);
                 InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
                 boolean ok = ftp.storeFile(fileName, is);
                 is.close();
