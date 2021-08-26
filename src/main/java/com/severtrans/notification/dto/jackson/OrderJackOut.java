@@ -13,9 +13,11 @@ import java.util.List;
 
 @JsonIgnoreProperties({"Error", "TypeCar", "Customer", "IDCarrier"})
 @JsonPropertyOrder({"VN", "NumberDoc", "DateDoc", "OrderType", "TypeOfDelivery", "PlannedShipmentDate", "IDConsignee",
-        "NameConsignee", "AdressConsignee", "NumberCar", "Driver","Comment", "Goods",})
+        "NameConsignee", "AdressConsignee", "NumberCar", "Driver", "GUID","Comment", "Goods",})
 @Data
 public class OrderJackOut {
+    @JsonProperty("GUID")
+    private String guid;
     @JsonProperty("VN")
     private int clientID;
     @JsonProperty("NumberDoc")

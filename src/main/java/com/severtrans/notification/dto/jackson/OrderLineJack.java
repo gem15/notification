@@ -12,7 +12,7 @@ import java.util.Date;
 public class OrderLineJack {
 
     @JsonProperty("LineNumber")
-    int lineNo;
+    int lineNumber;
     @JsonProperty("Article")
     String article;
     @JsonProperty("Name")
@@ -23,7 +23,7 @@ public class OrderLineJack {
     @JsonProperty("StorageLife")
     Date storageLife;
     @JsonProperty("Category")
-    String category;
+    int category;
     @JsonProperty("Marker")
     String mark;
     @JsonProperty("Marker2")

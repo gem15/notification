@@ -14,7 +14,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties({ "Error", "TypeCar", "Customer", "IDCarrier" })
 @JsonPropertyOrder({ "NumberDoc", "DateDoc", "Customer", "OrderType", "TypeOfDelivery", "PlannedDeliveryDate", "IDSupplier",
-        "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "Comment","Goods", })
+        "NameSupplier", "AdressSupplier", "VN", "NumberCar", "Driver", "GUID","Comment","Goods", })
 @Data
 public class OrderJackIn {
     @JsonProperty("GUID")

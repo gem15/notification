@@ -133,7 +133,7 @@ public class SendNotifications {
                     }
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
-                        log.info("VN " + resp.getVn() + " " + resp.getTypeName() + ". Новая версия (xsd)");
+                        log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
                                 ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
@@ -161,6 +161,11 @@ public class SendNotifications {
                                         // endregion
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());// TODO документ email
+                                        /*                                         boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
+                                                rootDir +  "BAD/" + file.getName());
+                                        if (!ok)
+                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в BAD");
+                                         */
                                     } catch (DataAccessException | JAXBException e) {
                                         log.error(e.getMessage());
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
@@ -230,18 +235,19 @@ public class SendNotifications {
                                         boolean ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
                                         outputStream.close();
-                                        if (ok) { //FIXMEuncomment 4302
+                                        if (ok) {
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
-/*                                             jdbcTemplate.update(
+                                            jdbcTemplate.update(
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),fileName);
- */                                            log.info("Выгружен " + fileName);
+                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
+                                                    fileName);
+                                            log.info("Выгружен " + fileName);
                                         } else {
                                             throw new FTPException("Не удалось выгрузить " + fileName);
                                         }
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
-                                        //TODO ошибка обработки XML  валидацию ?
+                                        //TODOошибка обработки XML  валидацию ?
                                         //                                        throw new MonitorException(e.getMessage());
                                         //                                        e.printStackTrace();
                                     }
@@ -359,7 +365,7 @@ public class SendNotifications {
      * @throws MonitorException
      * @throws FTPException
      */
-    // @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional //(propagation = Propagation.REQUIRES_NEW)
     public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException {
         Customer customer = new Customer();
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
@@ -434,9 +440,11 @@ public class SendNotifications {
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
                             .addValue("id_pok", customer.getId())
                             .addValue("n_gruz", customer.getCustomerName() + " SKU")
-                            .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);//FIXME WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
+                            .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);
+                    //FIXMEWTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
+                    log.info("Создан суточный заказ");
                 }
                 // событие 4301 в суточный заказ Получено входящее сообщение
                 jdbcTemplate.update(
@@ -497,7 +505,7 @@ public class SendNotifications {
      * @throws MonitorException
      * @throws FTPException
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW) // для отката при исключениях при работе с ДБ
+    @Transactional //(propagation = Propagation.REQUIRES_NEW) // для отката при исключениях при работе с ДБ
     public String msgIn(String xmlText, String filePrefix, String pathOut)
             throws IOException, MonitorException, FTPException {
         Customer customer = new Customer();
