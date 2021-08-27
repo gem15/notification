@@ -14,6 +14,7 @@
     <description>Уведомления о приёмке/отгрузке</description>
     <properties>
         <java.version>11</java.version>
+        <jar.finalName>${project.name}</jar.finalName>
     </properties>
     <dependencies>
         <dependency>
