@@ -8,13 +8,14 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.severtrans</groupId>
-    <artifactId>notificationJack</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>notificationJack</name>
+    <artifactId>monitor</artifactId>
+    <version>0.0.1</version>
+    <name>Monitor</name>
     <description>Уведомления о приёмке/отгрузке</description>
     <properties>
         <java.version>11</java.version>
-        <jar.finalName>${project.name}</jar.finalName>
+        <!-- ${project.name} -->
+        <jar.finalName>nmonitor</jar.finalName>
     </properties>
     <dependencies>
         <dependency>
@@ -140,6 +141,14 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                  <skipTests>true</skipTests>
+                  <skip>true</skip>
+                </configuration>
+              </plugin>
         </plugins>
     </build>
 
