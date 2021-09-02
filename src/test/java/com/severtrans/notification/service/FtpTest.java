@@ -22,15 +22,16 @@ class FtpTest {
 
         FTPClient ftpClient = new FTPClient();
         try {
-
+//            ftpClient.setAutodetectUTF8( true );
+            ftpClient.setControlEncoding("UTF-8");
             ftpClient.connect(server, port);
             ftpClient.login(user, pass);
             ftpClient.enterLocalPassiveMode();
-            if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
-                System.out.println("error");
-            }
+            ftpClient.sendCommand("OPTS UTF8 ON");
+            System.out.println(ftpClient.printWorkingDirectory());
 
-            String fileName = "OUT_ZO_000307930_2021-06-08-08-10-58.xml";
+
+            String fileName = "INЩ_PO_MK00-010610_2021-04-18-08-00-59.xml";
             InputStream is = new FileInputStream("src\\test\\resources\\files\\" + fileName);
             String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 
@@ -40,7 +41,9 @@ class FtpTest {
             is.close();
             if (ok) {
                 System.out.println("The file is uploaded successfully.");
-            }
+            }else
+                System.out.println(ftpClient.getReplyCode());
+
             ok = ftpClient.rename("/in/"+fileName, "/response/"+fileName);
             if (ok) {
                 System.out.println("The file is renamed successfully.");

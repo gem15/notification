@@ -34,3 +34,4 @@ build/
 /logs/**
 src/main/resources/env.properties
 env.properties
+src/main/resources/xml/instance1.xml

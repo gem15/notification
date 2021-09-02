@@ -24,6 +24,7 @@
     <xs:complexType name="Shell">
         <xs:sequence minOccurs="0" maxOccurs="1">
             <xs:element name="customerID" type="xs:int" minOccurs="1"/>
+            <xs:element name="notification" type="st:NotificationTest" minOccurs="0"/>
             <xs:element name="skuList" type="st:ListSKU" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Обновление SKU</xs:documentation>
@@ -179,8 +180,9 @@
                     <xs:documentation>фактическое время отгрузки</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="notifLines" type="st:NotificationLine" minOccurs="1"
+            <!--            <xs:element name="notifLines" type="st:NotificationLine" minOccurs="1"
                 maxOccurs="unbounded"/>
+-->
         </xs:sequence>
     </xs:complexType>
 
@@ -207,6 +209,22 @@
             <xs:element name="expirationDate" type="xs:date" minOccurs="0"/>
             <xs:element name="productionDate" type="xs:date" minOccurs="0"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NotificationTest">
+        <xs:complexContent>
+            <xs:extension base="st:Notification">
+                <xs:sequence>
+                    <xs:element name="lines" type="st:NotificationLine"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="NotificationLineTest">
+        <xs:complexContent>
+            <xs:extension base="st:NotificationLine"/>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="PickNotif">

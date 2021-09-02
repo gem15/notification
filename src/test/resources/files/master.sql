@@ -10,7 +10,7 @@
 --                tir.vodit,
 --  AND sp.id_tir = tir.id          --водиьеля и номер машины
 
-SELECT DISTINCT st3.id_du,
+SELECT DISTINCT st3.id_du AS order_id , -- guid
                 st.dt_sost,
                 st2.dt_sost_end,
                 st.sost_doc,
@@ -34,7 +34,7 @@ WHERE sp.id = st.id_obsl
   AND sp.id = st2.id_obsl
   AND st2.id_sost = 'KB_USL60174'
   AND sp.id = st3.id_obsl
-  AND st3.id_sost = 'KB_USL99770'
+  AND st3.id_sost = 'KB_USL99770' --4301 Получено входящее сообщение
   AND sp.id_zak IN
     (SELECT id
      FROM kb_zak z

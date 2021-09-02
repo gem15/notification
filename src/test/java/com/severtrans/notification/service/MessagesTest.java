@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,14 +13,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.NotificationRowMapper;
 import com.severtrans.notification.Utils;
-import com.severtrans.notification.dto.*;
-import com.severtrans.notification.dto.jackson.NotificationJack;
+import com.severtrans.notification.dto.DeliveryNotif;
+import com.severtrans.notification.dto.DeliveryNotifLine;
+import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.Order;
+import com.severtrans.notification.dto.PickNotif;
+import com.severtrans.notification.dto.PickNotifLine;
+import com.severtrans.notification.dto.SKU;
+import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.dto.ShipmentNotif;
+import com.severtrans.notification.dto.ShipmentNotifLine;
 import com.severtrans.notification.dto.jackson.NotificationItem;
+import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.Customer;
@@ -46,7 +60,8 @@ import org.springframework.jdbc.support.KeyHolder;
 
 @AutoConfigureTestDatabase
 @JdbcTest
-//@Sql({"/schema.sql"})//, "/data.sql" https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-spring-jdbc
+// @Sql({"/schema.sql"})//, "/data.sql"
+// https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-spring-jdbc
 class MessagesTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -57,9 +72,34 @@ class MessagesTest {
     @Autowired
     ModelMapper modelMapper;
 
+    @Test
+    void JaxbExtendTest() throws IOException, JAXBException {
+        String xml;
+        try (InputStream is = new FileInputStream("src\\test\\resources\\files\\NotifJaxb.xml")) {
+            xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        }
+        Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+     
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+         
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
+         JAXBElement<Shell> jaxbElement =    new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
+        jaxbMarshaller.marshal(jaxbElement, System.out);
+        StringWriter sw = new StringWriter();
+   
+        jaxbMarshaller.marshal(jaxbElement, sw);
+        String result = sw.toString();
+        //Marshal the employees list in file
+        // jaxbMarshaller.marshal(employees, new File("c:/temp/employees.xml"));
+
+        System.out.println("stop");
+    }
 
     @Test
-    void outOrderTest() throws IOException, JAXBException { //test выходных сообщений
+    void outOrderTest() throws IOException, JAXBException { // test выходных сообщений
 
         InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -74,111 +114,97 @@ class MessagesTest {
 
     @Test
     void OrderTest() throws IOException, JAXBException {
-//        InputStream is = new FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
-        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
-        String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        // InputStream is = new
+        // FileInputStream("src\\test\\resources\\files\\IN_PO_MK00-010610_2021-04-18-08-00-59.xml");
+        String xml;
+        try (InputStream is = new FileInputStream(
+                "src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml")) {
+            // InputStream is = new
+            // FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
+            xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        }
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
-/*
-        PipedInputStream in = new PipedInputStream();
-        final PipedOutputStream out = new PipedOutputStream(in);
-        new Thread(() -> {
-            try {
-                // write the original OutputStream to the PipedOutputStream
-                // note that in order for the below method to work, you need
-                // to ensure that the data has finished writing to the
-                // ByteArrayOutputStream
-                outputStream.writeTo(out);
-            }
-            catch (IOException e) {
-                // logging and exception handling should go here
-            }
-            finally {
-                 if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-*/
+        /*
+         * PipedInputStream in = new PipedInputStream(); final PipedOutputStream out =
+         * new PipedOutputStream(in); new Thread(() -> { try { // write the original
+         * OutputStream to the PipedOutputStream // note that in order for the below
+         * method to work, you need // to ensure that the data has finished writing to
+         * the // ByteArrayOutputStream outputStream.writeTo(out); } catch (IOException
+         * e) { // logging and exception handling should go here } finally { if (out !=
+         * null) { try { out.close(); } catch (IOException e) { e.printStackTrace(); } }
+         * } }).start();
+         */
 
         Order order = shell.getOrder();
         ModelMapper mp = new ModelMapper();
         mp.addConverter(new CalendarConverter());
-/*
-        PropertyMap<Order, OrderJackIn> orderMap = new PropertyMap<Order, OrderJackIn>() {
-            protected void configure() {
-                map().setBillingStreet(source.getBillingAddress().getStreet());
-                map(source.billingAddress.getCity(), destination.billingCity);
-            }
-        });
-        modelMapper.addMappings(orderMap);
-*/
+        /*
+         * PropertyMap<Order, OrderJackIn> orderMap = new PropertyMap<Order,
+         * OrderJackIn>() { protected void configure() {
+         * map().setBillingStreet(source.getBillingAddress().getStreet());
+         * map(source.billingAddress.getCity(), destination.billingCity); } });
+         * modelMapper.addMappings(orderMap);
+         */
 
         String xml_out;
         if (!order.isOrderType()) {
             OrderJackIn jack = mp.map(order, OrderJackIn.class);
             jack.setOrderType("Поставка");
             jack.setDeliveryType("Поставка");
-            xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods")
-                    .writeValueAsString(jack);
+            xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods").writeValueAsString(jack);
         } else {
             OrderJackOut jack = mp.map(order, OrderJackOut.class);
             jack.setClientID(shell.getCustomerID());
             jack.setOrderType("Отгрузка");
             jack.setDeliveryType("Отгрузка");
-            xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods")
-                    .writeValueAsString(jack);
+            xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
         }
 
         System.out.println(xml_out);
     }
 
     @Test
-    void notificationTest() throws JAXBException, IOException { //уведомления
+    void notificationTest() throws JAXBException, IOException { // уведомления
         ModelMapper modelMapper = new ModelMapper();
         List<NotificationJack> listMaster = jdbcTemplate.query("SELECT * FROM master", new NotificationRowMapper());
         for (NotificationJack master : listMaster) {
             Shell shell = new Shell();
-            shell.setCustomerID(300185);//TODO
-            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                    .addValue("id", master.getDu());
-            List<NotificationItem> items = namedParameterJdbcTemplate.query(
-                    "SELECT * FROM detail WHERE iddu = :id", mapSqlParameterSource,
-                    new NotificationItemRowMapper());
+            shell.setCustomerID(300185);// TODO
+            MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("id", master.getDu());
+            List<NotificationItem> items = namedParameterJdbcTemplate.query("SELECT * FROM detail WHERE iddu = :id",
+                    mapSqlParameterSource, new NotificationItemRowMapper());
 
             int notificationType = 1;
             switch (notificationType) {
-/*
-                case (1): {//NotificationLine
-                    List<NotificationLine> notificationLines = Utils.mapList(items, NotificationLine.class, mp);
-                    Notification notif = mp.map(master, Notification.class);
-                    notif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
-
-                    shell.setDeliveryNotif((DeliveryNotif) notif);
-                    notif.getNotifLines().addAll(notificationLines);
-                }
-*/
+                /*
+                 * case (1): {//NotificationLine List<NotificationLine> notificationLines =
+                 * Utils.mapList(items, NotificationLine.class, mp); Notification notif =
+                 * mp.map(master, Notification.class);
+                 * notif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
+                 * 
+                 * shell.setDeliveryNotif((DeliveryNotif) notif);
+                 * notif.getNotifLines().addAll(notificationLines); }
+                 */
                 case (1): {
-                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class, modelMapper);
+                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class,
+                            modelMapper);
                     DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
                     deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
                     deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setDeliveryNotif(deliveryNotif);
                 }
-                break;
-                case (2):{
-                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class, modelMapper);
+                    break;
+                case (2): {
+                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class,
+                            modelMapper);
                     ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
                     shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
                     shipmentNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setShipmentNotif(shipmentNotif);
                 }
                     break;
-                case (3):{
+                case (3): {
                     List<PickNotifLine> pickNotifLines = Utils.mapList(items, PickNotifLine.class, modelMapper);
                     PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
                     pickNotif.getPickLine().addAll(pickNotifLines);
@@ -214,12 +240,12 @@ class MessagesTest {
         xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
-        //заполнить KB_T_ARTICLE
+        // заполнить KB_T_ARTICLE
         ListSKU skus = shell.getSkuList();
         jdbcTemplate.update("DELETE FROM KB_T_ARTICLE");
-        String sqlArt = "INSERT INTO KB_T_ARTICLE (id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov)\n" +
-                "    VALUES (?,?,?, ?, ?, ?, ?)";
-        //https://javabydeveloper.com/spring-jdbctemplate-batch-update-with-maxperformance/
+        String sqlArt = "INSERT INTO KB_T_ARTICLE (id_sost, comments, measure, marker, str_sr_godn, storage_pos, tip_tov)\n"
+                + "    VALUES (?,?,?, ?, ?, ?, ?)";
+        // https://javabydeveloper.com/spring-jdbctemplate-batch-update-with-maxperformance/
         jdbcTemplate.batchUpdate(sqlArt, new BatchPreparedStatementSetter() {
 
             @Override
@@ -227,8 +253,10 @@ class MessagesTest {
                 SKU sku = skus.getSku().get(i);
                 ps.setString(1, sku.getArticle());
                 ps.setString(2, sku.getName());
-                //шт --> KB_.....
-                Unit um = units.stream().filter(unit -> sku.getUofm().toUpperCase().equals(unit.getCode().toUpperCase())).findAny().orElse(null);
+                // шт --> KB_.....
+                Unit um = units.stream()
+                        .filter(unit -> sku.getUofm().toUpperCase().equals(unit.getCode().toUpperCase())).findAny()
+                        .orElse(null);
                 ps.setString(3, um == null ? null : um.getId());
                 ps.setString(4, sku.getUpc());
                 ps.setString(5, String.valueOf(sku.getStorageLife()));
@@ -253,16 +281,17 @@ class MessagesTest {
                 .withProcedureName("WMS3_UPDT_SKU");
         Map<String, Object> p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("L_ID_ZAK", customer.getId())
                 .addValue("V_PRF_WMS", customer.getPrefix()));
-        //orderError = (String) p_err.get("P_ERR");
+        // orderError = (String) p_err.get("P_ERR");
 
         // dailyOrder
         // region Поиск/создание суточного заказа
         String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
         /*
-                                SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU'   AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = l_id_zak;
-                                SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-                                jdbcTemplate.queryForObject(sql, namedParameters, String.class);
-        */
+         * SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU' AND trunc(sp.dt_zakaz)
+         * = trunc(SYSDATE) AND sp.id_zak = l_id_zak; SqlParameterSource namedParameters
+         * = new MapSqlParameterSource("id", id); jdbcTemplate.queryForObject(sql,
+         * namedParameters, String.class);
+         */
         String dailyOrderId;
         try {
             dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
@@ -277,7 +306,7 @@ class MessagesTest {
             dailyOrderId = keyHolder.getKeyAs(String.class);
         }
         // endregion
-        //event_4301
+        // event_4301
 
         System.out.println(shell.getSkuList());
     }
