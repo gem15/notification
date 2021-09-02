@@ -13,14 +13,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.severtrans.notification.dto.*;
-import com.severtrans.notification.dto.jackson.NotificationJack;
+import com.severtrans.notification.dto.DeliveryNotif;
+import com.severtrans.notification.dto.DeliveryNotifLine;
+import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.Order;
+import com.severtrans.notification.dto.PickNotif;
+import com.severtrans.notification.dto.PickNotifLine;
+import com.severtrans.notification.dto.SKU;
+import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.dto.ShipmentNotif;
+import com.severtrans.notification.dto.ShipmentNotifLine;
 import com.severtrans.notification.dto.jackson.NotificationItem;
+import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.dto.jackson.PartStock;
@@ -56,7 +64,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -142,33 +149,32 @@ public class SendNotifications {
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
                                 for (FTPFile file : listFiles) {
                                     log.info("Обрабатывается файл " + file.getName());
-                                    String xmlText;// извлекаем файл в поток и преобразуем в строку
+                                    // region  извлекаем файл в поток и преобразуем в строку
+                                    String xmlText;
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
+                                    if (!ftp.completePendingCommand()) {// завершение FTP транзакции
+                                        throw new FTPException("Completing Pending Commands Not Successful");
+                                    }
+                                    // endregion
+                                    // region  сохраняем принятый в отдельной папке
+                                    boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
+                                            rootDir + resp.getPathOut() + "/" + file.getName());
+                                    if (!ok)
+                                        throw new FTPException("Ошибка перемещения файла " + file.getName() + " в "
+                                                + resp.getPathOut());
+                                    // endregion
                                     try {
-                                        msgInNew(file.getName().split("_")[0],
-                                                XmlUtiles.unmarshaller(xmlText, Shell.class));
-                                        if (!ftp.completePendingCommand()) {// завершение FTP транзакции
-                                            throw new FTPException("Completing Pending Commands Not Successful");
-                                        }
-                                        // region  сохранять обработанные в отдельной папке
-                                        boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
-                                                rootDir + resp.getPathOut() + "/" + file.getName());
-                                        if (!ok)
-                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в "
-                                                    + resp.getPathOut());
-                                        // endregion
+                                       msgInNew(file.getName().split("_")[0], XmlUtiles.unmarshaller(xmlText, Shell.class));
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());// TODO документ email
-                                        /*                                         boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
-                                                rootDir +  "BAD/" + file.getName());
-                                        if (!ok)
-                                            throw new FTPException("Ошибка перемещения файла " + file.getName() + " в BAD");
-                                         */
-                                    } catch (DataAccessException | JAXBException e) {
-                                        log.error(e.getMessage());
+                                    } catch (DataAccessException  e) {
+                                        log.error("Ошибка БД. "+e.getMessage());
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
+                                    } catch (JAXBException e) {
+                                        log.error("Неверное содержимое файла. "+e.getMessage());
+                                        e.printStackTrace();
                                     }
                                 }
                             }
