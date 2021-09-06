@@ -69,7 +69,33 @@
             <xs:element name="orderLine" type="st:OrderLine" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:complexType name="OrderIn">
+        <xs:annotation>
+            <xs:documentation>Заказ на поставку</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="st:Order">
+                <xs:sequence>
+                    <xs:element name="lines" type="st:OrderLine"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
+    <xs:complexType name="OrderOut">
+        <xs:annotation>
+            <xs:documentation>Заказ на отгрузку</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="st:Order">
+                <xs:sequence>
+                    <xs:element name="lines" type="st:OrderLine"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
     <xs:complexType name="OrderLine">
         <xs:sequence>
             <xs:element name="lineNumber" type="xs:int"/>
