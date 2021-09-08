@@ -99,8 +99,8 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (!ftpLine.getHostname().equals("91.228.118.220"))
-                continue; // FIXME заглушка для отладки
+            // if (!ftpLine.getHostname().equals("91.228.118.220"))
+            //     continue; // FIXME заглушка для отладки
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -135,9 +135,10 @@ public class SendNotifications {
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    if (resp.isLegacy()) {//FIXME remove me ||resp.getTypeID()!=4
-                        continue;
+/*                     if (resp.isLegacy()) {
+                        continue;//FIXME заглушка для отладки ||resp.getTypeID()!=4
                     }
+*/
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
                         log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
@@ -158,7 +159,7 @@ public class SendNotifications {
                                         throw new FTPException("Completing Pending Commands Not Successful");
                                     }
                                     // endregion
-                                    // region  сохраняем принятый в отдельной папке
+                                    // region  сохраняем принятый в  папке LOADED
                                     boolean ok = ftp.rename(rootDir + resp.getPathIn() + "/" + file.getName(),
                                             rootDir + resp.getPathOut() + "/" + file.getName());
                                     if (!ok)
