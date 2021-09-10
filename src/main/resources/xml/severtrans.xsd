@@ -457,4 +457,20 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="Confirmation">
+        <xs:sequence>
+            <xs:element name="customerID" type="xs:int"/>
+            <xs:element name="msgType" type="xs:int"/>
+            <xs:element name="status">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="SUCCESS|ERROR"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="docNo" type="xs:string" minOccurs="0"/>
+            <xs:element name="info" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
 </xs:schema>
