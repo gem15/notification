@@ -458,9 +458,20 @@
     </xs:complexType>
 
     <xs:complexType name="Confirmation">
+        <xs:annotation>
+            <xs:documentation>Квитирование поступления файлов в обработку</xs:documentation>
+        </xs:annotation>
         <xs:sequence>
-            <xs:element name="customerID" type="xs:int"/>
-            <xs:element name="msgType" type="xs:int"/>
+            <xs:element name="customerID" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>ВН клиента</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="msgType" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>Тип сообщения: 0 - поставка, 1 - отгрузка</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="status">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -468,8 +479,16 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
-            <xs:element name="docNo" type="xs:string" minOccurs="0"/>
-            <xs:element name="info" type="xs:string" minOccurs="0"/>
+            <xs:element name="docNo" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Первоначальный номер документа(если имеется)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="info" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Текст ошибки или любая дополнительная информация</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
     

@@ -17,7 +17,8 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/spring-boot-logger.log</file>
         <encoder
-                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
             <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
         </encoder>
 
