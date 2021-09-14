@@ -1,4 +1,10 @@
 POST http://localhost:8080/actuator/shutdown/
 
 ###
+GET http://192.168.1.157:8080/actuator/health
+
+###
 GET http://localhost:8080/actuator/health
+###
+GET http://192.168.1.157:8080/actuator/logfile
+

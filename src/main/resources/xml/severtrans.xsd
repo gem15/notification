@@ -37,6 +37,7 @@
             <xs:element name="pickNotif" type="st:PickNotif" minOccurs="0"/>
             <xs:element name="shipmentNotif" type="st:ShipmentNotif" minOccurs="0"/>
             <xs:element name="deliveryNotif" type="st:DeliveryNotif" minOccurs="0"/>
+            <xs:element name="confirmation" type="st:Confirmation" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -462,14 +463,9 @@
             <xs:documentation>Квитирование поступления файлов в обработку</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="customerID" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>ВН клиента</xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="msgType" type="xs:int">
                 <xs:annotation>
-                    <xs:documentation>Тип сообщения: 0 - поставка, 1 - отгрузка</xs:documentation>
+                    <xs:documentation>Тип сообщения: 0 - поставка, 1 - отгрузка, 2 - товарный справочник</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="status">
