@@ -99,8 +99,8 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            // if (!ftpLine.getHostname().equals("91.228.118.220"))
-            //     continue; // FIXME заглушка для отладки
+            if (ftpLine.getId() != 4)
+                continue; // FIXME заглушка для отладки
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -381,6 +381,7 @@ public class SendNotifications {
             case "SKU": {
                 // Справочник е.и.
                 String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
+                @SuppressWarnings("unchecked")
                 List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Unit.class));
 
                 // region заполнить KB_T_ARTICLE
@@ -496,6 +497,9 @@ public class SendNotifications {
 
                 break;
             }
+            case ("TEST")://тестовая ветка
+                System.out.println("TEST");
+                break;
             default:
                 throw new MonitorException("Неизвестный префикс файла - " + filePrefix);
         }
