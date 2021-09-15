@@ -141,7 +141,7 @@ public class SendNotifications {
 */
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
-                        log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
+                        // log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
                                 ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
@@ -149,7 +149,8 @@ public class SendNotifications {
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
                                 for (FTPFile file : listFiles) {
-                                    log.info("Обрабатывается файл " + file.getName());
+                                    log.info(resp.getVn() + " " + resp.getTypeName() +" Файл " + file.getName());
+                                    // log.info("VN " + resp.getVn() + " " + resp.getTypeName() +" Обрабатывается файл " + file.getName());
                                     // region  извлекаем файл в поток и преобразуем в строку
                                     String xmlText;
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
@@ -248,9 +249,9 @@ public class SendNotifications {
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
                                                     master.getOrderID(), "KB_USL99771", new Date(), new Date(),
                                                     fileName);
-                                            log.info("Выгружен " + fileName);
+                                            log.info(resp.getVn() + " " + resp.getTypeName() +" Выгружен " + fileName);
                                         } else {
-                                            throw new FTPException("Не удалось выгрузить " + fileName);
+                                            throw new FTPException(resp.getVn() + " " + resp.getTypeName() +" Не удалось выгрузить " + fileName);
                                         }
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
