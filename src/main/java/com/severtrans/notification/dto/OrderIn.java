@@ -11,26 +11,24 @@ package com.severtrans.notification.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * Запрос текущих остатков
+ * Заказ на поставку
  * 
- * <p>Java class for PartStockRq complex type.
+ * <p>Java class for OrderIn complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="PartStockRq">
+ * &lt;complexType name="OrderIn">
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://www.severtrans.com}Order">
  *       &lt;sequence>
- *         &lt;element name="ts" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
+ *         &lt;element name="lines" type="{http://www.severtrans.com}OrderLine"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -38,37 +36,38 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PartStockRq", propOrder = {
-    "ts"
+@XmlType(name = "OrderIn", propOrder = {
+    "lines"
 })
-public class PartStockRq {
+public class OrderIn
+    extends Order
+{
 
     @XmlElement(required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar ts;
+    protected OrderLine lines;
 
     /**
-     * Gets the value of the ts property.
+     * Gets the value of the lines property.
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link OrderLine }
      *     
      */
-    public XMLGregorianCalendar getTs() {
-        return ts;
+    public OrderLine getLines() {
+        return lines;
     }
 
     /**
-     * Sets the value of the ts property.
+     * Sets the value of the lines property.
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link OrderLine }
      *     
      */
-    public void setTs(XMLGregorianCalendar value) {
-        this.ts = value;
+    public void setLines(OrderLine value) {
+        this.lines = value;
     }
 
 }

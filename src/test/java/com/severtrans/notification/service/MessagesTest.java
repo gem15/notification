@@ -75,40 +75,48 @@ class MessagesTest {
     @Test
     void JaxbExtendTest() throws IOException, JAXBException {
         String xml;
-        try (InputStream is = new FileInputStream("src\\test\\resources\\files\\NotifJaxb.xml")) {
+        try (InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml")) {
             xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         }
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
      
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        // jaxbMarshaller.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, "");
+        // JAXBElement<Shell> shellElement = new JAXBElement<>(new QName("ROOT"), Shell.class, shell);
+        // jaxbMarshaller.marshal(shellElement, System.out);
          
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
-         JAXBElement<Shell> jaxbElement =    new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
-        jaxbMarshaller.marshal(jaxbElement, System.out);
+         JAXBElement<Shell> jaxbElement =  new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
+        // jaxbMarshaller.marshal(jaxbElement, System.out);
         StringWriter sw = new StringWriter();
    
         jaxbMarshaller.marshal(jaxbElement, sw);
-        String result = sw.toString();
+        String result = sw.toString().replaceFirst(" xmlns=\"http://www.severtrans.com\"", "");
         //Marshal the employees list in file
         // jaxbMarshaller.marshal(employees, new File("c:/temp/employees.xml"));
-
-        System.out.println("stop");
+        // String out = result.replaceFirst(" xmlns=\"http://www.severtrans.com\"","");
+        System.out.println(result);
     }
 
     @Test
     void outOrderTest() throws IOException, JAXBException { // test выходных сообщений
 
-        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-06-08-08-10-58.xml");
+        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        is.close();
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         XmlUtiles.marshaller(shell, outputStream);
         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-        System.out.println(targetStream.toString());
+        // System.out.println(targetStream.toString());
+
+        String text = new String(targetStream.readAllBytes());
+        System.out.println(text);
+        
 
     }
 
