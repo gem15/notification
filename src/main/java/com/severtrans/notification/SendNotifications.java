@@ -136,16 +136,11 @@ public class SendNotifications {
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    /*                     if (resp.isLegacy()) {
-                        continue;//FIXME заглушка для отладки ||resp.getTypeID()!=4
-                    }
-                    */
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
-                        // log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
-                                ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
+                                ftp.changeWorkingDirectory(rootDir + "IN");
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
@@ -160,7 +155,7 @@ public class SendNotifications {
                                         throw new FTPException("Completing Pending Commands Not Successful");
                                     }
                                     // endregion
-       
+
                                     // region  сохраняем принятый в  папке LOADED
                                     boolean ok = ftp.rename(rootDir + "IN/" + file.getName(),
                                             rootDir + "LOADED/" + file.getName());
@@ -170,51 +165,13 @@ public class SendNotifications {
 
                                     try {
                                         String prefix = file.getName().split("_")[0].toUpperCase();
-                                        Shell shell=XmlUtiles.unmarshaller(xmlText, Shell.class);
+                                        Shell shell = XmlUtiles.unmarshaller(xmlText, Shell.class);
                                         msgInNew(prefix, shell);
-                                        log.info(shell.getCustomerID() + "Обработан файл " + file.getName());//+" " + resp.getTypeName()
-                                        
+                                        log.info(shell.getCustomerID() + "Обработан файл " + file.getName());
+
                                         // region Квитирование
-                                        Confirmation confirmation = new Confirmation();
-                                        confirmation.setStatus("SUCCESS");
-                                        switch (prefix) {
-                                            case "TEST": {
-                                                confirmation.setMsgType(9);
-                                                //test message TEST_CONFIRMAION
-                                                confirmation.setDocNo(shell.getConfirmation().getDocNo());
-                                                break;
-                                            }
-                                            case "SKU": {
-                                                confirmation.setMsgType(2);
-                                                break;
-                                            }
-                                            case "IN": {
-                                                confirmation.setMsgType(0);
-                                                confirmation.setDocNo(shell.getOrder().getOrderNo());
-                                                break;
-                                            }
-                                            case "OUT": {
-                                                confirmation.setMsgType(1);
-                                                confirmation.setDocNo(shell.getOrder().getOrderNo());
-                                                break;
-                                            }
-                                        }
-                                        Shell _shell =new Shell();
-                                        _shell.setConfirmation(confirmation);
-                                        
-                                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                                        XmlUtiles.marshaller(_shell, outputStream);
-                                        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-                                        
-                                        String fileName = "_" +file.getName()+ ".xml";
-                                        if (!ftp.changeWorkingDirectory(rootDir + "OUT"))
-                                            throw new FTPException("Не удалось сменить директорию");
-                                        ok = ftp.storeFile(fileName, targetStream);
-                                        targetStream.close();
-                                        outputStream.close();
-                                        if(!ok){
-                                            throw new FTPException("Не удалось выгрузить " + fileName);
-                                        }
+
+                                        confirm(file.getName(), prefix, shell);
                                         // endregion
 
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
@@ -305,8 +262,8 @@ public class SendNotifications {
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
                                         //TODOошибка обработки XML  валидацию ?
-                                        //                                        throw new MonitorException(e.getMessage());
-                                        //                                        e.printStackTrace();
+                                        //  throw new MonitorException(e.getMessage());
+                                        //  e.printStackTrace();
                                     }
                                 }
                             }
@@ -339,6 +296,7 @@ public class SendNotifications {
                                         // переименовываем?
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
+                                        confirm(file.getName(),e.getMsgType(),e.getMessage(),e.getDocNo());
                                     } catch (DataAccessException e) {
                                         log.error(e.getMessage()); // TODO ошибка доступа // ошибки БД
                                     }
@@ -414,6 +372,94 @@ public class SendNotifications {
     }
 
     /**
+     * SUCCESS
+     * <?xml version="1.0" encoding="utf-8"?>
+    <Shell>
+    <customerID>123</customerID>
+    <confirmation>
+      <msgType>0</msgType>
+      <status>SUCCESS</status>
+      <docNo>ML09-4201 </docNo>
+    </confirmation>
+    </Shell>
+     * @param fileNameIn
+     * @param prefix
+     * @param shell
+     * @throws IOException
+     * @throws FTPException
+     * @throws JAXBException
+     */
+    private void confirm(String fileName, String prefix, Shell shell)
+            throws IOException, FTPException, JAXBException {
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")){
+            throw new FTPException("Не удалось сменить директорию");
+        }
+        Confirmation confirmation = new Confirmation();
+        confirmation.setStatus("SUCCESS");
+        switch (prefix) {
+            case "TEST": {
+                confirmation.setMsgType(9);
+                //test message TEST_CONFIRMAION
+                confirmation.setDocNo(shell.getConfirmation().getDocNo());
+                break;
+            }
+            case "SKU": {
+                confirmation.setMsgType(2);
+                break;
+            }
+            case "IN": {
+                confirmation.setMsgType(0);
+                confirmation.setDocNo(shell.getOrder().getOrderNo());
+                break;
+            }
+            case "OUT": {
+                confirmation.setMsgType(1);
+                confirmation.setDocNo(shell.getOrder().getOrderNo());
+                break;
+            }
+        }
+
+        // String fileName = "_" + fileNameIn + ".xml";
+        Shell _shell = new Shell();
+        _shell.setConfirmation(confirmation);
+        if (!ftp.storeFile("_" + fileName + ".xml", XmlUtiles.marshaller(_shell))) {
+            throw new FTPException("Не удалось выгрузить " + fileName);
+        }
+    }
+    /**
+     * ERROR
+     * @param fileNameIn
+     * @param msgType
+     * @param errorText
+     * @param docNo
+     * @throws IOException
+     * @throws FTPException
+     * @throws JAXBException
+     */
+    private void confirm(String fileName,int msgType,String errorText, String docNo)
+            throws IOException, FTPException {
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")){
+            throw new FTPException("Не удалось сменить директорию");
+        }
+        Confirmation confirmation = new Confirmation();
+        confirmation.setMsgType(0);
+        confirmation.setStatus("ERROR");
+        confirmation.setDocNo(docNo);
+        confirmation.setInfo(errorText);
+
+        Shell _shell = new Shell();
+        _shell.setConfirmation(confirmation);
+        try {
+            if (!ftp.storeFile("_" + fileName + ".xml", XmlUtiles.marshaller(_shell))) {
+                throw new FTPException("Не удалось выгрузить " + fileName);
+            }
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Новый формат обработки входящих сообщений
      *
      * @param filePrefix
@@ -471,7 +517,7 @@ public class SendNotifications {
                                     + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
                             new CustomerRowMapper(), shell.getCustomerID());
                 } catch (EmptyResultDataAccessException e) {
-                    throw new MonitorException("ВН " + shell.getCustomerID() + " не найден");
+                    throw new MonitorException("ВН " + shell.getCustomerID() + " не найден", 2);
                 }
                 // endregion
 
@@ -482,7 +528,7 @@ public class SendNotifications {
                         .addValue("P_PREF", customer.getPrefix()));
                 String orderError = (String) p_err.get("P_ERR");
                 if (orderError != null)
-                    throw new MonitorException(orderError);
+                    throw new MonitorException(orderError, 2);
                 // endregion
 
                 // region Поиск/создание суточного заказа
@@ -541,7 +587,8 @@ public class SendNotifications {
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
                 if (p_err.get("P_ERR") != null)
-                    throw new MonitorException((String) p_err.get("P_ERR"));
+                    throw new MonitorException((String) p_err.get("P_ERR"),
+                     order.isOrderType() == false ? 0 : 1, order.getOrderNo());
 
                 break;
             }

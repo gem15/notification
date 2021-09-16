@@ -119,6 +119,26 @@ public class XmlUtiles {
 
     }
 
+/**
+ * Shell into InputStream to store on FTP 
+ * @param shell
+ * @return InputStream
+ * @throws JAXBException
+ */
+    public static InputStream marshaller(Shell shell) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
+        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class,
+                shell); // для генерации пространства имён
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(jaxbElement, sw);
+        InputStream targetStream = new ByteArrayInputStream(sw.toString().getBytes(StandardCharsets.UTF_8));
+        
+        return targetStream;
+    }
+
     public static void marshaller(Shell shell, OutputStream outputStream) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
