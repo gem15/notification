@@ -175,11 +175,12 @@ public class SendNotifications {
                                         // endregion
 
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
-                                        log.error(e.getMessage());// TODO документ email
+                                        log.error(e.getMessage());
+                                        confirm(file.getName(),e.getMsgType(),e.getMessage(),e.getDocNo());
                                     } catch (DataAccessException e) {
                                         log.error("Ошибка БД. " + e.getMessage());
-                                        //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
-                                    } catch (JAXBException e) { //TODO
+                                        //Utils.emailAlert(error);
+                                    } catch (JAXBException e) { 
                                         log.error("Неверное содержимое файла. " + e.getMessage());
                                         e.printStackTrace();
                                     }
@@ -234,21 +235,16 @@ public class SendNotifications {
                                         }
                                     }
                                     try {// передача на FTP
-                                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                                        XmlUtiles.marshaller(shell, outputStream);
-                                        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-                                        // region имя файла
+                                       // region имя файла
                                         // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
                                         // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
                                         //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
                                         String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
+
                                         if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
-                                        boolean ok = ftp.storeFile(fileName, targetStream);
-                                        targetStream.close();
-                                        outputStream.close();
-                                        if (ok) {
+                                       if (ftp.storeFile(fileName,  XmlUtiles.marshaller(shell))) {
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
                                             jdbcTemplate.update(
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
@@ -296,7 +292,6 @@ public class SendNotifications {
                                         // переименовываем?
                                     } catch (MonitorException e) { // сообщения с разными ошибками
                                         log.error(e.getMessage());// TODO документ email
-                                        confirm(file.getName(),e.getMsgType(),e.getMessage(),e.getDocNo());
                                     } catch (DataAccessException e) {
                                         log.error(e.getMessage()); // TODO ошибка доступа // ошибки БД
                                     }
