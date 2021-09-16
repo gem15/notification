@@ -1,0 +1,8 @@
+<Shell xmlns="http://www.severtrans.com">
+    <customerID>123</customerID>
+    <confirmation>
+      <msgType>0</msgType>
+      <status>SUCCESS</status>
+      <docNo>ML09-4201 </docNo>
+    </confirmation>
+</Shell>
