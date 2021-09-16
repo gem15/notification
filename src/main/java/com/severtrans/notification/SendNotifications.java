@@ -176,11 +176,11 @@ public class SendNotifications {
 
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());
-                                        confirm(file.getName(),e.getMsgType(),e.getMessage(),e.getDocNo());
+                                        confirm(file.getName(), e.getMsgType(), e.getMessage(), e.getDocNo());
                                     } catch (DataAccessException e) {
                                         log.error("Ошибка БД. " + e.getMessage());
                                         //Utils.emailAlert(error);
-                                    } catch (JAXBException e) { 
+                                    } catch (JAXBException e) {
                                         log.error("Неверное содержимое файла. " + e.getMessage());
                                         e.printStackTrace();
                                     }
@@ -235,16 +235,16 @@ public class SendNotifications {
                                         }
                                     }
                                     try {// передача на FTP
-                                       // region имя файла
-                                        // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                        // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
-                                        //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
+                                         // region имя файла
+                                         // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
+                                         // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
+                                         //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
                                         String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
 
                                         if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
-                                       if (ftp.storeFile(fileName,  XmlUtiles.marshaller(shell))) {
+                                        if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
                                             // 4302 подтверждение что по данному заказу мы отправили уведомление
                                             jdbcTemplate.update(
                                                     "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
@@ -384,9 +384,8 @@ public class SendNotifications {
      * @throws FTPException
      * @throws JAXBException
      */
-    private void confirm(String fileName, String prefix, Shell shell)
-            throws IOException, FTPException, JAXBException {
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")){
+    private void confirm(String fileName, String prefix, Shell shell) throws IOException, FTPException, JAXBException {
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();
@@ -421,6 +420,7 @@ public class SendNotifications {
             throw new FTPException("Не удалось выгрузить " + fileName);
         }
     }
+
     /**
      * ERROR
      * @param fileNameIn
@@ -431,9 +431,9 @@ public class SendNotifications {
      * @throws FTPException
      * @throws JAXBException
      */
-    private void confirm(String fileName,int msgType,String errorText, String docNo)
+    private void confirm(String fileName, int msgType, String errorText, String docNo)
             throws IOException, FTPException {
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")){
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();
@@ -582,8 +582,8 @@ public class SendNotifications {
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
                 if (p_err.get("P_ERR") != null)
-                    throw new MonitorException((String) p_err.get("P_ERR"),
-                     order.isOrderType() == false ? 0 : 1, order.getOrderNo());
+                    throw new MonitorException((String) p_err.get("P_ERR"), order.isOrderType() == false ? 0 : 1,
+                            order.getOrderNo());
 
                 break;
             }
