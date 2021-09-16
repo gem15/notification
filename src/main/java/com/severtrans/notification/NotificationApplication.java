@@ -1,9 +1,6 @@
 package com.severtrans.notification;
 
-import java.io.IOException;
 import java.util.TimeZone;
-
-import javax.mail.MessagingException;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -11,7 +8,6 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

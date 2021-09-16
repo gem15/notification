@@ -1,3 +1,16 @@
+--======= MAIN Rq
+SELECT
+e.id as extraID,
+vn, path_in, path_out,
+--e.master, e.details,
+alias_text alias, e.prefix,
+e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id
+FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id
+INNER JOIN ftps f ON r.ftp_id = f.id
+INNER JOIN response_type T ON T.ID = e.response_type_id
+--WHERE r.ftp_id = 4
+;
+
 select * from response_extra;
 select * from response_ftp
 --where ftp_id <>3 
@@ -64,18 +77,6 @@ Insert into RESPONSE_FTP_EXPORT (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,VN,PATH_OUT
 delete from response_ftp
 where ftp_id <>3;
 --update response_ftp set legacy=0 where ftp_id = 3;
-
--- MAIN Rq
-SELECT
-e.id as extraID,
-vn, path_in, path_out,
---e.master, e.details,
-alias_text alias, e.prefix,
-e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id
-FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id
-INNER JOIN ftps f ON r.ftp_id = f.id
-INNER JOIN response_type T ON T.ID = e.response_type_id;
---WHERE r.ftp_id = 3;
 
 --st3.id_du AS order_id , -- guid
 --

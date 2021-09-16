@@ -71,7 +71,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
-public class SendNotifications {
+public class Monitor {
 
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -93,7 +93,7 @@ public class SendNotifications {
     // }
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
-    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
+    // @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
@@ -136,20 +136,18 @@ public class SendNotifications {
                 // endregion
                 // главный цикл
                 for (ResponseFtp resp : responses) {
-                    /*                     if (resp.isLegacy()) {
-                        continue;//FIXME заглушка для отладки ||resp.getTypeID()!=4
-                    }
-                    */
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
                         // log.info("VN " + resp.getVn() + " " + resp.getTypeName() + " (xsd)");
                         switch (resp.getInOut()) {
                             case (1): { //входящие
-                                ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
+                                ftp.changeWorkingDirectory(rootDir + "IN");//FIXME check rootdir
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
                                 for (FTPFile file : listFiles) {
+                                    log.info(resp.getVn() + " " + resp.getTypeName() + " Файл " + file.getName());
+                                    // log.info("VN " + resp.getVn() + " " + resp.getTypeName() +" Обрабатывается файл " + file.getName());
 
                                     // region  извлекаем файл в поток и преобразуем в строку
                                     String xmlText;
@@ -160,19 +158,18 @@ public class SendNotifications {
                                         throw new FTPException("Completing Pending Commands Not Successful");
                                     }
                                     // endregion
-       
+//FIXME
                                     // region  сохраняем принятый в  папке LOADED
-                                    boolean ok = ftp.rename(rootDir + "IN/" + file.getName(),
-                                            rootDir + "LOADED/" + file.getName());
+                                    boolean ok = ftp.rename(rootDir + "IN" + "/" + file.getName(),
+                                            rootDir + "LOADED" + "/" + file.getName());
                                     if (!ok)
-                                        throw new FTPException("Ошибка перемещения файла " + file.getName());
+                                        throw new FTPException("Ошибка переименования файла " + file.getName());
                                     // endregion
 
                                     try {
                                         String prefix = file.getName().split("_")[0].toUpperCase();
                                         Shell shell=XmlUtiles.unmarshaller(xmlText, Shell.class);
                                         msgInNew(prefix, shell);
-                                        log.info(shell.getCustomerID() + "Обработан файл " + file.getName());//+" " + resp.getTypeName()
                                         
                                         // region Квитирование
                                         Confirmation confirmation = new Confirmation();
@@ -205,15 +202,14 @@ public class SendNotifications {
                                         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                         XmlUtiles.marshaller(_shell, outputStream);
                                         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-                                        
                                         String fileName = "_" +file.getName()+ ".xml";
                                         if (!ftp.changeWorkingDirectory(rootDir + "OUT"))
-                                            throw new FTPException("Не удалось сменить директорию");
+                                        throw new FTPException("Не удалось сменить директорию");
                                         ok = ftp.storeFile(fileName, targetStream);
                                         targetStream.close();
                                         outputStream.close();
                                         if(!ok){
-                                            throw new FTPException("Не удалось выгрузить " + fileName);
+                                            throw new FTPException(resp.getVn()+ " Не удалось выгрузить " + fileName);
                                         }
                                         // endregion
 
@@ -222,7 +218,7 @@ public class SendNotifications {
                                     } catch (DataAccessException e) {
                                         log.error("Ошибка БД. " + e.getMessage());
                                         //Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
-                                    } catch (JAXBException e) { //TODO
+                                    } catch (JAXBException e) {
                                         log.error("Неверное содержимое файла. " + e.getMessage());
                                         e.printStackTrace();
                                     }
@@ -313,86 +309,9 @@ public class SendNotifications {
                                 break;
                         }
                     } else {//старый формат
-                        switch (resp.getInOut()) {
-                            case (1): { // все входящие сообщения
-                                ftp.changeWorkingDirectory(rootDir + resp.getPathIn());
-                                FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
-                                        && ftpFile.getName().endsWith(".xml"));
-                                FTPFile[] listFile = ftp.listFiles(resp.getPathIn(), filter);
-                                for (FTPFile file : listFile) {
-                                    log.info("Processing file " + file.getName());
-                                    String xmlText;// извлекаем файл в поток и преобразуем в строку
-                                    try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
-                                        xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
-                                    }
-                                    if (!ftp.completePendingCommand()) {
-                                        throw new FTPException("Completing Pending Commands Not Successful");
-                                    }
-                                    String filePrefix = file.getName().substring(0, 1).toUpperCase();
-                                    try {
-                                        String error = msgIn(xmlText, filePrefix, resp.getPathOut());
-                                        if (error == null || error.isEmpty()) {
-                                            Utils.emailAlert(error);// TODO доработать ошибку и файл приатачить
-                                            // throw new MonitorException((String) p_err.get("P_ERR"));// + fileName);
-                                        }
-                                        ftp.deleteFile(file.getName());// TODO удаляем принятый файл с ошибкой
-                                        // переименовываем?
-                                    } catch (MonitorException e) { // сообщения с разными ошибками
-                                        log.error(e.getMessage());// TODO документ email
-                                    } catch (DataAccessException e) {
-                                        log.error(e.getMessage()); // TODO ошибка доступа // ошибки БД
-                                    }
-                                }
-                                break;
-                            }
-                            case (2): { // все исходящие сообщения (отбивки)
-                                MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
-                                        resp.getVn());
-                                List<NotificationJack> listMaster = namedParameterJdbcTemplate
-                                        .query(resp.getQueryMaster(), queryParam, new NotificationRowMapper());
-                                for (NotificationJack master : listMaster) {
-                                    master.setOrderType(resp.getOrderType());// Отгрузка/Поставка
-                                    master.setTypeOfDelivery(resp.getOrderType());
-                                    MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
-                                            .addValue("id", master.getDu());
-                                    List<NotificationItem> items = namedParameterJdbcTemplate.query(
-                                            resp.getQueryDetails(), mapSqlParameterSource,
-                                            new NotificationItemRowMapper());
-                                    if (items.size() == 0)
-                                        continue;
-                                    master.setOrderLine(items);
-
-                                    // region имя файла
-                                    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                    String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
-                                            + dateFormat.format(new Date()) + ".xml";
-                                    // endregion
-
-                                    // Changes working directory
-                                    if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
-                                        throw new FTPException("Не удалось сменить директорию");
-                                    // to XML
-                                    String xml = xmlMapper.writer().withRootName(resp.getAlias())
-                                            .writeValueAsString(master);
-                                    // передача на FTP
-                                    InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                                    boolean ok = ftp.storeFile(fileName, is);
-                                    is.close();
-                                    if (ok) {
-                                        // 4302 подтверждение что по данному заказу мы отправили уведомление
-                                        jdbcTemplate.update(
-                                                "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                                master.getOrderID(), "KB_USL99771", new Date(), new Date(), fileName);
-                                        log.info("Выгружен " + fileName);
-                                    } else {
-                                        throw new FTPException("Не удалось выгрузить " + fileName);
-                                    }
-                                }
-                                break;
-                            }
-                        }
+                        System.out.println("старый формат");
                     }
-                }
+                }//for (ResponseFtp resp : responses)
                 ftp.logout();
                 log.info("<<< Закончена обработка FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             } catch (IOException e) {
