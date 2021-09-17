@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.severtrans.com">
-	<customerID>00000638</customerID>
+	<customerID>300185</customerID>
 	<skuList>
 		<sku>
 			<article>3940</article>
@@ -22,7 +22,7 @@
 		<sku>
 			<article>4069</article>
 			<name>Шок.Батончик Сникерс 50,5г/48</name>
-			<upc>1500015941564</upc>
+			<upc>030808006166</upc>
 			<uofm>шт</uofm>
 			<billingClass>НЗ</billingClass>
 			<division>0</division>
