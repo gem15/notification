@@ -6,13 +6,22 @@
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:element name="ARTICLE" type="xs:string" />
-                <xs:element name="UPC" type="xs:unsignedLong" />
+                <xs:element name="UPC" type="xs:string" />
                 <xs:element name="NAME" type="xs:string" />
                 <xs:element name="MEASURE" type="xs:string" />
-                <xs:element name="PRODUCT_LIFE" type="xs:unsignedByte" />
+                <xs:element name="PRODUCT_LIFE" type="xs:int" />
                 <xs:element name="STORAGE_POS" type="xs:string" />
                 <xs:element name="BILLING_CLASS" type="xs:string" />
-                <xs:element name="VN" type="xs:unsignedInt" />
+                <xs:element name="VN" type="xs:int" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="PART_STOCK">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="TIME_STAMP" type="xs:string" />
+                <xs:element name="VN" type="xs:int" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -104,12 +104,14 @@ class MessagesTest {
     @Test
     void outOrderTest() throws IOException, JAXBException { // test выходных сообщений
 
-        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO.xml");
+        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml");
         String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         is.close();
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        String xmlTest=XmlUtiles.marshaller(shell);
+        System.out.println(xmlTest);
         XmlUtiles.marshaller(shell, outputStream);
         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
         // System.out.println(targetStream.toString());
@@ -230,7 +232,39 @@ class MessagesTest {
 
             String xmlText = new String(targetStream.readAllBytes(), StandardCharsets.UTF_8);
             System.out.println(xmlText);
-
+String tt="SELECT\n" +
+        " DISTINCT st.dt_sost, -- Дата заявки\n" +
+        "      st2.dt_sost_end /*фактическая дата закрытия заказа*/, st.sost_doc, --Номер ПО\n" +
+        "      sp.id AS id_obsl, st2.id_du, -- № объекта в солво для прихода: № УП для расхода № заказа в терминах солво\n" +
+        "      (SELECT MIN(st4.dt_sost_end)\n" +
+        "            FROM kb_sost st4\n" +
+        "            JOIN sv_hvoc hv\n" +
+        "              ON hv.val_id = st4.id_sost\n" +
+        "          WHERE hv.val_short = '3021'\n" +
+        "                  AND hv.voc_id = 'KB_USL'\n" +
+        "                  AND tir.id = st4.id_tir) dt_veh, --Фактическое время прибытия машины\n" +
+        "      z.id_wms id_suppl, --IDSupplier\n" +
+        "      z.id_klient, --VN\n" +
+        "      z.n_zak, -- name\n" +
+        "      z.ur_adr, tir.n_avto, tir.vodit\n" +
+        "FROM kb_spros sp, kb_sost st, kb_sost st2, kb_zak z, kb_tir tir\n" +
+        "WHERE sp.id = st.id_obsl\n" +
+        "AND st.id_sost = 'KB_USL60175' --4103\n" +
+        "AND sp.id = st2.id_obsl\n" +
+        "AND st2.id_sost = 'KB_USL60177' --4104 отгружен\n" +
+        "--                       AND st2.dt_sost_end > SYSDATE - 1\n" +
+        "AND NOT EXISTS (SELECT 1 --4302 ещё не отправлено уведомление\n" +
+        "  FROM kb_sost\n" +
+        " WHERE id_obsl = sp.id\n" +
+        "       AND id_sost = 'KB_USL99771' --4302 Отправлено исходящее сообщение\n" +
+        "       AND sost_prm LIKE 'OUT_%') --sol 21122020\n" +
+        "--and sp.n_zakaza='1615472'\n" +
+        "AND sp.id_zak IN (SELECT id\n" +
+        "                   FROM kb_zak z\n" +
+        "                  WHERE z.id_klient = :id\n" +
+        "                        AND z.id_usr IS NOT NULL)\n" +
+        "AND sp.id_pok = z.id --поставщик заказа IDSupplier\n" +
+        "AND sp.id_tir = tir.id --водитель и номер машин";
             System.out.println("Zupinka");
         }
     }
