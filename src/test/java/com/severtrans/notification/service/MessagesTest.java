@@ -109,16 +109,9 @@ class MessagesTest {
         is.close();
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        String xmlTest=XmlUtiles.marshaller(shell);
-        System.out.println(xmlTest);
-        XmlUtiles.marshaller(shell, outputStream);
-        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-        // System.out.println(targetStream.toString());
-
-        String text = new String(targetStream.readAllBytes());
-        System.out.println(text);
-        
+        InputStream xmlTest = XmlUtiles.marshaller(shell);
+        xml = new String(xmlTest.readAllBytes(), StandardCharsets.UTF_8);
+        System.out.println(xml);
 
     }
 
