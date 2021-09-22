@@ -10,7 +10,7 @@ INNER JOIN ftps f ON r.ftp_id = f.id
 INNER JOIN response_type T ON T.ID = e.response_type_id
 --WHERE r.ftp_id = 4
 ;
-
+select * from response_ftp;
 select * from response_extra;
 select * from response_ftp
 --where ftp_id <>3 
