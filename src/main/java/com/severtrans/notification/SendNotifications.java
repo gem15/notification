@@ -98,8 +98,7 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (ftpLine.getId() != 4)
-                continue; // FIXME заглушка для отладки
+            if (ftpLine.getId() != 4)continue; // FIXME заглушка для отладки
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -166,12 +165,7 @@ public class SendNotifications {
                                         shell = XmlUtiles.unmarshaller(xmlText, Shell.class);
                                         msgInNew(prefix, shell);
                                         log.info(shell.getCustomerID() + "Обработан файл " + file.getName());
-
-                                        // region Квитирование
-
                                         confirm(file.getName(), prefix);
-                                        // endregion
-
                                     } catch (MonitorException e) { // сообщения с пользовательскими ошибками
                                         log.error(e.getMessage());
                                         confirm(file.getName(), e.getMsgType(), e.getMessage(), e.getDocNo());
@@ -365,8 +359,9 @@ public class SendNotifications {
     }
 
     /**
+     * Квитирование
      * SUCCESS
-     * <?xml version="1.0" encoding="utf-8"?>
+     <?xml version="1.0" encoding="utf-8"?>
     <Shell>
     <customerID>123</customerID>
     <confirmation>
@@ -552,7 +547,7 @@ public class SendNotifications {
                             .addValue("id_pok", customer.getId())
                             .addValue("n_gruz", customer.getCustomerName() + " SKU")
                             .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);
-                    //FIXMEWTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
+                    //WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
                     dailyOrderId = keyHolder.getKeyAs(String.class);
                     log.info("Создан суточный заказ");
@@ -646,8 +641,8 @@ public class SendNotifications {
                 // endregion
                 // region Получить остатки
                 SqlParameterSource ftpParam = new MapSqlParameterSource().addValue("id", customer.getHolderID());
-                List<PartStockLine> partStockLines = namedParameterJdbcTemplate.query(// TODO пустой набор не ошибка?
-                        "SELECT * FROM loads WHERE holder_id = :id", // FIXME поле master
+                List<PartStockLine> partStockLines = namedParameterJdbcTemplate.query(// пустой набор не ошибка?
+                        "SELECT * FROM loads WHERE holder_id = :id", // в поле response_extra.master ?
                         ftpParam, (rs, i) -> new PartStockLine(rs.getInt("LINENO"), rs.getString("ARTICLE"),
                                 rs.getString("UPC"), rs.getString("NAME"), rs.getInt("QTY")));
                 stockRq.setTimeStamp(new Date()); // текущая дата
@@ -720,7 +715,7 @@ public class SendNotifications {
                  * "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?"
                  * ; String dailyOrderId; try { dailyOrderId =
                  * jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId()); }
-                 * catch (EmptyResultDataAccessException e) { //FIXME доделать
+                 * catch (EmptyResultDataAccessException e) { // доделать
                  * .withTableName("tab") SimpleJdbcInsert simpleJdbcInsert = new
                  * SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros").
                  * usingGeneratedKeyColumns("id"); MapSqlParameterSource params = new
