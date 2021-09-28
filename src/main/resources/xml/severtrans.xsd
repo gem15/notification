@@ -24,6 +24,8 @@
     <xs:complexType name="Shell">
         <xs:sequence minOccurs="0" maxOccurs="1">
             <xs:element name="customerID" type="xs:int" minOccurs="1"/>
+            <xs:element name="msgID" type="xs:int" minOccurs="0"/>
+            <xs:element name="msgType" type="xs:int" minOccurs="0"/>
             <xs:element name="notification" type="st:NotificationTest" minOccurs="0"/>
             <xs:element name="skuList" type="st:ListSKU" minOccurs="0">
                 <xs:annotation>
@@ -49,7 +51,7 @@
         <xs:sequence>
             <xs:element name="guid" type="xs:string" minOccurs="0"/>
             <xs:element name="orderType" type="xs:boolean"/>
-            <xs:element name="orderKind" type="xs:string"/>
+            <xs:element name="orderKind" type="xs:string" minOccurs="0"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
             <xs:element name="plannedDate" type="xs:dateTime"/>
@@ -71,32 +73,7 @@
         </xs:sequence>
     </xs:complexType>
     
-    <xs:complexType name="OrderIn">
-        <xs:annotation>
-            <xs:documentation>Заказ на поставку</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="st:Order">
-                <xs:sequence>
-                    <xs:element name="lines" type="st:OrderLine"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="OrderOut">
-        <xs:annotation>
-            <xs:documentation>Заказ на отгрузку</xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="st:Order">
-                <xs:sequence>
-                    <xs:element name="lines" type="st:OrderLine"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    
+  
     <xs:complexType name="OrderLine">
         <xs:sequence>
             <xs:element name="lineNumber" type="xs:int"/>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.severtrans.com">
+	<customerID>300185</customerID>
+	<skuList>
+		<sku>
+			<article></article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<upc>4600699502791</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+	</skuList>
+</Shell>

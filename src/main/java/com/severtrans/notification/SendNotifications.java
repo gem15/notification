@@ -73,6 +73,10 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class SendNotifications {
 
+    /**
+     *
+     */
+    private static final String DAILY_ORDER_STOCK = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
@@ -89,6 +93,7 @@ public class SendNotifications {
      */
     private String rootDir;
     private Shell shell;
+    private boolean ok;
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
@@ -145,6 +150,7 @@ public class SendNotifications {
 
                                     // region  извлекаем файл в поток и преобразуем в строку
                                     String xmlText;
+                                    ftp.changeWorkingDirectory(rootDir + "IN");
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
@@ -154,7 +160,7 @@ public class SendNotifications {
                                     // endregion
 
                                     // region  сохраняем принятый в  папке LOADED
-                                    boolean ok = ftp.rename(rootDir + "IN/" + file.getName(),
+                                    ok = ftp.rename(rootDir + "IN/" + file.getName(),
                                             rootDir + "LOADED/" + file.getName());
                                     if (!ok)
                                         throw new FTPException("Ошибка перемещения файла " + file.getName());
@@ -195,7 +201,7 @@ public class SendNotifications {
                                     if (items.size() == 0)
                                         continue;
 
-                                    Shell shell = new Shell();
+                                    shell = new Shell();
                                     shell.setCustomerID(resp.getVn());
                                     switch (resp.getTypeID()) {
                                         case (3): {//поставка
@@ -396,9 +402,9 @@ public class SendNotifications {
         _shell.setCustomerID(shell.getCustomerID()); //ВН
         _shell.setConfirmation(confirmation);
         if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
-            throw new FTPException("Не удалось выгрузить " + fileName);
+            throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
         }
-    }
+}
 
     /**
      * ERROR
@@ -427,7 +433,7 @@ public class SendNotifications {
         _shell.setConfirmation(confirmation);
         try {
             if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
-                throw new FTPException("Не удалось выгрузить " + fileName);
+                throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
             }
         } catch (JAXBException e) {
             // TODO Auto-generated catch block
@@ -468,10 +474,11 @@ public class SendNotifications {
      * @param shell
      * @throws IOException
      * @throws MonitorException
+     * @throws JAXBException
      * @throws FTPException
      */
     @Transactional //(propagation = Propagation.REQUIRES_NEW)
-    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException {
+    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException, JAXBException {
         Customer customer = new Customer();
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (filePrefix) {
@@ -539,6 +546,7 @@ public class SendNotifications {
                 String dailyOrderId;
                 try {
                     dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
+                    log.info("Найден суточный заказ");
                 } catch (EmptyResultDataAccessException e) {
                     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
                             .usingGeneratedKeyColumns("id");
@@ -563,8 +571,6 @@ public class SendNotifications {
             case "IN":
             case "OUT": {// поставка/отгрузка
                 Order order = shell.getOrder();
-                // mp.addConverter(new CalendarConverter());
-
                 String xml_out;
                 if (!order.isOrderType()) {
                     OrderJackIn jack = modelMapper.map(order, OrderJackIn.class);
@@ -595,8 +601,19 @@ public class SendNotifications {
 
                 break;
             }
-            case "TEST"://тестовая ветка
-                System.out.println("TEST");
+            case "TEST"://тестовая ветка для разных экспериментов
+                log.info("TEST");
+                InputStream is = XmlUtiles.marshaller(shell);
+                String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4101_" : "MSG_4103_";
+                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName(procedureName);
+                p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlOrder, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null)
+                    throw new MonitorException((String) p_err.get("P_ERR"), shell.getCustomerID(),
+                    shell.getOrder().isOrderType() ? 0 : 1, shell.getOrder().getOrderNo());
+                // log.info("TEST\n"+xmlOrder);
                 break;
             default:
                 throw new MonitorException("Неизвестный префикс файла - " + filePrefix);
@@ -655,11 +672,11 @@ public class SendNotifications {
                 // region выгрузка на FTP
                 ftp.changeWorkingDirectory(rootDir + pathOut);
                 InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                boolean ok = ftp.storeFile(fileName, is);
+                ok = ftp.storeFile(fileName, is);
                 is.close();
                 if (ok) {
                     // region Поиск/создание суточного заказа
-                    String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
+                    String dailyOrderSql = DAILY_ORDER_STOCK;
                     String dailyOrderId;
                     try {
                         dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
@@ -694,7 +711,6 @@ public class SendNotifications {
                 break;
             }
             case "S": {// SKU
-                // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
