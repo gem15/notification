@@ -168,13 +168,15 @@ public class SendNotifications {
 
                                     try {
                                         String prefix = file.getName().split("_")[0].toUpperCase();
+                                        shell.setMsgType(prefix2MsgType(prefix));
+                                        
                                         shell = XmlUtiles.unmarshaller(xmlText, Shell.class);
-                                        msgInNew(prefix, shell);
+                                        msgInNew();
                                         log.info(shell.getCustomerID() + "Обработан файл " + file.getName());
-                                        confirm(file.getName(), prefix);
-                                    } catch (MonitorException e) { // сообщения с пользовательскими ошибками
-                                        log.error(e.getMessage());
-                                        confirm(file.getName(), e.getMsgType(), e.getMessage(), e.getDocNo());
+                                        confirm(file.getName());
+                                    } catch (MonitorException e) { 
+                                        // сообщения с пользовательскими ошибками
+                                        confirm(file.getName(),e.getMessage());
                                     } catch (DataAccessException e) {
                                         log.error("Ошибка БД. " + e.getMessage());
                                         //Utils.emailAlert(error);
@@ -383,25 +385,15 @@ public class SendNotifications {
      * @throws FTPException
      * @throws JAXBException
      */
-    private void confirm(String fileName, String prefix) throws IOException, FTPException, JAXBException {
+    private void confirm(String fileName) throws IOException, FTPException, JAXBException {
         if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();
         confirmation.setStatus("SUCCESS");
-        int msgType = prefix2MsgType(prefix);
-        confirmation.setMsgType(msgType);
-        if (msgType == 9) {
-            confirmation.setDocNo(shell.getConfirmation().getDocNo());
-        } else if (msgType == 0 || msgType == 1) {
-            confirmation.setDocNo(shell.getOrder().getOrderNo());
-        }
-
         // создаём xml и передаём на FTP
-        Shell _shell = new Shell();
-        _shell.setCustomerID(shell.getCustomerID()); //ВН
-        _shell.setConfirmation(confirmation);
-        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
+        shell.setConfirmation(confirmation);
+        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(shell))) {
             throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
         }
 }
@@ -416,23 +408,19 @@ public class SendNotifications {
      * @throws FTPException
      * @throws JAXBException
      */
-    private void confirm(String fileName, int msgType, String errorText, String docNo)
+    private void confirm(String fileName, String errorText)
             throws IOException, FTPException {
+        log.error(errorText);
         if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();
-        confirmation.setMsgType(msgType);
         confirmation.setStatus("ERROR");
-        confirmation.setDocNo(docNo);
         confirmation.setInfo(errorText);
-
         // создаём xml и передаём на FTP
-        Shell _shell = new Shell();
-        _shell.setCustomerID(shell.getCustomerID()); //ВН
-        _shell.setConfirmation(confirmation);
+        shell.setConfirmation(confirmation);
         try {
-            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
+            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(shell))) {
                 throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
             }
         } catch (JAXBException e) {
@@ -442,7 +430,7 @@ public class SendNotifications {
     }
 
     /**
-     * Получить тип сообщения по префиксу фала
+     * Костыль. Получить тип сообщения по префиксу фала
      * @param prefix
      * @return message type
      */
@@ -464,6 +452,7 @@ public class SendNotifications {
             default:
                 msg = 9;
         }
+        shell.setMsgType(msg);
         return msg;
     }
 
@@ -478,11 +467,11 @@ public class SendNotifications {
      * @throws FTPException
      */
     @Transactional //(propagation = Propagation.REQUIRES_NEW)
-    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException, JAXBException {
-        Customer customer = new Customer();
+    public void msgInNew() throws IOException, MonitorException, JAXBException {
+        // Customer customer = new Customer();
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
-        switch (filePrefix) {
-            case "SKU": {
+        switch (shell.getMsgType()){
+            case 2: { //SKU
                 // Справочник е.и.
                 String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
                 List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Unit>(Unit.class));
@@ -520,8 +509,9 @@ public class SendNotifications {
                 // endregion
 
                 // region Получить клиента по ВН
+                Customer customer;
                 try {
-                    customer = jdbcTemplate.queryForObject(
+                     customer = jdbcTemplate.queryForObject(
                             "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT,PRF_WMS FROM kb_zak WHERE "
                                     + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
                             new CustomerRowMapper(), shell.getCustomerID());
@@ -568,9 +558,12 @@ public class SendNotifications {
 
                 break;
             } // SKU
-            case "IN":
-            case "OUT": {// поставка/отгрузка
+            case 0:
+            case 1: {// поставка/отгрузка
                 Order order = shell.getOrder();
+                if (shell.getMsgID() == null ||shell.getMsgID().isEmpty()) {
+                    shell.setMsgID(order.getGuid()); //костыль
+                }
                 String xml_out;
                 if (!order.isOrderType()) {
                     OrderJackIn jack = modelMapper.map(order, OrderJackIn.class);
@@ -590,7 +583,8 @@ public class SendNotifications {
                     jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
                     xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
                 }
-                String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
+                // String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
+                String procedureName = shell.getMsgType() == 0 ? "MSG_4101" : "MSG_4103";
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
@@ -601,8 +595,11 @@ public class SendNotifications {
 
                 break;
             }
-            case "TEST"://тестовая ветка для разных экспериментов
+            case 9://тестовая ветка для разных экспериментов
                 log.info("TEST");
+                if (shell.getMsgID() == null ||shell.getMsgID().isEmpty()) {
+                    shell.setMsgID(shell.getOrder().getGuid()); //костыль
+                }
                 InputStream is = XmlUtiles.marshaller(shell);
                 String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
                 String procedureName = shell.getOrder().isOrderType() ? "MSG_4101_" : "MSG_4103_";
@@ -611,14 +608,12 @@ public class SendNotifications {
                 p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xmlOrder, new DefaultLobHandler()), Types.CLOB));
                 if (p_err.get("P_ERR") != null)
-                    throw new MonitorException((String) p_err.get("P_ERR"), shell.getCustomerID(),
-                    shell.getOrder().isOrderType() ? 0 : 1, shell.getOrder().getOrderNo());
+                    throw new MonitorException((String) p_err.get("P_ERR"));
                 // log.info("TEST\n"+xmlOrder);
                 break;
             default:
-                throw new MonitorException("Неизвестный префикс файла - " + filePrefix);
+                throw new MonitorException("Неизвестный тип файла - " + shell.getMsgType());
         }
-
     }
 
     /**

@@ -24,8 +24,9 @@
     <xs:complexType name="Shell">
         <xs:sequence minOccurs="0" maxOccurs="1">
             <xs:element name="customerID" type="xs:int" minOccurs="1"/>
-            <xs:element name="msgID" type="xs:int" minOccurs="0"/>
+            <xs:element name="msgID" type="xs:string" minOccurs="0"/>
             <xs:element name="msgType" type="xs:int" minOccurs="0"/>
+            <xs:element name="confirmation" type="st:Confirmation" minOccurs="0"/>
             <xs:element name="notification" type="st:NotificationTest" minOccurs="0"/>
             <xs:element name="skuList" type="st:ListSKU" minOccurs="0">
                 <xs:annotation>
@@ -39,7 +40,6 @@
             <xs:element name="pickNotif" type="st:PickNotif" minOccurs="0"/>
             <xs:element name="shipmentNotif" type="st:ShipmentNotif" minOccurs="0"/>
             <xs:element name="deliveryNotif" type="st:DeliveryNotif" minOccurs="0"/>
-            <xs:element name="confirmation" type="st:Confirmation" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -440,22 +440,12 @@
             <xs:documentation>Квитирование поступления файлов в обработку</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="msgType" type="xs:int">
-                <xs:annotation>
-                    <xs:documentation>Тип сообщения: 0 - поставка, 1 - отгрузка, 2 - товарный справочник</xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="status">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern value="SUCCESS|ERROR"/>
                     </xs:restriction>
                 </xs:simpleType>
-            </xs:element>
-            <xs:element name="docNo" type="xs:string" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Первоначальный номер документа(если имеется)</xs:documentation>
-                </xs:annotation>
             </xs:element>
             <xs:element name="info" type="xs:string" minOccurs="0">
                 <xs:annotation>
