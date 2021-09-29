@@ -1,7 +1,6 @@
 package com.severtrans.notification;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -74,7 +73,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SendNotifications {
 
     /**
-     *
+     * Поиск суточного заказа
      */
     private static final String DAILY_ORDER_STOCK = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
     @Autowired
@@ -160,19 +159,16 @@ public class SendNotifications {
                                     // endregion
 
                                     // region  сохраняем принятый в  папке LOADED
-                                    ok = ftp.rename(rootDir + "IN/" + file.getName(),
-                                            rootDir + "LOADED/" + file.getName());
-                                    if (!ok)
-                                        throw new FTPException("Ошибка перемещения файла " + file.getName());
+                                    //FIXME ok = ftp.rename(rootDir + "IN/" + file.getName(),
+                                    //         rootDir + "LOADED/" + file.getName());
+                                    // if (!ok)
+                                    //     throw new FTPException("Ошибка перемещения файла " + file.getName());
                                     // endregion
 
                                     try {
-                                        String prefix = file.getName().split("_")[0].toUpperCase();
-                                        shell.setMsgType(prefix2MsgType(prefix));
-                                        
                                         shell = XmlUtiles.unmarshaller(xmlText, Shell.class);
+                                        prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
                                         msgInNew();
-                                        log.info(shell.getCustomerID() + "Обработан файл " + file.getName());
                                         confirm(file.getName());
                                     } catch (MonitorException e) { 
                                         // сообщения с пользовательскими ошибками
@@ -367,17 +363,7 @@ public class SendNotifications {
     }
 
     /**
-     * Квитирование
-     * SUCCESS
-     <?xml version="1.0" encoding="utf-8"?>
-    <Shell>
-    <customerID>123</customerID>
-    <confirmation>
-      <msgType>0</msgType>
-      <status>SUCCESS</status>
-      <docNo>ML09-4201 </docNo>
-    </confirmation>
-    </Shell>
+     * Квитирование  SUCCESS
      * @param fileNameIn
      * @param prefix
      * @param shell
@@ -392,14 +378,19 @@ public class SendNotifications {
         Confirmation confirmation = new Confirmation();
         confirmation.setStatus("SUCCESS");
         // создаём xml и передаём на FTP
-        shell.setConfirmation(confirmation);
-        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(shell))) {
+        Shell _shell = new Shell();
+        _shell.setCustomerID(shell.getCustomerID());
+        _shell.setMsgID(shell.getMsgID());
+        _shell.setMsgType(shell.getMsgType());
+        _shell.setConfirmation(confirmation);
+        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
             throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
         }
-}
+        log.info(shell.getCustomerID() + "Обработан файл " + fileName);
+    }
 
     /**
-     * ERROR
+     * Квитирование ERROR
      * @param fileNameIn
      * @param msgType
      * @param errorText
@@ -418,9 +409,13 @@ public class SendNotifications {
         confirmation.setStatus("ERROR");
         confirmation.setInfo(errorText);
         // создаём xml и передаём на FTP
-        shell.setConfirmation(confirmation);
+        Shell _shell = new Shell();
+        _shell.setCustomerID(shell.getCustomerID());
+        _shell.setMsgID(shell.getMsgID());
+        _shell.setMsgType(shell.getMsgType());
+        _shell.setConfirmation(confirmation);
         try {
-            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(shell))) {
+            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
                 throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
             }
         } catch (JAXBException e) {
@@ -438,7 +433,7 @@ public class SendNotifications {
         int msg;
         switch (prefix) {
             case "TEST":
-                msg = 9;
+                msg = 9;//поставка
                 break;
             case "SKU":
                 msg = 2;
@@ -453,14 +448,17 @@ public class SendNotifications {
                 msg = 9;
         }
         shell.setMsgType(msg);
+        if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+            if (msg == 0 || msg == 1) {
+                shell.setMsgID(shell.getOrder().getGuid()); //костыль
+            }
+        }
         return msg;
     }
 
     /**
      * Новый формат обработки входящих сообщений
      *
-     * @param filePrefix
-     * @param shell
      * @throws IOException
      * @throws MonitorException
      * @throws JAXBException
@@ -468,7 +466,6 @@ public class SendNotifications {
      */
     @Transactional //(propagation = Propagation.REQUIRES_NEW)
     public void msgInNew() throws IOException, MonitorException, JAXBException {
-        // Customer customer = new Customer();
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (shell.getMsgType()){
             case 2: { //SKU
@@ -532,7 +529,7 @@ public class SendNotifications {
                 // endregion
 
                 // region Поиск/создание суточного заказа
-                String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
+                String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
                 String dailyOrderId;
                 try {
                     dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
@@ -543,7 +540,7 @@ public class SendNotifications {
                     MapSqlParameterSource params = new MapSqlParameterSource();
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
                             .addValue("id_pok", customer.getId())
-                            .addValue("n_gruz", customer.getCustomerName() + " SKU")
+                            .addValue("n_gruz", customer.getCustomerName() +" SKU")
                             .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);
                     //WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
@@ -553,11 +550,11 @@ public class SendNotifications {
                 // событие 4301 в суточный заказ Получено входящее сообщение
                 jdbcTemplate.update(
                         "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
-                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Уточнить текст", "010277043");
+                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Суточный заказ", "010277043");
                 // endregion
 
                 break;
-            } // SKU
+            } // end SKU
             case 0:
             case 1: {// поставка/отгрузка
                 Order order = shell.getOrder();
@@ -584,25 +581,57 @@ public class SendNotifications {
                     xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
                 }
                 // String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
-                String procedureName = shell.getMsgType() == 0 ? "MSG_4101" : "MSG_4103";
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103" : "MSG_4101";
                 SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
                 p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
                 if (p_err.get("P_ERR") != null)
                     throw new MonitorException((String) p_err.get("P_ERR"), shell.getCustomerID(),
-                            order.isOrderType() == false ? 0 : 1, order.getOrderNo());
+                            order.isOrderType() ? 1 : 0, order.getOrderNo());
 
                 break;
             }
             case 9://тестовая ветка для разных экспериментов
                 log.info("TEST");
-                if (shell.getMsgID() == null ||shell.getMsgID().isEmpty()) {
-                    shell.setMsgID(shell.getOrder().getGuid()); //костыль
-                }
+
+                shell.setMsgType(0);//FIXME
+
+                /*                 String sql = "SELECT COUNT(*) FROM EMPLOYEE where NAME=?";
+
+                int count = jdbcTemplate.queryForObject(sql,
+                        new Object[] { name }, Integer.class);
+ */
+/*
+select * from kb_zak where id='0102304213';
+select s.* from kb_spros s where id_zak='0102304213';
+
+SELECT sp.* FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak ='0102304213';
+--st.id_du,st.*
+select 1 from kb_sost st
+INNER join kb_spros sp on st.id_obsl = sp.id
+where sp.id_zak='0102304213'
+and  st.id_sost = 'KB_USL99770'
+and st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
+--order by dt_sost desc
+;
+*/
+ // Object myParam;
+                // boolean hasRecord =
+                // jdbcTemplate
+                //   .query("select 1 from MyTable where Param = ?",
+                //     new Object[] { myParam },
+                //     (ResultSet rs) -> {
+                //       if (rs.next()) {
+                //         return true;
+                //       }
+                //       return false;
+                //     }
+                //   );
+
                 InputStream is = XmlUtiles.marshaller(shell);
                 String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-                String procedureName = shell.getOrder().isOrderType() ? "MSG_4101_" : "MSG_4103_";
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
                 SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
                 p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",

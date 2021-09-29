@@ -1,0 +1,60 @@
+﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<customerID>300185</customerID>
+    <msgID>94135A08-B7F2-4ACD-A007-924761410000</msgID>
+    <msgType>0</msgType>
+	<order>
+		<guid>9bebe892-0652-11ec-90f4-00155d50c113</guid>
+		<orderType>false</orderType>
+		<orderKind>Поступление товаров и услуг</orderKind>
+		<orderNo>MK00-010613</orderNo>
+		<orderDate>2021-08-26T12:47:25</orderDate>
+		<plannedDate>2021-08-28T15:53:27</plannedDate>
+		<contrCode>019597</contrCode>
+		<contrName>ЦТО+ ООО</contrName>
+		<contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
+		<licencePlate>K597MA77</licencePlate>
+		<driver>driver</driver>
+		<orderLine>
+			<lineNumber>1</lineNumber>
+			<article>00-07014052</article>
+			<name>Офисное кресло EChair 515 TPU экокожа бежевая, пластик</name>
+			<qty>36</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>2</lineNumber>
+			<article>00-07028305</article>
+			<name>Офисное кресло EChair-641 TC ткань серый, пластик серый</name>
+			<qty>18</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>3</lineNumber>
+			<article>00-07059331</article>
+			<name>Офисное кресло EChair-304 TPU кожзам черн/сетка черн, пластик</name>
+			<qty>120</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>4</lineNumber>
+			<article>00-07064082</article>
+			<name>Офисное кресло EChair-685 LT ткань черный пластик</name>
+			<qty>48</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>5</lineNumber>
+			<article>00-07064083</article>
+			<name>Офисное кресло EChair-685 TС ткань черный пластик </name>
+			<qty>48</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>6</lineNumber>
+			<article>00-07066775</article>
+			<name>Кресло EChair-683 TPU кожзам черный, пластик</name>
+			<qty>18</qty>
+		</orderLine>
+		<orderLine>
+			<lineNumber>7</lineNumber>
+			<article>00-07066776</article>
+			<name>Кресло EChair-683 TPU кожзам черный/серый, пластик</name>
+			<qty>18</qty>
+		</orderLine>
+	</order>
+</Shell>

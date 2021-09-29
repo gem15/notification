@@ -158,7 +158,7 @@
             <xs:documentation>Базовй класс для уведомлений</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="guid" type="xs:string"/>
+            <xs:element name="guid" type="xs:string" minOccurs="0"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
             <xs:element name="contrCode" type="xs:string" minOccurs="0"/>
@@ -429,6 +429,7 @@
         </xs:sequence>
 
     </xs:complexType>
+
     <xs:complexType name="upcList">
         <xs:sequence>
             <xs:element name="upcAlter" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>

@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.severtrans.com">
+<Shell xmlns="http://www.severtrans.com">
 	<customerID>300185</customerID>
+    <msgID>94135A08-B7F2-4ACD-A007-924761410000</msgID>
+    <msgType>2</msgType>
 	<skuList>
 		<sku>
 			<article/>
