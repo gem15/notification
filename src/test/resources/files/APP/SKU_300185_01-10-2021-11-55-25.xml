@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://www.severtrans.com">
+	<customerID>300185</customerID>
+	<msgID>109660a5-4ccf-44b2-8078-5f68b1828b38</msgID>
+	<msgType>2</msgType>
+	<skuList>
+		<sku>
+			<article>197015</article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<upc>4600699502791</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+			<upcList>
+				<upcAlter>4600699502791</upcAlter>
+			</upcList>
+		</sku>
+	</skuList>
+</Shell>

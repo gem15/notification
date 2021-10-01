@@ -66,8 +66,8 @@
                 </xs:annotation>
             </xs:element>
             <xs:element name="contrAddress" type="xs:string" minOccurs="0"/>
-            <xs:element name="licencePlate" type="xs:string"/>
-            <xs:element name="driver" type="xs:string"/>
+            <xs:element name="licencePlate" type="xs:string" minOccurs="0"/>
+            <xs:element name="driver" type="xs:string" minOccurs="0"/>
             <xs:element name="comment" type="xs:string" minOccurs="0"/>
             <xs:element name="orderLine" type="st:OrderLine" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.DateFormat;
@@ -159,10 +160,10 @@ public class SendNotifications {
                                     // endregion
 
                                     // region  сохраняем принятый в  папке LOADED
-                                    //FIXME ok = ftp.rename(rootDir + "IN/" + file.getName(),
-                                    //         rootDir + "LOADED/" + file.getName());
-                                    // if (!ok)
-                                    //     throw new FTPException("Ошибка перемещения файла " + file.getName());
+                                     ok = ftp.rename(rootDir + "IN/" + file.getName(),
+                                            rootDir + "LOADED/" + file.getName());
+                                    if (!ok)
+                                        throw new FTPException("Ошибка перемещения файла " + file.getName());
                                     // endregion
 
                                     try {
@@ -557,39 +558,33 @@ public class SendNotifications {
             } // end SKU
             case 0:
             case 1: {// поставка/отгрузка
+                //region//костыль
                 Order order = shell.getOrder();
-                if (shell.getMsgID() == null ||shell.getMsgID().isEmpty()) {
-                    shell.setMsgID(order.getGuid()); //костыль
+                if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                    shell.setMsgID(order.getGuid());
                 }
-                String xml_out;
-                if (!order.isOrderType()) {
-                    OrderJackIn jack = modelMapper.map(order, OrderJackIn.class);
-                    jack.setOrderType("Поставка");
-                    jack.setDeliveryType("Поставка");
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
-                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods").writeValueAsString(jack);
-                } else {
-                    OrderJackOut jack = modelMapper.map(order, OrderJackOut.class);
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderType("Отгрузка");
-                    jack.setDeliveryType("Отгрузка");
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
-                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
-                }
-                // String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
-                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103" : "MSG_4101";
-                SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
-                        .withProcedureName(procedureName);
-                p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
-                        new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null)
-                    throw new MonitorException((String) p_err.get("P_ERR"), shell.getCustomerID(),
-                            order.isOrderType() ? 1 : 0, order.getOrderNo());
+                //endregion
+                //region проверка на дубликат
+                String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
+                        + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
+                        + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
+                        + " AND UPPER(st.id_du)= UPPER(:msgID)";
+                MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
+                        .addValue("msgID", shell.getMsgID());
 
+                if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
+                    throw new MonitorException("Заказ уже существует");
+                //endregion
+       
+                InputStream is = XmlUtiles.marshaller(shell);
+                String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
+                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName(procedureName);
+                p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlOrder, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null)
+                    throw new MonitorException((String) p_err.get("P_ERR"));
                 break;
             }
             case 9://тестовая ветка для разных экспериментов
@@ -597,38 +592,54 @@ public class SendNotifications {
 
                 shell.setMsgType(0);//FIXME
 
-                /*                 String sql = "SELECT COUNT(*) FROM EMPLOYEE where NAME=?";
+                //region проверка на дубликат
+                String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
+                        + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
+                        + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
+                        + " AND UPPER(st.id_du)= UPPER(:msgID)";
+                MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
+                .addValue("msgID", shell.getMsgID());
+                
+                if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
+                    throw new MonitorException("Заказ уже существует");
+                //endregion
+                /*
+                select * from kb_zak where id='0102304213';
+                select s.* from kb_spros s where id_zak='0102304213';
 
-                int count = jdbcTemplate.queryForObject(sql,
-                        new Object[] { name }, Integer.class);
- */
-/*
-select * from kb_zak where id='0102304213';
-select s.* from kb_spros s where id_zak='0102304213';
-
-SELECT sp.* FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak ='0102304213';
---st.id_du,st.*
-select 1 from kb_sost st
-INNER join kb_spros sp on st.id_obsl = sp.id
-where sp.id_zak='0102304213'
-and  st.id_sost = 'KB_USL99770'
-and st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
---order by dt_sost desc
-;
-*/
- // Object myParam;
-                // boolean hasRecord =
-                // jdbcTemplate
-                //   .query("select 1 from MyTable where Param = ?",
-                //     new Object[] { myParam },
-                //     (ResultSet rs) -> {
-                //       if (rs.next()) {
-                //         return true;
-                //       }
-                //       return false;
-                //     }
-                //   );
-
+                SELECT sp.* FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak ='0102304213';
+                --st.id_du,st.*
+SELECT 1 FROM kb_sost st
+INNER JOIN kb_spros sp ON st.id_obsl = sp.ID
+INNER JOIN kb_zak z ON z.ID = sp.id_zak
+WHERE z.id_klient = 300185
+AND z.id_usr IS NOT NULL
+--AND sp.id_zak='0102304213'
+AND  st.id_sost = 'KB_USL99770' Получено входящее сообщение	4301
+AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
+;                ;
+                */
+                /* Object myParam;
+                                boolean hasRecord =
+                                jdbcTemplate
+                                .query("select 1 from MyTable where Param = ?",
+                                    new Object[] { myParam },
+                                    (ResultSet rs) -> {
+                                    if (rs.next()) {
+                                        return true;
+                                    }
+                                    return false;
+                                    }
+                                );
+                */
+                
+                //region//костыль
+                Order order = shell.getOrder();
+                if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                    shell.setMsgID(order.getGuid());
+                }
+                //endregion
+                
                 InputStream is = XmlUtiles.marshaller(shell);
                 String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
                 String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";

@@ -1,28 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<confirmation>
-  <customerID>300227</customerID>
-  <msgType>0</msgType>
-  <status>ERROR</status>
-  <docNo>ML09-4201 </docNo>
-  <info>При разборе файла 1505 произошла ошибка: Ошибка wms3_Check_OrderA: Дата заказа [09.09.2021 09:00] устарела!</info>
-</confirmation>
-
-    <xs:complexType name="Confirmation">
-        <xs:sequence>
-            <xs:element name="customerID" type="xs:int"/>
-            <xs:element name="msgType" type="xs:int"/>
-            <xs:element name="status">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:pattern value="SUCCESS|ERROR"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-            <xs:element name="docNo" type="xs:string" minOccurs="0"/>
-            <xs:element name="info" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-SELECT 
+SELECT
+	1
+FROM
+	kb_sost st
+	INNER JOIN kb_spros sp ON st.id_obsl = sp.id
+WHERE
+	sp.id_zak = '0102304213'
+	AND st.id_sost = 'KB_USL99770'
+	AND st.id_du = '965e4682-9ec3-11eb-80c0-00155d0c6c19';
+ SELECT 
 	  extractvalue(VALUE(t), '/Shell/customerID') AS VN, --ВН клиента
 	  extractvalue(VALUE(t), '/Shell//order/orderNo') AS number1, --Номер ПО
 	  extractvalue(VALUE(t), '/Shell/order/orderDate') AS Date1, --Дата ПО
