@@ -50,6 +50,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="guid" type="xs:string" minOccurs="0"/>
+            <xs:element name="action" type="xs:int" minOccurs="0"/>
             <xs:element name="orderType" type="xs:boolean"/>
             <xs:element name="orderKind" type="xs:string" minOccurs="0"/>
             <xs:element name="orderNo" type="xs:string"/>
@@ -175,12 +176,12 @@
                     <xs:documentation>водитель</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="actualArrivalTime" type="xs:dateTime">
+            <xs:element name="actualArrivalTime" type="xs:dateTime" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>фактическое время прибытия машины</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="actualDeliveryTime" type="xs:dateTime">
+            <xs:element name="actualDeliveryTime" type="xs:dateTime" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>фактическое время отгрузки</xs:documentation>
                 </xs:annotation>
@@ -298,7 +299,15 @@
         <xs:annotation>
             <xs:documentation>Уведомление о подтверждении отгрузки</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="st:Notification">
+                <xs:sequence>
+                    <xs:element name="line" type="st:NotificationLine" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
+<!--         <xs:sequence>
             <xs:element name="guid" type="xs:string"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
@@ -327,12 +336,8 @@
             </xs:element>
             <xs:element name="orderLine" type="st:ShipmentNotifLine" minOccurs="1"
                 maxOccurs="unbounded"/>
-
-            <!--    <Date>29.01.2020</Date> - плановая дата отгрузки
-    <VehicleFactlArrivalTime>29.01.2020</VehicleFactlArrivalTime> - фактическое время отгрузки
-    <FactDeliveryDate>29.01.2020</FactDeliveryDate> - время прибытия машины
-            -->
         </xs:sequence>
+ -->
     </xs:complexType>
 
     <xs:complexType name="ShipmentNotifLine">
@@ -364,11 +369,15 @@
         <xs:annotation>
             <xs:documentation>Уведомление о подтверждении отгрузки</xs:documentation>
         </xs:annotation>
-        <!--        <xs:complexContent>
-            <xs:extension base="st:Notification"/>
+        <xs:complexContent>
+            <xs:extension base="st:Notification">
+                <xs:sequence>
+                    <xs:element name="line" type="st:NotificationLine" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
         </xs:complexContent>
--->
-        <xs:sequence>
+
+<!--         <xs:sequence>
             <xs:element name="guid" type="xs:string"/>
             <xs:element name="orderNo" type="xs:string"/>
             <xs:element name="orderDate" type="xs:dateTime"/>
@@ -398,7 +407,7 @@
             <xs:element name="orderLine" type="st:DeliveryNotifLine" minOccurs="1"
                 maxOccurs="unbounded"/>
         </xs:sequence>
-
+ -->
     </xs:complexType>
 
     <xs:complexType name="DeliveryNotifLine">

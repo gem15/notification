@@ -15,6 +15,8 @@ select * from response_extra;
 select * from response_ftp
 --where ftp_id <>3 
 ;
+update response_ftp set vn=300259 where ftp_id = 4;
+
 select * from ftps;
 select * from response_type;
 

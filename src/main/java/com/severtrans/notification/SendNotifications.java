@@ -1,5 +1,5 @@
 package com.severtrans.notification;
-
+import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.dto.Confirmation;
 import com.severtrans.notification.dto.DeliveryNotif;
 import com.severtrans.notification.dto.DeliveryNotifLine;
+import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.PickNotif;
@@ -205,19 +206,19 @@ public class SendNotifications {
                                     shell.setCustomerID(resp.getVn());
                                     switch (resp.getTypeID()) {
                                         case (3): {//поставка
-                                            List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items,
-                                                    DeliveryNotifLine.class, modelMapper);
+                                            List<NotificationLine> deliveryNotifLines = Utils.mapList(items,
+                                                    NotificationLine.class, modelMapper);
                                             DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
-                                            deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
+                                            deliveryNotif.getLine().addAll(deliveryNotifLines);
                                             deliveryNotif.setGuid(master.getGuid());
                                             shell.setDeliveryNotif(deliveryNotif);
                                             break;
                                         }
                                         case (4): {//отгрузка
-                                            List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items,
-                                                    ShipmentNotifLine.class, modelMapper);
+                                            List<NotificationLine> shipmentNotifLines = Utils.mapList(items,
+                                                    NotificationLine.class, modelMapper);
                                             ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
-                                            shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
+                                            shipmentNotif.getLine().addAll(shipmentNotifLines);
                                             shipmentNotif.setGuid(master.getGuid());
                                             shell.setShipmentNotif(shipmentNotif);
                                             break;
@@ -240,19 +241,26 @@ public class SendNotifications {
                                         String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
 
-                                        if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
-                                            throw new FTPException("Не удалось сменить директорию");
-                                        if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
-                                            // 4302 подтверждение что по данному заказу мы отправили уведомление
-                                            jdbcTemplate.update(
-                                                    "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
-                                                    fileName);
-                                            log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
-                                        } else {
-                                            throw new FTPException(resp.getVn() + " " + resp.getTypeName()
-                                                    + " Не удалось выгрузить " + fileName);
-                                        }
+                                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                        XmlUtiles.marshaller(shell, outputStream);
+                                        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+                                        String text = new String(targetStream.readAllBytes());
+                                        System.out.println(text);
+System.out.println("stop");
+
+                                        // if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
+                                        //     throw new FTPException("Не удалось сменить директорию");
+                                        // if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
+                                        //     // 4302 подтверждение что по данному заказу мы отправили уведомление
+                                        //     jdbcTemplate.update(
+                                        //             "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
+                                        //             master.getOrderID(), "KB_USL99771", new Date(), new Date(),
+                                        //             fileName);
+                                        //     log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
+                                        // } else {
+                                        //     throw new FTPException(resp.getVn() + " " + resp.getTypeName()
+                                        //             + " Не удалось выгрузить " + fileName);
+                                        // }
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
                                         //TODOошибка обработки XML  валидацию ?
