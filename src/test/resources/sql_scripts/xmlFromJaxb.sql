@@ -26,24 +26,20 @@ WHERE
 FROM TABLE(xmlsequence(extract(xmltype(
 '<Shell>
 	<customerID>300185</customerID>
+	<msgID>89f81f05-9d1e-4319-9b9d-b6f4e34c7e77</msgID>
+	<msgType>0</msgType>
 	<order>
-		<guid>48570797-9e99-11eb-80c5-00155d0c1603</guid>
 		<orderType>false</orderType>
-		<orderKind>Перемещение товаров</orderKind>
-		<orderNo>MK00-068113</orderNo>
-		<orderDate>2021-06-06T15:52:50</orderDate>
-		<plannedDate>2021-04-23T00:00:00</plannedDate>
-		<contrCode>000002</contrCode>
-		<contrName>ЛСП ОХ - Склад отгрузки</contrName>
-		<contrAddress>141150, МО, г. Лосино-Петровский, ул. Первомайская, д.1., стр. 27</contrAddress>
-		<licencePlate>KK110</licencePlate>
-		<driver>Фамилия</driver>
+		<orderNo>ОП-00000297</orderNo>
+		<orderDate>2021-05-27T14:46:38</orderDate>
+		<plannedDate>2021-10-01T23:59:59</plannedDate>
+		<contrCode>БФ-005335</contrCode>
+		<contrName>КРЦ ЭФКО - Каскад ООО</contrName>
 		<orderLine>
 			<lineNumber>1</lineNumber>
-			<article>00-01118298</article>
-			<name>Офисное кресло Chairman    685    Россия     10-356 черный </name>
-			<qty>4</qty>
-			<category>91</category>
+			<article>197015</article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<qty>21600</qty>
 		</orderLine>
 	</order>
 </Shell>'
@@ -61,38 +57,25 @@ SELECT extractvalue(VALUE(t), '/orderLine/lineNumber') AS LineNumber, --номе
 		  extractvalue(VALUE(t), '/orderLine/qty') AS Count1, --кол-во
 		  extractvalue(VALUE(t), '/orderLine/comment') AS Comment1 --Комментарий
 FROM TABLE(xmlsequence(extract(xmltype(
-'<Shell>
+'
+<Shell>
 	<customerID>300185</customerID>
+	<msgID>89f81f05-9d1e-4319-9b9d-b6f4e34c7e77</msgID>
+	<msgType>0</msgType>
 	<order>
-		<guid>48570797-9e99-11eb-80c5-00155d0c1603</guid>
 		<orderType>false</orderType>
-		<orderKind>Перемещение товаров</orderKind>
-		<orderNo>MK00-068113</orderNo>
-		<orderDate>2021-06-06T15:52:50</orderDate>
-		<plannedDate>2021-04-23T00:00:00</plannedDate>
-		<contrCode>000002</contrCode>
-		<contrName>ЛСП ОХ - Склад отгрузки</contrName>
-		<contrAddress>141150, МО, г. Лосино-Петровский, ул. Первомайская, д.1., стр. 27</contrAddress>
-		<licencePlate>KK110</licencePlate>
-		<driver>Фамилия</driver>
+		<orderNo>ОП-00000297</orderNo>
+		<orderDate>2021-05-27T14:46:38</orderDate>
+		<plannedDate>2021-10-01T23:59:59</plannedDate>
+		<contrCode>БФ-005335</contrCode>
+		<contrName>КРЦ ЭФКО - Каскад ООО</contrName>
 		<orderLine>
 			<lineNumber>1</lineNumber>
-			<article>00-01118298</article>
-			<name>Офисное кресло Chairman    685    Россия     10-356 черный </name>
-			<qty>4</qty>
-			<category>91</category>
-		</orderLine>
-		<orderLine>
-			<lineNumber>2</lineNumber>
-			<article>00-01118298</article>
-			<name>Офисное кресло Chairman    685    Россия     10-356 черный </name>
-			<qty>4</qty>
-			<mark>m</mark>
-			<mark2>m2</mark2>
-			<mark3>m3</mark3>
-			<lot>lot</lot>
-			<category>91</category>
+			<article>197015</article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<qty>21600</qty>
 		</orderLine>
 	</order>
-</Shell>'
+</Shell>
+'
 ),'//Shell/order/orderLine'))) t; --//ReceiptOrderForGoods/Goods

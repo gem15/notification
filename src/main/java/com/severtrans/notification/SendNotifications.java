@@ -178,7 +178,8 @@ public class SendNotifications {
                                         log.error("Ошибка БД. " + e.getMessage());
                                         //Utils.emailAlert(error);
                                     } catch (JAXBException e) {
-                                        log.error("Неверное содержимое файла. " + e.getMessage());
+                                        log.error("Некорректный формат. " + e.getMessage());
+                                        confirm(file.getName(),"Некорректный формат");
                                         e.printStackTrace();
                                     }
                                 }
@@ -449,11 +450,11 @@ public class SendNotifications {
                 msg = 9;
         }
         shell.setMsgType(msg);
-        if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
-            if (msg == 0 || msg == 1) {
-                shell.setMsgID(shell.getOrder().getGuid()); //костыль
-            }
-        }
+        // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+        //     if (msg == 0 || msg == 1) {
+        //         shell.setMsgID(shell.getOrder().getGuid()); //костыль
+        //     }
+        // }
         return msg;
     }
 
@@ -559,10 +560,10 @@ public class SendNotifications {
             case 0:
             case 1: {// поставка/отгрузка
                 //region//костыль
-                Order order = shell.getOrder();
-                if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
-                    shell.setMsgID(order.getGuid());
-                }
+                // Order order = shell.getOrder();
+                // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                //     shell.setMsgID(order.getGuid());
+                // }
                 //endregion
                 //region проверка на дубликат
                 String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
@@ -634,10 +635,10 @@ AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
                 */
                 
                 //region//костыль
-                Order order = shell.getOrder();
-                if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
-                    shell.setMsgID(order.getGuid());
-                }
+                // Order order = shell.getOrder();
+                // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                //     shell.setMsgID(order.getGuid());
+                // }
                 //endregion
                 
                 InputStream is = XmlUtiles.marshaller(shell);

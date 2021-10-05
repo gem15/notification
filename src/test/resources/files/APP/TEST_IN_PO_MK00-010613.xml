@@ -1,6 +1,6 @@
 ﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<customerID>300185</customerID>
-    <msgID>965e4682-9ec3-11eb-80c0-00155d0c6c19</msgID>
+    <msgID>965e4682-9ec3-11eb-80c0-00155d0c6c20</msgID>
     <msgType>0</msgType>
 	<order>
 		<guid>9bebe892-0652-11ec-90f4-00155d50c113</guid>
@@ -8,7 +8,7 @@
 		<orderKind>Поступление товаров и услуг</orderKind>
 		<orderNo>MK00-010613</orderNo>
 		<orderDate>2021-08-26T12:47:25</orderDate>
-		<plannedDate>2021-08-28T15:53:27</plannedDate>
+		<plannedDate>2021-10-05T15:53:27</plannedDate>
 		<contrCode>019597</contrCode>
 		<contrName>ЦТО+ ООО</contrName>
 		<contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
