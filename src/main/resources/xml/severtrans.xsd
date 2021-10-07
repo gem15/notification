@@ -25,9 +25,21 @@
         <xs:sequence minOccurs="0" maxOccurs="1">
             <xs:element name="customerID" type="xs:int" minOccurs="1"/>
             <xs:element name="msgID" type="xs:string" minOccurs="0"/>
-            <xs:element name="msgType" type="xs:int" minOccurs="0"/>
+            <xs:element name="msgType" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        1	Заказ на поставку (УП)
+                        2	Заказ на отгрузку (РО)
+                        3	Подтверждение завершения поставки
+                        4	Подтверждение завершения отгрузки
+                        5	Справочник SKU
+                        6	Запрос остатков Part Stock
+                        7	Подтверждение груз собран
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="confirmation" type="st:Confirmation" minOccurs="0"/>
-            <xs:element name="notification" type="st:NotificationTest" minOccurs="0"/>
+            <xs:element name="notification" type="st:Notification" minOccurs="0"/>
             <xs:element name="skuList" type="st:ListSKU" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Обновление SKU</xs:documentation>
@@ -186,9 +198,8 @@
                     <xs:documentation>фактическое время отгрузки</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <!--            <xs:element name="notifLines" type="st:NotificationLine" minOccurs="1"
-                maxOccurs="unbounded"/>
--->
+            <xs:element name="line" type="st:NotificationLine" minOccurs="1" maxOccurs="unbounded" />
+
         </xs:sequence>
     </xs:complexType>
 
@@ -274,7 +285,15 @@
         <xs:annotation>
             <xs:documentation>Уведомление о завершении сборки</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
+        <xs:complexContent>
+            <xs:extension base="st:Notification">
+                <xs:sequence>
+                    <xs:element name="line" type="st:NotificationLine" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+
+<!--         <xs:sequence>
             <xs:element name="lineNumber" type="xs:int"/>
             <xs:element name="article" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
@@ -292,7 +311,7 @@
             </xs:element>
             <xs:element name="expirationDate" type="xs:date" minOccurs="0"/>
             <xs:element name="productionDate" type="xs:date" minOccurs="0"/>
-        </xs:sequence>
+        </xs:sequence> -->
     </xs:complexType>
 
     <xs:complexType name="ShipmentNotif">

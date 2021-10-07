@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
 
@@ -22,6 +23,7 @@ import com.severtrans.notification.dto.DeliveryNotif;
 import com.severtrans.notification.dto.DeliveryNotifLine;
 import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.Notification;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.PickNotif;
 import com.severtrans.notification.dto.PickNotifLine;
@@ -189,6 +191,9 @@ public class SendNotifications {
                             case (2): {// NEW все исходящие сообщения (отбивки)
                                 MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
                                         resp.getVn());
+
+// log.info("\n----- "+resp.getTypeID());
+
                                 List<NotificationJack> listMaster;
                                 listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(), queryParam,
                                         new NotificationRowMapper());
@@ -204,35 +209,44 @@ public class SendNotifications {
 
                                     shell = new Shell();
                                     shell.setCustomerID(resp.getVn());
-                                    switch (resp.getTypeID()) {
-                                        case (3): {//поставка
-                                            List<NotificationLine> deliveryNotifLines = Utils.mapList(items,
-                                                    NotificationLine.class, modelMapper);
-                                            DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
-                                            deliveryNotif.getLine().addAll(deliveryNotifLines);
-                                            deliveryNotif.setGuid(master.getGuid());
-                                            shell.setDeliveryNotif(deliveryNotif);
-                                            break;
-                                        }
-                                        case (4): {//отгрузка
-                                            List<NotificationLine> shipmentNotifLines = Utils.mapList(items,
-                                                    NotificationLine.class, modelMapper);
-                                            ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
-                                            shipmentNotif.getLine().addAll(shipmentNotifLines);
-                                            shipmentNotif.setGuid(master.getGuid());
-                                            shell.setShipmentNotif(shipmentNotif);
-                                            break;
-                                        }
-                                        case (7): {//сборка
-                                            List<PickNotifLine> pickNotifLines = Utils.mapList(items,
-                                                    PickNotifLine.class, modelMapper);
-                                            PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
-                                            pickNotif.getPickLine().addAll(pickNotifLines);
-                                            pickNotif.setGuid(master.getGuid());
-                                            shell.setPickNotif(pickNotif);
-                                            break;
-                                        }
-                                    }
+                                    shell.setMsgID(UUID.randomUUID().toString());
+                                    shell.setMsgType(resp.getTypeID());
+                                    List<NotificationLine> notificationLine = Utils.mapList(items,
+                                    NotificationLine.class, modelMapper);
+                                    Notification notification = modelMapper.map(master, Notification.class);
+                                    notification.getLine().addAll(notificationLine);
+                                    shell.setNotification(notification);
+
+ 
+                                    // switch (resp.getTypeID()) {
+                                    //     case (3): {//поставка
+                                    //         List<NotificationLine> deliveryNotifLines = Utils.mapList(items,
+                                    //                 NotificationLine.class, modelMapper);
+                                    //         DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
+                                    //         deliveryNotif.getLine().addAll(deliveryNotifLines);
+                                    //         deliveryNotif.setGuid(master.getGuid());
+                                    //         shell.setDeliveryNotif(deliveryNotif);
+                                    //         break;
+                                    //     }
+                                    //     case (4): {//отгрузка
+                                    //         List<NotificationLine> shipmentNotifLines = Utils.mapList(items,
+                                    //                 NotificationLine.class, modelMapper);
+                                    //         ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
+                                    //         shipmentNotif.getLine().addAll(shipmentNotifLines);
+                                    //         shipmentNotif.setGuid(master.getGuid());
+                                    //         shell.setShipmentNotif(shipmentNotif);
+                                    //         break;
+                                    //     }
+                                    //     case (7): {//сборка
+                                    //         List<PickNotifLine> pickNotifLines = Utils.mapList(items,
+                                    //                 PickNotifLine.class, modelMapper);
+                                    //         PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
+                                    //         pickNotif.getPickLine().addAll(pickNotifLines);
+                                    //         pickNotif.setGuid(master.getGuid());
+                                    //         shell.setPickNotif(pickNotif);
+                                    //         break;
+                                    //     }
+                                    // }
                                     try {// передача на FTP
                                          // region имя файла
                                          // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
@@ -241,26 +255,25 @@ public class SendNotifications {
                                         String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
 
-                                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                        /* ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                                         XmlUtiles.marshaller(shell, outputStream);
                                         InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
                                         String text = new String(targetStream.readAllBytes());
-                                        System.out.println(text);
-System.out.println("stop");
+                                        log.info(text); */
 
-                                        // if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
-                                        //     throw new FTPException("Не удалось сменить директорию");
-                                        // if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
-                                        //     // 4302 подтверждение что по данному заказу мы отправили уведомление
-                                        //     jdbcTemplate.update(
-                                        //             "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                        //             master.getOrderID(), "KB_USL99771", new Date(), new Date(),
-                                        //             fileName);
-                                        //     log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
-                                        // } else {
-                                        //     throw new FTPException(resp.getVn() + " " + resp.getTypeName()
-                                        //             + " Не удалось выгрузить " + fileName);
-                                        // }
+                                        if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
+                                            throw new FTPException("Не удалось сменить директорию");
+                                        if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
+                                            // 4302 подтверждение что по данному заказу мы отправили уведомление
+                                            jdbcTemplate.update(
+                                                    "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
+                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
+                                                    fileName);
+                                            log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
+                                        } else {
+                                            throw new FTPException(resp.getVn() + " " + resp.getTypeName()
+                                                    + " Не удалось выгрузить " + fileName);
+                                        }
                                     } catch (JAXBException e) {
                                         log.error(e.getMessage());
                                         //TODOошибка обработки XML  валидацию ?
@@ -446,13 +459,13 @@ System.out.println("stop");
                 msg = 9;//поставка
                 break;
             case "SKU":
-                msg = 2;
+                msg = 5;
                 break;
             case "IN":
-                msg = 0;
+                msg = 1;
                 break;
             case "OUT":
-                msg = 1;
+                msg = 2;
                 break;
             default:
                 msg = 9;
@@ -478,7 +491,7 @@ System.out.println("stop");
     public void msgInNew() throws IOException, MonitorException, JAXBException {
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
         switch (shell.getMsgType()){
-            case 2: { //SKU
+            case 5: { //SKU
                 // Справочник е.и.
                 String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
                 List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Unit>(Unit.class));
@@ -565,8 +578,8 @@ System.out.println("stop");
 
                 break;
             } // end SKU
-            case 0:
-            case 1: {// поставка/отгрузка
+            case 1:
+            case 2: {// поставка/отгрузка
                 //region//костыль
                 // Order order = shell.getOrder();
                 // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
