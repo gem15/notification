@@ -1,7 +1,5 @@
 package com.severtrans.notification;
-
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -13,30 +11,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.dto.Confirmation;
-import com.severtrans.notification.dto.DeliveryNotif;
-import com.severtrans.notification.dto.DeliveryNotifLine;
 import com.severtrans.notification.dto.ListSKU;
-import com.severtrans.notification.dto.Order;
-import com.severtrans.notification.dto.PickNotif;
-import com.severtrans.notification.dto.PickNotifLine;
+import com.severtrans.notification.dto.Notification;
+import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
-import com.severtrans.notification.dto.ShipmentNotif;
-import com.severtrans.notification.dto.ShipmentNotifLine;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.NotificationJack;
-import com.severtrans.notification.dto.jackson.OrderJackIn;
-import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.dto.jackson.PartStock;
 import com.severtrans.notification.dto.jackson.PartStockLine;
 import com.severtrans.notification.model.Customer;
 import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.Ftp;
+import com.severtrans.notification.model.MonitorLog;
 import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.model.ResponseFtp;
 import com.severtrans.notification.model.Unit;
@@ -73,6 +68,10 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class SendNotifications {
 
+    /**
+     * Поиск суточного заказа LIKE search||'%';
+     */
+    private static final String DAILY_ORDER_STOCK = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz like '%STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
@@ -89,6 +88,7 @@ public class SendNotifications {
      */
     private String rootDir;
     private Shell shell;
+    private boolean ok;
 
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
@@ -141,10 +141,15 @@ public class SendNotifications {
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
-                                for (FTPFile file : listFiles) {
+                                // ArrayList<FTPFile> list = new ArrayList(Arrays.asList(listFiles));
+                                // FTPFile james = list.stream()
+                                //         .filter(jame -> "TEST".equals(jame.getName().split("_")[0].toUpperCase()))
+                                //         .findAny().orElse(null);
 
+                                for (FTPFile file : listFiles) {
                                     // region  извлекаем файл в поток и преобразуем в строку
                                     String xmlText;
+                                    ftp.changeWorkingDirectory(rootDir + "IN");
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
@@ -152,28 +157,26 @@ public class SendNotifications {
                                         throw new FTPException("Completing Pending Commands Not Successful");
                                     }
                                     // endregion
-
                                     // region  сохраняем принятый в  папке LOADED
-                                    boolean ok = ftp.rename(rootDir + "IN/" + file.getName(),
+                                    ok = ftp.rename(rootDir + "IN/" + file.getName(),
                                             rootDir + "LOADED/" + file.getName());
                                     if (!ok)
                                         throw new FTPException("Ошибка перемещения файла " + file.getName());
                                     // endregion
-
                                     try {
-                                        String prefix = file.getName().split("_")[0].toUpperCase();
                                         shell = XmlUtiles.unmarshaller(xmlText, Shell.class);
-                                        msgInNew(prefix, shell);
-                                        log.info(shell.getCustomerID() + "Обработан файл " + file.getName());
-                                        confirm(file.getName(), prefix);
-                                    } catch (MonitorException e) { // сообщения с пользовательскими ошибками
-                                        log.error(e.getMessage());
-                                        confirm(file.getName(), e.getMsgType(), e.getMessage(), e.getDocNo());
+                                        prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
+                                        msgInNew();
+                                        confirm(file.getName());
+                                    } catch (MonitorException e) { 
+                                        // сообщения с пользовательскими ошибками
+                                        confirm(file.getName(),e.getMessage());
                                     } catch (DataAccessException e) {
                                         log.error("Ошибка БД. " + e.getMessage());
                                         //Utils.emailAlert(error);
                                     } catch (JAXBException e) {
-                                        log.error("Неверное содержимое файла. " + e.getMessage());
+                                        log.error("Некорректный формат. " + e.getMessage());
+                                        confirm(file.getName(),"Некорректный формат");
                                         e.printStackTrace();
                                     }
                                 }
@@ -182,6 +185,7 @@ public class SendNotifications {
                             case (2): {// NEW все исходящие сообщения (отбивки)
                                 MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id",
                                         resp.getVn());
+// log.info("\n----- "+resp.getTypeID());
                                 List<NotificationJack> listMaster;
                                 listMaster = namedParameterJdbcTemplate.query(resp.getQueryMaster(), queryParam,
                                         new NotificationRowMapper());
@@ -195,37 +199,15 @@ public class SendNotifications {
                                     if (items.size() == 0)
                                         continue;
 
-                                    Shell shell = new Shell();
+                                    shell = new Shell();
                                     shell.setCustomerID(resp.getVn());
-                                    switch (resp.getTypeID()) {
-                                        case (3): {//поставка
-                                            List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items,
-                                                    DeliveryNotifLine.class, modelMapper);
-                                            DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
-                                            deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
-                                            deliveryNotif.setGuid(master.getGuid());
-                                            shell.setDeliveryNotif(deliveryNotif);
-                                            break;
-                                        }
-                                        case (4): {//отгрузка
-                                            List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items,
-                                                    ShipmentNotifLine.class, modelMapper);
-                                            ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
-                                            shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
-                                            shipmentNotif.setGuid(master.getGuid());
-                                            shell.setShipmentNotif(shipmentNotif);
-                                            break;
-                                        }
-                                        case (7): {//сборка
-                                            List<PickNotifLine> pickNotifLines = Utils.mapList(items,
-                                                    PickNotifLine.class, modelMapper);
-                                            PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
-                                            pickNotif.getPickLine().addAll(pickNotifLines);
-                                            pickNotif.setGuid(master.getGuid());
-                                            shell.setPickNotif(pickNotif);
-                                            break;
-                                        }
-                                    }
+                                    shell.setMsgID(UUID.randomUUID().toString());
+                                    shell.setMsgType(resp.getTypeID());
+                                    List<NotificationLine> notificationLine = Utils.mapList(items,
+                                    NotificationLine.class, modelMapper);
+                                    Notification notification = modelMapper.map(master, Notification.class);
+                                    notification.getLine().addAll(notificationLine);
+                                    shell.setNotification(notification);
                                     try {// передача на FTP
                                          // region имя файла
                                          // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
@@ -233,6 +215,12 @@ public class SendNotifications {
                                          //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
                                         String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
                                         // endregion
+
+                                        /* ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                        XmlUtiles.marshaller(shell, outputStream);
+                                        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+                                        String text = new String(targetStream.readAllBytes());
+                                        log.info(text); */
 
                                         if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
                                             throw new FTPException("Не удалось сменить директорию");
@@ -359,123 +347,18 @@ public class SendNotifications {
     }
 
     /**
-     * Квитирование
-     * SUCCESS
-     <?xml version="1.0" encoding="utf-8"?>
-    <Shell>
-    <customerID>123</customerID>
-    <confirmation>
-      <msgType>0</msgType>
-      <status>SUCCESS</status>
-      <docNo>ML09-4201 </docNo>
-    </confirmation>
-    </Shell>
-     * @param fileNameIn
-     * @param prefix
-     * @param shell
-     * @throws IOException
-     * @throws FTPException
-     * @throws JAXBException
-     */
-    private void confirm(String fileName, String prefix) throws IOException, FTPException, JAXBException {
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
-            throw new FTPException("Не удалось сменить директорию");
-        }
-        Confirmation confirmation = new Confirmation();
-        confirmation.setStatus("SUCCESS");
-        int msgType = prefix2MsgType(prefix);
-        confirmation.setMsgType(msgType);
-        if (msgType == 9) {
-            confirmation.setDocNo(shell.getConfirmation().getDocNo());
-        } else if (msgType == 0 || msgType == 1) {
-            confirmation.setDocNo(shell.getOrder().getOrderNo());
-        }
-
-        // создаём xml и передаём на FTP
-        Shell _shell = new Shell();
-        _shell.setCustomerID(shell.getCustomerID()); //ВН
-        _shell.setConfirmation(confirmation);
-        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
-            throw new FTPException("Не удалось выгрузить " + fileName);
-        }
-    }
-
-    /**
-     * ERROR
-     * @param fileNameIn
-     * @param msgType
-     * @param errorText
-     * @param docNo
-     * @throws IOException
-     * @throws FTPException
-     * @throws JAXBException
-     */
-    private void confirm(String fileName, int msgType, String errorText, String docNo)
-            throws IOException, FTPException {
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
-            throw new FTPException("Не удалось сменить директорию");
-        }
-        Confirmation confirmation = new Confirmation();
-        confirmation.setMsgType(msgType);
-        confirmation.setStatus("ERROR");
-        confirmation.setDocNo(docNo);
-        confirmation.setInfo(errorText);
-
-        // создаём xml и передаём на FTP
-        Shell _shell = new Shell();
-        _shell.setCustomerID(shell.getCustomerID()); //ВН
-        _shell.setConfirmation(confirmation);
-        try {
-            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
-                throw new FTPException("Не удалось выгрузить " + fileName);
-            }
-        } catch (JAXBException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Получить тип сообщения по префиксу фала
-     * @param prefix
-     * @return message type
-     */
-    private int prefix2MsgType(String prefix) {
-        int msg;
-        switch (prefix) {
-            case "TEST":
-                msg = 9;
-                break;
-            case "SKU":
-                msg = 2;
-                break;
-            case "IN":
-                msg = 0;
-                break;
-            case "OUT":
-                msg = 1;
-                break;
-            default:
-                msg = 9;
-        }
-        return msg;
-    }
-
-    /**
      * Новый формат обработки входящих сообщений
      *
-     * @param filePrefix
-     * @param shell
      * @throws IOException
      * @throws MonitorException
+     * @throws JAXBException
      * @throws FTPException
      */
     @Transactional //(propagation = Propagation.REQUIRES_NEW)
-    public void msgInNew(String filePrefix, Shell shell) throws IOException, MonitorException {
-        Customer customer = new Customer();
+    public void msgInNew() throws IOException, MonitorException, JAXBException {
         Map<String, Object> p_err; // возвращаемое из процедуры сообщение
-        switch (filePrefix) {
-            case "SKU": {
+        switch (shell.getMsgType()){
+            case 5: { //SKU
                 // Справочник е.и.
                 String sql = "SELECT h.val_id id,h.val_short code ,h.val_full name FROM sv_hvoc h WHERE h.voc_id = 'KB_MEA'";
                 List<Unit> units = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Unit>(Unit.class));
@@ -513,8 +396,9 @@ public class SendNotifications {
                 // endregion
 
                 // region Получить клиента по ВН
+                Customer customer;
                 try {
-                    customer = jdbcTemplate.queryForObject(
+                     customer = jdbcTemplate.queryForObject(
                             "SELECT ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT,PRF_WMS FROM kb_zak WHERE "
                                     + "id_usr IN ('KB_USR92734', 'KB_USR99992') AND id_klient = ?",
                             new CustomerRowMapper(), shell.getCustomerID());
@@ -535,17 +419,18 @@ public class SendNotifications {
                 // endregion
 
                 // region Поиск/создание суточного заказа
-                String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
+                String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
                 String dailyOrderId;
                 try {
                     dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
+                    log.info("Найден суточный заказ");
                 } catch (EmptyResultDataAccessException e) {
                     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
                             .usingGeneratedKeyColumns("id");
                     MapSqlParameterSource params = new MapSqlParameterSource();
                     params.addValue("dt_zakaz", new Date()).addValue("id_zak", customer.getId())
                             .addValue("id_pok", customer.getId())
-                            .addValue("n_gruz", customer.getCustomerName() + " SKU")
+                            .addValue("n_gruz", customer.getCustomerName() +" SKU")// FIXME
                             .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);
                     //WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
@@ -555,53 +440,123 @@ public class SendNotifications {
                 // событие 4301 в суточный заказ Получено входящее сообщение
                 jdbcTemplate.update(
                         "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
-                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Уточнить текст", "010277043");
+                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Суточный заказ", "010277043");
                 // endregion
 
                 break;
-            } // SKU
-            case "IN":
-            case "OUT": {// поставка/отгрузка
-                Order order = shell.getOrder();
-                // mp.addConverter(new CalendarConverter());
+            } // end SKU
+            case 1:
+            case 2: {// поставка/отгрузка
+                //region//костыль
+                // Order order = shell.getOrder();
+                // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                //     shell.setMsgID(order.getGuid());
+                // }
+                //endregion
+                //region проверка на дубликат
+                String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
+                        + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
+                        + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
+                        + " AND UPPER(st.id_du)= UPPER(:msgID)";
+                MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
+                        .addValue("msgID", shell.getMsgID());
 
-                String xml_out;
-                if (!order.isOrderType()) {
-                    OrderJackIn jack = modelMapper.map(order, OrderJackIn.class);
-                    jack.setOrderType("Поставка");
-                    jack.setDeliveryType("Поставка");
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
-                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ReceiptOrderForGoods").writeValueAsString(jack);
-                } else {
-                    OrderJackOut jack = modelMapper.map(order, OrderJackOut.class);
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderType("Отгрузка");
-                    jack.setDeliveryType("Отгрузка");
-                    jack.setClientID(shell.getCustomerID());
-                    jack.setOrderDate(order.getOrderDate().toGregorianCalendar().getTime());
-                    jack.setPlannedDate(order.getPlannedDate().toGregorianCalendar().getTime());
-                    xml_out = xmlMapper.writer().withRootName("ExpenditureOrderForGoods").writeValueAsString(jack);
-                }
-                String procedureName = filePrefix.equals("IN") ? "MSG_4101" : "MSG_4103";
-                SimpleJdbcCall jdbcCall_4101 = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
+                    throw new MonitorException("Заказ уже существует");
+                //endregion
+       
+                // ищем в логе
+                // MonitorLog monitorLog = namedParameterJdbcTemplate.queryForObject(
+                //         "SELECT * FROM MONITOR_LOG WHERE ID = :ID",
+                //         new MapSqlParameterSource().addValue("ID", shell.getMsgID()),
+                //         (rs, rowNum) -> new MonitorLog(rs.getString("id"), rs.getString("name"), rs.getInt("age"),
+                //                 rs.getString("e"), rs.getDate("e"), rs.getDate("e")));
+                //add to log
+                // jdbcTemplate.update(
+                //         "insert into monitor_log (insert into monitor_log ( id , status, msg_type , file_name , start_date ,end_date)"
+                //                 + " VALUES(?,?,?,?,?,?)",
+                // shell.getMsgID());
+
+                InputStream is = XmlUtiles.marshaller(shell);
+                String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
+                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
-                p_err = jdbcCall_4101.execute(new MapSqlParameterSource().addValue("P_MSG",
-                        new SqlLobValue(xml_out, new DefaultLobHandler()), Types.CLOB));
+                p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlOrder, new DefaultLobHandler()), Types.CLOB));
                 if (p_err.get("P_ERR") != null)
-                    throw new MonitorException((String) p_err.get("P_ERR"), shell.getCustomerID(),
-                            order.isOrderType() == false ? 0 : 1, order.getOrderNo());
+                    throw new MonitorException((String) p_err.get("P_ERR"));
+                  
+             break;
 
-                break;
             }
-            case "TEST"://тестовая ветка
-                System.out.println("TEST");
+            case 9://тестовая ветка для разных экспериментов
+                log.info("TEST");
+
+                shell.setMsgType(0);//FIXME
+
+                //region проверка на дубликат
+                String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
+                        + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
+                        + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
+                        + " AND UPPER(st.id_du)= UPPER(:msgID)";
+                MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
+                .addValue("msgID", shell.getMsgID());
+                
+                if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
+                    throw new MonitorException("Заказ уже существует");
+                //endregion
+                /*
+                select * from kb_zak where id='0102304213';
+                select s.* from kb_spros s where id_zak='0102304213';
+
+                SELECT sp.* FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak ='0102304213';
+                --st.id_du,st.*
+SELECT 1 FROM kb_sost st
+INNER JOIN kb_spros sp ON st.id_obsl = sp.ID
+INNER JOIN kb_zak z ON z.ID = sp.id_zak
+WHERE z.id_klient = 300185
+AND z.id_usr IS NOT NULL
+--AND sp.id_zak='0102304213'
+AND  st.id_sost = 'KB_USL99770' Получено входящее сообщение	4301
+AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
+;                ;
+                */
+                /* Object myParam;
+                                boolean hasRecord =
+                                jdbcTemplate
+                                .query("select 1 from MyTable where Param = ?",
+                                    new Object[] { myParam },
+                                    (ResultSet rs) -> {
+                                    if (rs.next()) {
+                                        return true;
+                                    }
+                                    return false;
+                                    }
+                                );
+                */
+                
+                //region//костыль
+                // Order order = shell.getOrder();
+                // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+                //     shell.setMsgID(order.getGuid());
+                // }
+                //endregion
+                
+                InputStream is = XmlUtiles.marshaller(shell);
+                String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
+                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                        .withProcedureName(procedureName);
+                p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
+                        new SqlLobValue(xmlOrder, new DefaultLobHandler()), Types.CLOB));
+                if (p_err.get("P_ERR") != null)
+                    throw new MonitorException((String) p_err.get("P_ERR"));
+                // log.info("TEST\n"+xmlOrder);
                 break;
             default:
-                throw new MonitorException("Неизвестный префикс файла - " + filePrefix);
+                throw new MonitorException("Неизвестный тип файла - " + shell.getMsgType());
         }
-
     }
 
     /**
@@ -655,11 +610,11 @@ public class SendNotifications {
                 // region выгрузка на FTP
                 ftp.changeWorkingDirectory(rootDir + pathOut);
                 InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-                boolean ok = ftp.storeFile(fileName, is);
+                ok = ftp.storeFile(fileName, is);
                 is.close();
                 if (ok) {
                     // region Поиск/создание суточного заказа
-                    String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz = 'STOCK' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
+                    String dailyOrderSql = DAILY_ORDER_STOCK;
                     String dailyOrderId;
                     try {
                         dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
@@ -694,7 +649,6 @@ public class SendNotifications {
                 break;
             }
             case "S": {// SKU
-                // SKU sku = xmlMapper.readValue(xmlText, SKU.class);
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("ADD_SKU");
                 p_err = jdbcCall.execute(new MapSqlParameterSource().addValue("P_MSG",
@@ -763,6 +717,100 @@ public class SendNotifications {
                 break;
         }
         return orderError;
+    }
+
+    /**
+     * Квитирование  SUCCESS
+     * @param fileNameIn
+     * @param prefix
+     * @param shell
+     * @throws IOException
+     * @throws FTPException
+     * @throws JAXBException
+     */
+    private void confirm(String fileName) throws IOException, FTPException, JAXBException {
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
+            throw new FTPException("Не удалось сменить директорию");
+        }
+        Confirmation confirmation = new Confirmation();
+        confirmation.setStatus("SUCCESS");
+        // создаём xml и передаём на FTP
+        Shell _shell = new Shell();
+        _shell.setCustomerID(shell.getCustomerID());
+        _shell.setMsgID(shell.getMsgID());
+        _shell.setMsgType(shell.getMsgType());
+        _shell.setConfirmation(confirmation);
+        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
+            throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
+        }
+        log.info(shell.getCustomerID() + "Обработан файл " + fileName);
+    }
+
+    /**
+     * Квитирование ERROR
+     * @param fileNameIn
+     * @param msgType
+     * @param errorText
+     * @param docNo
+     * @throws IOException
+     * @throws FTPException
+     * @throws JAXBException
+     */
+    private void confirm(String fileName, String errorText)
+            throws IOException, FTPException {
+        log.error(errorText);
+        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
+            throw new FTPException("Не удалось сменить директорию");
+        }
+        Confirmation confirmation = new Confirmation();
+        confirmation.setStatus("ERROR");
+        confirmation.setInfo(errorText);
+        // создаём xml и передаём на FTP
+        Shell _shell = new Shell();
+        _shell.setCustomerID(shell.getCustomerID());
+        _shell.setMsgID(shell.getMsgID());
+        _shell.setMsgType(shell.getMsgType());
+        _shell.setConfirmation(confirmation);
+        try {
+            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
+                throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
+            }
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Костыль. Получить тип сообщения по префиксу фала
+     * @param prefix
+     * @return message type
+     */
+    private int prefix2MsgType(String prefix) {
+        int msg;
+        switch (prefix) {
+            case "TEST":
+                msg = 9;//поставка
+                break;
+            case "SKU":
+                msg = 5;
+                break;
+            case "IN":
+                msg = 1;
+                break;
+            case "OUT":
+                msg = 2;
+                break;
+            default:
+                msg = 9;
+        }
+        shell.setMsgType(msg);
+        // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+        //     if (msg == 0 || msg == 1) {
+        //         shell.setMsgID(shell.getOrder().getGuid()); //костыль
+        //     }
+        // }
+        return msg;
     }
 
 }

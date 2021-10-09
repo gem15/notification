@@ -24,6 +24,7 @@ import com.severtrans.notification.NotificationRowMapper;
 import com.severtrans.notification.Utils;
 import com.severtrans.notification.dto.DeliveryNotif;
 import com.severtrans.notification.dto.DeliveryNotifLine;
+import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.ListSKU;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.PickNotif;
@@ -190,19 +191,19 @@ class MessagesTest {
                  * notif.getNotifLines().addAll(notificationLines); }
                  */
                 case (1): {
-                    List<DeliveryNotifLine> deliveryNotifLines = Utils.mapList(items, DeliveryNotifLine.class,
+                    List<NotificationLine> deliveryNotifLines = Utils.mapList(items, NotificationLine.class,
                             modelMapper);
                     DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
-                    deliveryNotif.getOrderLine().addAll(deliveryNotifLines);
+                    deliveryNotif.getLine().addAll(deliveryNotifLines);
                     deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setDeliveryNotif(deliveryNotif);
                 }
                     break;
                 case (2): {
-                    List<ShipmentNotifLine> shipmentNotifLines = Utils.mapList(items, ShipmentNotifLine.class,
+                    List<NotificationLine> shipmentNotifLines = Utils.mapList(items, NotificationLine.class,
                             modelMapper);
                     ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
-                    shipmentNotif.getOrderLine().addAll(shipmentNotifLines);
+                    shipmentNotif.getLine().addAll(shipmentNotifLines);
                     shipmentNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
                     shell.setShipmentNotif(shipmentNotif);
                 }

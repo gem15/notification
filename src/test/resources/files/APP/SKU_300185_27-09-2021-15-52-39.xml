@@ -1,0 +1,715 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://www.severtrans.com">
+	<customerID>300185</customerID>
+    <msgID>94135A08-B7F2-4ACD-A007-924761410000</msgID>
+    <msgType>2</msgType>
+	<skuList>
+		<sku>
+			<article/>
+			<name>Дражже M&amp;M's шок 45г/32</name>
+			<upc>04003100</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шок.Батончик Милки вей  26г/36</name>
+			<upc>4011100091993</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шок.Батончик Сникерс Супер 95г/32</name>
+			<upc>4011100158139</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Дражже M&amp;M's арахис 45г/32</name>
+			<upc>3900000551939</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шок.Батончик Сникерс 50,5г/48</name>
+			<upc>1500015941564</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шок.Батончик Твикс Экстра 82г/24</name>
+			<upc>5000159374460</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шок.Батончик Милки вей 52г/18</name>
+			<upc>5000159413572</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус СПАР 190г Песто с базиликом ст/б/12</name>
+			<upc>8710671088420</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус СПАР 300г Мексиканский сальса с авокадо ст/б/12</name>
+			<upc>8710671010230</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Каперсы СПАР 190г ст/б/12</name>
+			<upc>8710671146007</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Оливки СПАР 340г с лимоном ст/б/12 Испания</name>
+			<upc>8710671144539</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Оливки СПАР 340г б/к ст/б/12 Испания</name>
+			<upc>8710671144478</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Брускетта СПАР 190г с сушеными помидорами ст/б/12</name>
+			<upc>8710671089755</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Напиток энергетический СПАР Blue Bear 0,25л ж/б/24</name>
+			<upc>8710671112989</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Напиток энергетический СПАР Blue Bear 0,25л без сахара ж/б/2</name>
+			<upc>8710671114198</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томаты СПАР 285г сушеные в масле ст/б/12</name>
+			<upc>8710671145987</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Горчица СПАР 200г французская ст/б/12</name>
+			<upc>8710671144683</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Горчица СПАР 200г зернистая ст/б/12</name>
+			<upc>8710671144706</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Горчица СПАР 200г дижонская ст/б/12</name>
+			<upc>8710671144669</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Кетчуп СПАР 485г Томатный/12</name>
+			<upc>8710671146595</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны СПАР Фузилли Триколор 500г/12</name>
+			<upc>8710671007346</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Печенье SPAR Шоколадные кусочки 150г/20</name>
+			<upc>8710671006301</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Печенье SPAR шоколадное 200г/20</name>
+			<upc>8710671002303</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Набор конфет Коркунов Ассорти темный и молочный шоколад 110г/14</name>
+			<upc>4606720007587</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус СПАР 190г Песто с оливками ст/б/12</name>
+			<upc>15130531</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус СПАР 315г Сальса острый ст/б/12</name>
+			<upc>8710671005335</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томатная паста DESPAR 500г м/у/12</name>
+			<upc>8001300223207</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Капучино Мокате Французские макарони 100г м/у/10</name>
+			<upc>5900649068025</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Капучино Мокате Итальянский трюфель 110г м/у/10</name>
+			<upc>5900649068049</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Капучино Мокате Американский брауни 100г м/у/10</name>
+			<upc>5900649068063</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Перец СПАР 220г Халапеньо консервированный резаный ст/б/12</name>
+			<upc>8710671149275</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томаты DAWTONA 400г резаные очищенные ж/б/12</name>
+			<upc>5901713003874</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томаты DAWTONA 400г резаные очищенные с базиликом и орегано ж/б/12</name>
+			<upc>5901713000248</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томаты DAWTONA 400г резаные очищенные с чесноком ж/б/6</name>
+			<upc>5901713000057</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DAWTONA 550г Болоньезе с травами ст/б/6</name>
+			<upc>5901713003928</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DAWTONA 550г Сливочный д/спагетти ст/б/12</name>
+			<upc>5901713005441</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус СПАР 330г Сальса барбекю ст/б/12</name>
+			<upc>8710671090256</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DESPAR Premium 0,25л Бальзамический пл/уп/6</name>
+			<upc>8001300240747</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Печенье SPAR пористое 200г карт/уп/12</name>
+			<upc>8710671087768</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DAWTONA 550г Кисло-сладкий с ананасами ст/б/6</name>
+			<upc>5901713003911</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DAWTONA 550г Неаполитанский с паприкой ст/б/6</name>
+			<upc>5901713004642</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Томатное пюре DAWTONA 500г с травами т/п/12</name>
+			<upc>5901713011763</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Печенье Tous Les Jours Савоярди 400г/8</name>
+			<upc>3700311865622</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Noodles 500г п/пак /12</name>
+			<upc>3222471002919</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Macaroni 500г п/пак/12</name>
+			<upc>3222471002933</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Serpentini 500г п/пак/12</name>
+			<upc>3222472693703</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Пюре Casino 90г*4 яблоко ананас манго пл/ст/12</name>
+			<upc>3222474354213</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Паста томатная DAWTONA 200г ст/б/24</name>
+			<upc>5901713000071</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Каперсы СПАР ПРЕМИУМ 140г с солью ст/б/12</name>
+			<upc>8001300235026</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Горчица CASINO 280г Дижонская с/ст/12</name>
+			<upc>3222472920847</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Кетчуп CASINO 560г Острый пэт/12</name>
+			<upc>3222474972417</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус CASINO 500мл Для зеленых салатов пэт/12</name>
+			<upc>3222471482087</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>TWIX Минис кг весовые</name>
+			<upc>4607065370937</upc>
+			<uofm>кг</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус DAWTONA 550г Китайский с ананасами и побегами бамбука ст/б/6</name>
+			<upc>5901713007131</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Кофе CASINO растворимый 50г ст/б/12</name>
+			<upc>3222473955664</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Coquillettes Без глютена ракушки 400г/10</name>
+			<upc>3222476754899</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Чипсы CASINO Вкусы мира Тортилла чили 200г/22</name>
+			<upc>3222472256151</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Лапша суповая 500г п/пак/12</name>
+			<upc>3222477013520</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Gansettes 500г п/пак/12</name>
+			<upc>3222477013384</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Шоколад CASINO темный 90% 100г/28</name>
+			<upc>3222476439505</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Кетчуп CASINO 370г Томатный пл/б/12</name>
+			<upc>3222476086280</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Чипсы CASINO Луковые кольца 60г/18</name>
+			<upc>3222477002326</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Кофе CASINO растворимый 100г ст/б/12</name>
+			<upc>3222472050384</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Макароны CASINO Penne Без глютена перья 400г/10</name>
+			<upc>3222476754882</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Чипсы CASINO Вкусы мира Кукурузные 200г/22</name>
+			<upc>3222472166313</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>SNICKERS Минис кг весовые/7</name>
+			<upc>4607065370220</upc>
+			<uofm>кг</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Конфеты Милки вэй Мини, вес/6</name>
+			<upc>1460706537043</upc>
+			<uofm>кг</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article>197015</article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<upc>4600699502791</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Игрушка мягкая 13см в асс арт.M2000/2012/16</name>
+			<upc>4606089138236</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Корм для кошек Мурчик с курицей 85г пауч/28</name>
+			<upc>4607038819121</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Корм Мой Любимый Мурчик Сочные Кусочки Мясное Ассорти в Соус</name>
+			<upc>4607038814133</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Корм для кошек  Мурчик с говядиной 85г пауч/28</name>
+			<upc>4607038819145</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ГОРЧИЦА CASINO 150Г ДИЖОНСКАЯ С/СТАКАН</name>
+			<upc>3222471014127</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соя CASINO 330г пророщенная ст/б/12</name>
+			<upc>3222471027264</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЕЧЕНЬЕ CASINO 175Г САВОЯРДИ</name>
+			<upc>3222471105252</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЕЧЕНЬЕ CASINO 125Г С ОРЕХ.НАЧИНКОЙ</name>
+			<upc>3222471110508</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ФАСОЛЬ CASINO 400Г СТРУЧКОВАЯ ЗЕЛЕНАЯ ЭКСТРА ТОНКАЯ С/Б</name>
+			<upc>3222471135570</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ЧИПСЫ CASINO 150Г ТРАДИЦИОННЫЕ</name>
+			<upc>3222471362914</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 500МЛ ВИНЕГРЕТ ПЭТ</name>
+			<upc>3222471482063</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус CASINO 500мл Винегрет горчичный пл/б/12</name>
+			<upc>3222471482070</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Соус CASINO 500мл для салатов лимонный пл/б/12</name>
+			<upc>3222471482094</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЮРЕ CASINO 4*100Г ЯБЛОЧНОЕ ЛЕГКОЕ</name>
+			<upc>3222471792520</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПАЛОЧКИ ГРИССИНИ CASINO 125Г SAVEURS D'AILLEURS</name>
+			<upc>3222471919910</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЕЧЕНЬЕ CASINO 150Г НЕЖНОЕ</name>
+			<upc>3222471976999</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>Чипсы CASINO Классические 100г/24</name>
+			<upc>3222472030553</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ШОКОЛАД CASINO 100Г ТЕМНЫЙ С ШОК.ЧИПСАМИ</name>
+			<upc>3222472114420</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЕЧЕНЬЕ CASINO 200Г С КУСОЧКАМИ ШОКОЛАДА И ОРЕХА ПЕКАН</name>
+			<upc>3222472334682</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 500МЛ ОВОЩНОЙ ПЭТ</name>
+			<upc>3222472434610</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ШОКОЛАД CASINO 200Г ТЕМНЫЙ С КУСОЧКАМИ АПЕЛЬСИНА</name>
+			<upc>3222472525967</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ШОКОЛАД CASINO 150Г ТЕМНЫЙ С ТРЮФЕЛЬНОЙ НАЧИНКОЙ</name>
+			<upc>3222472669104</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ШОКОЛАД CASINO 150Г ТЕМНЫЙ С НУГОЙ И ФУНДУКОМ</name>
+			<upc>3222472669111</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 500МЛ ЛУК-ШАЛОТ С УКСУСОМ ПЭТ</name>
+			<upc>3222472757108</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЮРЕ CASINO 4*100Г ЯБЛОКО-БАНАН ЛЕГКОЕ</name>
+			<upc>3222472861782</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЮРЕ CASINO 4*100Г ЯБЛОКО-КЛУБНИКА ЛЕГКОЕ</name>
+			<upc>3222472861829</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЮРЕ CASINO 4*100Г ЯБЛОКО-ПЕРСИК ЛЕГКОЕ</name>
+			<upc>3222472861836</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПЕЧЕНЬЕ CASINO 165Г С ИНЖИРОВЫМ НАПОЛНИТЕЛЕМ</name>
+			<upc>3222472902782</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ГОРЧИЦА CASINO 350Г ЗЕРНИСТАЯ С/Б</name>
+			<upc>3222472920854</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 190Г ТОМАТНО-ОЛИВКОВЫЙ С/Б</name>
+			<upc>3222472923961</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>ПОБЕГИ БАМБУКА CASINO 330Г ВКУСЫ МИРА С/Б</name>
+			<upc>3222472946441</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 250Г БУРГУНДСКИЙ С/Б</name>
+			<upc>3222473269648</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+		<sku>
+			<article/>
+			<name>СОУС CASINO 250Г АЙОЛИ ЧЕСНОЧНЫЙ С/Б</name>
+			<upc>3222473269655</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+		</sku>
+	</skuList>
+</Shell>
