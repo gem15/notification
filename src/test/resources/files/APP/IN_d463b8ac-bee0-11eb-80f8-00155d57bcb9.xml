@@ -1,0 +1,26 @@
+<Shell xmlns="http://www.severtrans.com">
+    <customerID>300185</customerID>
+    <msgID>d39bf3f4-5b49-4e78-8d7e-0e538e99fb8c</msgID>
+    <msgType>3</msgType>
+    <notification>
+        <guid>d463b8ac-bee0-11eb-80f8-00155d57bcb9</guid>
+        <orderNo>TEST_ОП-00000325</orderNo>
+        <orderDate>2021-10-15T23:59:00.000+03:00</orderDate>
+        <contrCode>БФ-005872</contrCode>
+        <contrName>ЕвроЛогистик ООО (Кулагина)</contrName>
+        <licencePlate>DFKJGH534DFKGHY954</licencePlate>
+        <driver>Сидоров Сидор Сидорович</driver>
+        <actualDeliveryTime>2021-10-08T14:04:00.000+03:00</actualDeliveryTime>
+        <line>
+            <lineNumber>1</lineNumber>
+            <article>CD</article>
+            <name>Паллеты для приёма по кросдокингу.</name>
+            <qty>15</qty>
+            <mark>-</mark>
+            <mark2>-</mark2>
+            <mark3>-</mark3>
+            <lot>-</lot>
+            <productionDate>2021-10-08+03:00</productionDate>
+        </line>
+    </notification>
+</Shell>

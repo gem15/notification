@@ -1,0 +1,37 @@
+<Shell xmlns="http://www.severtrans.com">
+    <customerID>300185</customerID>
+    <msgID>e2b7e54f-3f58-4848-8f87-158b0d8b06b2</msgID>
+    <msgType>7</msgType>
+    <notification>
+        <guid>975a096c-bee4-11eb-80f8-00155d57bcb9</guid>
+        <orderNo>TEST_ОП-00000299</orderNo>
+        <orderDate>2021-10-08T23:59:00.000+03:00</orderDate>
+        <contrCode>БФ-004588</contrCode>
+        <contrName>Келлогг Рус ООО</contrName>
+        <licencePlate>DSFKGH543FDVGJ</licencePlate>
+        <driver>Пётр Петрович Петров</driver>
+        <actualDeliveryTime>2021-10-08T14:07:00.000+03:00</actualDeliveryTime>
+        <line>
+            <lineNumber>1</lineNumber>
+            <article>CD</article>
+            <name>Паллеты для приёма по кросдокингу.</name>
+            <qty>7</qty>
+            <mark>-</mark>
+            <mark2>-</mark2>
+            <mark3>-</mark3>
+            <lot>-</lot>
+            <productionDate>2021-10-08+03:00</productionDate>
+        </line>
+        <line>
+            <lineNumber>2</lineNumber>
+            <article>CD</article>
+            <name>Паллеты для приёма по кросдокингу.</name>
+            <qty>1</qty>
+            <mark>-</mark>
+            <mark2>-</mark2>
+            <mark3>-</mark3>
+            <lot>-</lot>
+            <productionDate>2021-10-08+03:00</productionDate>
+        </line>
+    </notification>
+</Shell>
