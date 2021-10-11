@@ -90,6 +90,14 @@ public class SendNotifications {
     private Shell shell;
     private boolean ok;
 
+    //*TEST*
+    String folderIN = "IN";
+    String folderOUT = "OUT";
+    String folderLOADED = "LOADED"; //кто и с какой периодичностью чистит?
+    // String folderIN = "IN_TEST";
+    // String folderOUT = "OUT_TEST";
+    // String folderLOADED = "LOADED_TEST";
+    
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
@@ -98,7 +106,7 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (ftpLine.getId() != 4)continue; // FIXME заглушка для отладки
+            // if (ftpLine.getId() != 5)continue; // FIXME *TEST* заглушка для отладки
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -135,9 +143,14 @@ public class SendNotifications {
                 for (ResponseFtp resp : responses) {
                     // отдельно обрабатываем входящие и исходящие сообщения
                     if (!resp.isLegacy()) {
+                        // region *TEST*
+                        folderIN =resp.getPathIn();
+                        folderOUT =resp.getPathOut();
+                        folderLOADED ="LOADED_TEST";
+                        // endregion
                         switch (resp.getInOut()) {
                             case (1): { //входящие
-                                ftp.changeWorkingDirectory(rootDir + "IN");
+                                ftp.changeWorkingDirectory(rootDir + folderIN);
                                 FTPFileFilter filter = ftpFile -> (ftpFile.isFile()
                                         && ftpFile.getName().endsWith(".xml"));
                                 FTPFile[] listFiles = ftp.listFiles(ftp.printWorkingDirectory(), filter);
@@ -149,7 +162,7 @@ public class SendNotifications {
                                 for (FTPFile file : listFiles) {
                                     // region  извлекаем файл в поток и преобразуем в строку
                                     String xmlText;
-                                    ftp.changeWorkingDirectory(rootDir + "IN");
+                                    ftp.changeWorkingDirectory(rootDir + folderIN);
                                     try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                         xmlText = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                     }
@@ -158,8 +171,8 @@ public class SendNotifications {
                                     }
                                     // endregion
                                     // region  сохраняем принятый в  папке LOADED
-                                    ok = ftp.rename(rootDir + "IN/" + file.getName(),
-                                            rootDir + "LOADED/" + file.getName());
+                                    ok = ftp.rename(rootDir + folderIN+"/" + file.getName(),
+                                            rootDir + folderLOADED+"/" + file.getName());
                                     if (!ok)
                                         throw new FTPException("Ошибка перемещения файла " + file.getName());
                                     // endregion
@@ -729,7 +742,7 @@ AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
      * @throws JAXBException
      */
     private void confirm(String fileName) throws IOException, FTPException, JAXBException {
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
+        if (!ftp.changeWorkingDirectory(rootDir +folderOUT)) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();
@@ -759,7 +772,7 @@ AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
     private void confirm(String fileName, String errorText)
             throws IOException, FTPException {
         log.error(errorText);
-        if (!ftp.changeWorkingDirectory(rootDir + "OUT")) {
+        if (!ftp.changeWorkingDirectory(rootDir +folderOUT)) {
             throw new FTPException("Не удалось сменить директорию");
         }
         Confirmation confirmation = new Confirmation();

@@ -13,9 +13,11 @@ INNER JOIN response_type T ON T.ID = e.response_type_id
 select * from response_ftp;
 select * from response_extra;
 select * from response_ftp
---where ftp_id <>3 
+--where ftp_id =4
+where path_in is null
 ;
 update response_ftp set vn=300259 where ftp_id = 4;
+update response_ftp set path_in='IN' where path_in is null;
 
 select * from ftps;
 select * from response_type;
