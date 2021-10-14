@@ -1,4 +1,5 @@
 package com.severtrans.notification;
+import com.severtrans.notification.model.MonitorLogDto;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,6 +84,10 @@ public class SendNotifications {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    MonitorLogDto monitorLog;
+
     /**
      *  FTP root directory
      */
@@ -101,12 +106,22 @@ public class SendNotifications {
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
+/*         MonitorLog log1 = new MonitorLog();//*TEST*
+        log1.setId("89f81f05-9d1e-4319");
+        log1.setStatus("R");
+        log1.setMsgType(0);
+        log1.setFileName("IN_300185_01-10-2021-15-50-10.xml");
+        monitorLog.save(log1);
+        log1.setStatus("S");
+        monitorLog.update(log1);
+ */
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
             // if (ftpLine.getId() != 5)continue; // FIXME *TEST* заглушка для отладки
+            if (ftpLine.getId() == 4)continue; // FIXME *PROD*  пропуск тестового
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -146,7 +161,7 @@ public class SendNotifications {
                         // region *TEST*
                         folderIN =resp.getPathIn();
                         folderOUT =resp.getPathOut();
-                        folderLOADED ="LOADED_TEST";
+                        // FIXME folderLOADED ="LOADED_TEST";
                         // endregion
                         switch (resp.getInOut()) {
                             case (1): { //входящие
@@ -171,8 +186,15 @@ public class SendNotifications {
                                     }
                                     // endregion
                                     // region  сохраняем принятый в  папке LOADED
-                                    ok = ftp.rename(rootDir + folderIN+"/" + file.getName(),
-                                            rootDir + folderLOADED+"/" + file.getName());
+                                    // https://stackoverflow.com/a/6790857/2289282
+                                    String remotePath = rootDir + folderLOADED+"/" + file.getName();
+                                    FTPFile[] remoteFiles = ftp.listFiles(remotePath);
+                                    if (remoteFiles.length > 0) {
+                                        ftp.deleteFile(remotePath);//*TEST*
+                                    } else {
+                                        log.info("===File " + remotePath + " does not exists");
+                                    }
+                                    ok = ftp.rename(rootDir + folderIN + "/" + file.getName(), remotePath);
                                     if (!ok)
                                         throw new FTPException("Ошибка перемещения файла " + file.getName());
                                     // endregion
@@ -492,6 +514,7 @@ public class SendNotifications {
 
                 InputStream is = XmlUtiles.marshaller(shell);
                 String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                // use shell.getMsgType() ?
                 String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
                 SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
