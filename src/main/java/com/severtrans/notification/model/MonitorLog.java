@@ -18,6 +18,9 @@ public class MonitorLog {
     Date endDate;
     String msg;
     String vn;
+    /**
+     * Error messages and any other info
+     */
     String info;
 
 }

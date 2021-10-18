@@ -1,26 +1,36 @@
 package com.severtrans.notification.utils;
 
-import org.apache.commons.codec.binary.Hex;
-import com.severtrans.notification.dto.Shell;
-import lombok.extern.slf4j.Slf4j;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.*;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
-import javax.xml.transform.*;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.GregorianCalendar;
+
+import com.severtrans.notification.dto.Shell;
+
+import org.xml.sax.SAXException;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class XmlUtiles {
@@ -44,57 +54,13 @@ public class XmlUtiles {
      * @throws JAXBException
      */
     public static <T> T unmarshaller(String content, Class<T> clasz) throws JAXBException {
-        //check for  UTF8_BOM
+        // check for UTF8_BOM
         if (content.startsWith("\uFEFF")) {
             content = content.substring(1);
         }
-/*
-        String initialString = "text";
-        InputStream targetStream = new ByteArrayInputStream(initialString.getBytes());
-*/
         JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
-    }
-
-    @Deprecated
-    public static <T> T unmarshaller(InputStream content, Class<T> clasz) throws JAXBException, IOException {
-//        InputStream inStream = new FileInputStream( "employee.xml" );
-//        Employee employee = (Employee) jaxbUnmarshaller.unmarshal( inStream );
-        ByteBuffer bb = null;
-        // BOM encoded as ef bb bf
-        if (isContainBOM(content)) {
-            byte[] bytes = content.readAllBytes();//Files.readAllBytes(path);
-//            bytes = content.read();
-            bb = ByteBuffer.wrap(bytes);
-            System.out.println("Found BOM!");
-            // get the first 3 bytes
-            byte[] bom = new byte[3];
-            bb.get(bom, 0, bom.length);
-
-            // remaining
-            byte[] contentAfterFirst3Bytes = new byte[bytes.length - 3];
-            bb.get(contentAfterFirst3Bytes, 0, contentAfterFirst3Bytes.length);
-
-            System.out.println("Remove the first 3 bytes, and overwrite the file!");
-        }
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(clasz);
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        return (T) jaxbUnmarshaller.unmarshal(content);
-    }
-
-    private static boolean isContainBOM(InputStream content) throws IOException {
-        boolean result = false;
-        byte[] bom = new byte[3];
-        // read 3 bytes of a file.
-        content.read(bom);
-        // BOM encoded as ef bb bf
-        String content1 = new String(Hex.encodeHex(bom));
-        if ("efbbbf".equalsIgnoreCase(content1)) {
-            result = true;
-        }
-        return result;
     }
 
     /**
@@ -110,7 +76,6 @@ public class XmlUtiles {
         Transformer transformer = factory.newTransformer(xslt);
 
         Source source = new StreamSource(new StringReader(input));
-        // Source source = new StreamSource(new File("input.xml"));
         StringWriter output = new StringWriter();
         Result result = new StreamResult(output);
         transformer.transform(source, result);
@@ -119,50 +84,57 @@ public class XmlUtiles {
 
     }
 
-/**
- * Shell into InputStream to store on FTP 
- * @param shell
- * @return InputStream
- * @throws JAXBException
- */
-    public static InputStream marshaller(Shell shell) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
-        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class,
-                shell); // для генерации пространства имён
-        StringWriter sw = new StringWriter();
-        jaxbMarshaller.marshal(jaxbElement, sw);
-        InputStream targetStream = new ByteArrayInputStream(sw.toString().getBytes(StandardCharsets.UTF_8));
-        
-        return targetStream;
+    /**
+     * Shell into InputStream to store on FTP
+     * 
+     * @param shell
+     * @return InputStream
+     * @throws JAXBException
+     */
+    public static InputStream marshaller(Shell shell) {
+        JAXBContext jaxbContext;
+        try {
+            jaxbContext = JAXBContext.newInstance(shell.getClass());
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
+            JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"),
+                    Shell.class, shell); // для генерации root element
+            StringWriter sw = new StringWriter();
+            jaxbMarshaller.marshal(jaxbElement, sw);
+            return new ByteArrayInputStream(sw.toString().getBytes(StandardCharsets.UTF_8));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public static void marshaller(Shell shell, OutputStream outputStream) throws JAXBException {
+    public static String marshaller(Shell shell, boolean withProlog) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
-//        jaxbMarshaller.setProperty(Marshaller., true); // without prolog
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, withProlog); // without prolog
 
-        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
-/*
-        StringWriter sw = new StringWriter();
-        jaxbMarshaller.marshal(jaxbElement, new PrintWriter(System.out));
-//        jaxbMarshaller.marshal(jaxbElement, sw);
-        System.out.println(sw.toString());
-*/
-//https://stackoverflow.com/a/23874232/2289282 PipedInputStream in = new PipedInputStream();
+        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class,
+                shell);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         jaxbMarshaller.marshal(jaxbElement, outputStream);
+        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+        try {
+            return new String(targetStream.readAllBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
-     * The problem was not the encoding, but the wrong type in the StreamResource constructor.
-     * If you call StreamResource constructor with a String argument it tries to parse this string as an URL.
-     * See it in the documentation: docs.oracle.com/javase/7/docs/api/javax/xml/transform/stream/…
-     * My suggestion calls the StreamResource constructor with an InputStream argument,
-     * and to do that I wrapped the xmlContent string with an InputStream.
+     * The problem was not the encoding, but the wrong type in the StreamResource
+     * constructor. If you call StreamResource constructor with a String argument it
+     * tries to parse this string as an URL. See it in the documentation:
+     * docs.oracle.com/javase/7/docs/api/javax/xml/transform/stream/… My suggestion
+     * calls the StreamResource constructor with an InputStream argument, and to do
+     * that I wrapped the xmlContent string with an InputStream.
      *
      * @param xmlFile
      * @param schemaFile
@@ -171,34 +143,14 @@ public class XmlUtiles {
     public boolean validate(String xmlFile, String schemaFile) {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
-            Source t = new StreamSource(getClass().getResourceAsStream("/xml/severtrans.xsd"));
-            Source xslt = new StreamSource(getClass().getResourceAsStream("/msg.xsl"));
-
-            Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream(schemaFile)));
-//            Schema schema = schemaFactory.newSchema(new File((schemaFile)));
+               Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream(schemaFile)));
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new ByteArrayInputStream(xmlFile.getBytes(StandardCharsets.UTF_8))));
-//            validator.validate(new StreamSource(xmlFile));
-//            validator.validate(new StreamSource(new File(xmlFile)));
             return true;
-        } catch
-        (SAXException | IOException e) {
+        } catch (SAXException | IOException e) {
             log.error(e.getMessage());
-//            e.printStackTrace();
             return false;
         }
-    }
-
-
-    @Deprecated
-    // TODO set in bindings
-    public XMLGregorianCalendar getNow() throws DatatypeConfigurationException {
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        DatatypeFactory datatypeFactory;
-
-        datatypeFactory = DatatypeFactory.newInstance();
-        XMLGregorianCalendar now = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
-        return now;
     }
 
 }

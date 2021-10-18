@@ -1,7 +1,5 @@
 package com.severtrans.notification.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,16 +21,14 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.severtrans.notification.NotificationRowMapper;
 import com.severtrans.notification.Utils;
 import com.severtrans.notification.dto.DeliveryNotif;
-import com.severtrans.notification.dto.DeliveryNotifLine;
-import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.ListSKU;
+import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.Order;
 import com.severtrans.notification.dto.PickNotif;
 import com.severtrans.notification.dto.PickNotifLine;
 import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
 import com.severtrans.notification.dto.ShipmentNotif;
-import com.severtrans.notification.dto.ShipmentNotifLine;
 import com.severtrans.notification.dto.jackson.NotificationItem;
 import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
@@ -40,7 +36,6 @@ import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.Customer;
 import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.MonitorLog;
-import com.severtrans.notification.model.MonitorLogDto;
 import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.model.Unit;
 import com.severtrans.notification.utils.CalendarConverter;
@@ -241,12 +236,8 @@ class MessagesTest {
             }
 
             // region сохранение xml
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            XmlUtiles.marshaller(shell, outputStream);
-            InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
+            String xmlText = XmlUtiles.marshaller(shell, true);
             // endregion
-
-            String xmlText = new String(targetStream.readAllBytes(), StandardCharsets.UTF_8);
             System.out.println(xmlText);
 String tt="SELECT\n" +
         " DISTINCT st.dt_sost, -- Дата заявки\n" +

@@ -1,14 +1,13 @@
 package com.severtrans.notification.service;
 
-import org.apache.commons.net.ftp.FTP;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 @JdbcTest
 class FtpTest {

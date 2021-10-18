@@ -231,7 +231,7 @@ public class SendNotifications {
                                     List<NotificationItem> items = namedParameterJdbcTemplate.query(
                                             resp.getQueryDetails(), mapSqlParameterSource,
                                             new NotificationItemRowMapper());
-                                    if (items.size() == 0)
+                                    if (items.isEmpty())
                                         continue;
 
                                     shell = new Shell();
@@ -243,38 +243,22 @@ public class SendNotifications {
                                     Notification notification = modelMapper.map(master, Notification.class);
                                     notification.getLine().addAll(notificationLine);
                                     shell.setNotification(notification);
-                                    try {// передача на FTP
-                                         // region имя файла
-                                         // DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-hh-mm-ss");
-                                         // String fileName = resp.getPrefix() + "_" + master.getOrderNo() + "_"
-                                         //         + dateFormat.format(new Date()) + ".xml"; //+ master.getOrderNo() + "_" 
-                                        String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
-                                        // endregion
+                                    // region имя файла
+                                     String fileName = resp.getPrefix() + "_" + master.getGuid() + ".xml";//TODO ТАЙПИТ
+                                    // endregion
 
-                                        /* ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                                        XmlUtiles.marshaller(shell, outputStream);
-                                        InputStream targetStream = new ByteArrayInputStream(outputStream.toByteArray());
-                                        String text = new String(targetStream.readAllBytes());
-                                        log.info(text); */
-
-                                        if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
-                                            throw new FTPException("Не удалось сменить директорию");
-                                        if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
-                                            // 4302 подтверждение что по данному заказу мы отправили уведомление
-                                            jdbcTemplate.update(
-                                                    "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
-                                                    master.getOrderID(), "KB_USL99771", new Date(), new Date(),
-                                                    fileName);
-                                            log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
-                                        } else {
-                                            throw new FTPException(resp.getVn() + " " + resp.getTypeName()
-                                                    + " Не удалось выгрузить " + fileName);
-                                        }
-                                    } catch (JAXBException e) {
-                                        log.error(e.getMessage());
-                                        //TODOошибка обработки XML  валидацию ?
-                                        //  throw new MonitorException(e.getMessage());
-                                        //  e.printStackTrace();
+                                    if (!ftp.changeWorkingDirectory(rootDir + resp.getPathOut()))
+                                        throw new FTPException("Не удалось сменить директорию");
+                                    if (ftp.storeFile(fileName, XmlUtiles.marshaller(shell))) {
+                                        // 4302 подтверждение что по данному заказу мы отправили уведомление
+                                        jdbcTemplate.update(
+                                                "INSERT INTO kb_sost (id_obsl, id_sost, dt_sost, dt_sost_end, sost_prm) VALUES (?, ?, ?, ?,?)",
+                                                master.getOrderID(), "KB_USL99771", new Date(), new Date(),
+                                                fileName);
+                                        log.info(resp.getVn() + " " + resp.getTypeName() + " Выгружен " + fileName);
+                                    } else {
+                                        throw new FTPException(resp.getVn() + " " + resp.getTypeName()
+                                                + " Не удалось выгрузить " + fileName);
                                     }
                                 }
                             }
@@ -764,7 +748,7 @@ AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
      * @throws FTPException
      * @throws JAXBException
      */
-    private void confirm(String fileName) throws IOException, FTPException, JAXBException {
+    private void confirm(String fileName) throws IOException, FTPException {
         if (!ftp.changeWorkingDirectory(rootDir +folderOUT)) {
             throw new FTPException("Не удалось сменить директорию");
         }
@@ -807,13 +791,8 @@ AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c6c19'
         _shell.setMsgID(shell.getMsgID());
         _shell.setMsgType(shell.getMsgType());
         _shell.setConfirmation(confirmation);
-        try {
-            if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
-                throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
-            }
-        } catch (JAXBException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (!ftp.storeFile("_" + fileName, XmlUtiles.marshaller(_shell))) {
+            throw new FTPException("Ошибка квитирования. Не удалось выгрузить " + fileName);
         }
     }
 
