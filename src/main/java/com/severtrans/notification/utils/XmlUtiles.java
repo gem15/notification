@@ -27,6 +27,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import com.severtrans.notification.dto.Shell;
+import com.severtrans.notification.service.MonitorException;
 
 import org.xml.sax.SAXException;
 
@@ -63,6 +64,23 @@ public class XmlUtiles {
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
     }
 
+    public static Shell unmarshallShell(String content) throws MonitorException {
+        // check for UTF8_BOM
+        if (content.startsWith("\uFEFF")) {
+            content = content.substring(1);
+        }
+        JAXBContext jaxbContext;
+        Unmarshaller jaxbUnmarshaller;
+        try {
+            jaxbContext = JAXBContext.newInstance(Shell.class);
+            jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), Shell.class).getValue();
+        } catch (JAXBException e) {
+            throw new MonitorException("Неверный формат сообщения\n");
+        }
+
+    }
+
     /**
      * xslt преобразование
      *
@@ -89,7 +107,6 @@ public class XmlUtiles {
      * 
      * @param shell
      * @return InputStream
-     * @throws JAXBException
      */
     public static InputStream marshaller(Shell shell) {
         JAXBContext jaxbContext;
@@ -143,7 +160,7 @@ public class XmlUtiles {
     public boolean validate(String xmlFile, String schemaFile) {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         try {
-               Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream(schemaFile)));
+            Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream(schemaFile)));
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new ByteArrayInputStream(xmlFile.getBytes(StandardCharsets.UTF_8))));
             return true;

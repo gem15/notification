@@ -1311,7 +1311,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
   END MSG_4101_;
   --Конец разборки с ПО--
 
-    PROCEDURE MSG_4103_(p_msg IN CLOB, p_err OUT VARCHAR2) IS
+  PROCEDURE MSG_4103_(p_msg IN CLOB, p_err OUT VARCHAR2) IS
     v_id_zak     kb_zak.id%TYPE;
     v_new_rec    kb_zak.id%TYPE; --получатель
     v_id_wms     kb_zak.id_wms%TYPE;

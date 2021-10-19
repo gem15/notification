@@ -75,14 +75,10 @@ class MessagesTest {
 
     @Test
     void monitorLogTest(){
-        MonitorLog log = new MonitorLog();
+        MonitorLog log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77","R",0,"IN_300185_01-10-2021-15-50-10.xml","",300185,"");
         // "Insert into EXPORT_TABLE (ID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,END_DATE,MSG)"
         // +" values ('89f81f05-9d1e-4319-9b9d-b6f4e34c7e77','R','0','IN_300185_01-10-2021-15-50-10.xml',to_date('14.10.21','DD.MM.RR'),null,"
         // +"<Shell xmlns=http://www.severtrans.com");
-        log.setId("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77");
-        log.setStatus("R");
-        log.setMsgType(0);
-        log.setFileName("IN_300185_01-10-2021-15-50-10.xml");
         // MonitorLog log =new MonitorLog();
         jdbcTemplate.update("Insert into MONITOR_LOG (ID,STATUS,MSG_TYPE,FILE_NAME,MSG,VN) values (?,?,?,?,?,?)", log.getId(), log.getStatus(), log.getMsgType(), log.getFileName(),
                 log.getMsg(),log.getVn());

@@ -2,25 +2,24 @@ package com.severtrans.notification.model;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+// @NoArgsConstructor
 public class MonitorLog {
-    String id;
-    String status;
-    int msgType;
-    String fileName;
+    final String  id;
+    final String status;
+    final int msgType;
+    final String fileName;
     Date startDate;
     Date endDate;
-    String msg;
-    String vn;
+    final String msg;
+    final int vn;
     /**
      * Error messages and any other info
      */
-    String info;
+    final String info;
 
 }
