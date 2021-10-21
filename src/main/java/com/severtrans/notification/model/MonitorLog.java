@@ -2,12 +2,13 @@ package com.severtrans.notification.model;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-// @NoArgsConstructor
+@AllArgsConstructor
 public class MonitorLog {
     final String  id;
     final String status;

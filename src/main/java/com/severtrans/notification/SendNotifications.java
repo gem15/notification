@@ -29,7 +29,7 @@ import com.severtrans.notification.model.MonitorLog;
 import com.severtrans.notification.model.NotificationItemRowMapper;
 import com.severtrans.notification.model.ResponseFtp;
 import com.severtrans.notification.model.Unit;
-import com.severtrans.notification.repository.MonitorLogDto;
+import com.severtrans.notification.repository.MonitorLogDao;
 import com.severtrans.notification.service.FTPException;
 import com.severtrans.notification.service.MonitorException;
 import com.severtrans.notification.utils.XmlUtiles;
@@ -79,7 +79,7 @@ public class SendNotifications {
     ModelMapper modelMapper;
 
     @Autowired
-    MonitorLogDto mlog;
+    MonitorLogDao mlog;
 
     /**
      *  FTP root directory
@@ -91,7 +91,7 @@ public class SendNotifications {
 
     String folderIN = "IN";
     String folderOUT = "OUT";
-    String folderLOADED = "LOADED"; //кто и с какой периодичностью чистит?
+    String folderLOADED = "LOADED"; //*TEST* LOADED_TEST
     //*TEST*
     // String folderIN = "IN_TEST";
     // String folderOUT = "OUT_TEST";
@@ -105,12 +105,12 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (ftpLine.getId() != 4) {
-                folderLOADED = "LOADED_TEST";
-                continue;
-            }
-            // FIXME *TEST* заглушка для отладки
-            // if (ftpLine.getId() == 4)continue; // FIXME *PROD*  пропуск тестового
+            
+            if (ftpLine.getId() == 4)continue; // FIXME *PROD*  пропуск тестового
+            // if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
+            //     //folderLOADED = "LOADED_TEST";
+            //     continue;
+            // }
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -149,7 +149,6 @@ public class SendNotifications {
                     if (resp.isLegacy())
                         continue;
                     // region folders костыль
-                    //FIXME *TEST*
                     folderIN = resp.getPathIn();
                     folderOUT = resp.getPathOut();
                     // endregion
@@ -183,7 +182,7 @@ public class SendNotifications {
                                 // if exist delete
                                 FTPFile[] remoteFiles = ftp.listFiles(remotePath);
                                 if (remoteFiles.length > 0)
-                                    ftp.deleteFile(remotePath);//*TEST*
+                                    ftp.deleteFile(remotePath);
                                 ok = ftp.rename(rootDir + folderIN + "/" + file.getName(), remotePath);
                                 if (!ok)
                                     throw new FTPException("Ошибка перемещения файла " + file.getName());
@@ -191,10 +190,8 @@ public class SendNotifications {
                                 try {
                                     shell = XmlUtiles.unmarshallShell(xmlText);
                                     prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
-                                    // mlog=new MonitorLogDto();
-                                    MonitorLog test = new MonitorLog(shell.getMsgID(), "R", shell.getMsgType(), file.getName(),
-                                    xmlText, shell.getCustomerID(), "");
-                                    mlog.save(test);
+                                    mlog.save(new MonitorLog(shell.getMsgID(), "R", shell.getMsgType(), file.getName(),
+                                    xmlText, shell.getCustomerID(), ""));
                                     msgInNew();
                                     confirm(file.getName());
                                     mlog.updateStatus("S","",shell.getMsgID());
@@ -203,7 +200,7 @@ public class SendNotifications {
                                     confirm(file.getName(), e.getMessage());
                                     mlog.updateStatus("E",e.getMessage(),shell.getMsgID());
                                 } catch (DataAccessException e) {
-                                    log.error("Ошибка БД. " + e.getMessage());
+                                    log.error("Ошибка при работе с Базой Данных. " + e.getMessage());
                                 }
                             }
                         }
@@ -344,11 +341,10 @@ public class SendNotifications {
                     throw new MonitorException(scuError, shell.getCustomerID(), 2, null);
                 // endregion
 
-                // region Поиск/создание суточного заказа
+                // region Поиск/создание суточного заказа 4301 Получено входящее сообщение
                 String dailyOrderSql = "SELECT sp.id FROM kb_spros sp WHERE sp.n_gruz like '%SKU' AND trunc(sp.dt_zakaz) = trunc(SYSDATE) AND sp.id_zak = ?";
-                String dailyOrderId;
                 try {
-                    dailyOrderId = jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
+                    jdbcTemplate.queryForObject(dailyOrderSql, String.class, customer.getId());
                     log.info("Найден суточный заказ");
                 } catch (EmptyResultDataAccessException e) {
                     SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("kb_spros")
@@ -360,13 +356,12 @@ public class SendNotifications {
                             .addValue("usl", "Суточный заказ по пакетам SKU").addValue("ORA_USER_EDIT_ROW_LOCK", 0);
                     //WTF ORA_USER_EDIT_ROW_LOCK !!!!!!!!!!!!!!!!
                     KeyHolder keyHolder = simpleJdbcInsert.executeAndReturnKeyHolder(params);
-                    dailyOrderId = keyHolder.getKeyAs(String.class);
+                    String dailyOrderId = keyHolder.getKeyAs(String.class);
+                    jdbcTemplate.update(
+                            "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
+                            dailyOrderId, new Date(), new Date(), "KB_USL99770", "Суточный заказ", "010277043");
                     log.info("Создан суточный заказ");
                 }
-                // событие 4301 в суточный заказ Получено входящее сообщение
-                jdbcTemplate.update(
-                        "INSERT INTO kb_sost (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp) VALUES (?, ?, ?, ?,?,?)",
-                        dailyOrderId, new Date(), new Date(), "KB_USL99770", "Суточный заказ", "010277043");
                 // endregion
 
                 break;
@@ -385,10 +380,10 @@ public class SendNotifications {
                         + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
                         + " AND UPPER(st.id_du)= UPPER(:msgID)";
                 MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
-                        .addValue("msgID", shell.getMsgID());
+                        .addValue("msgID", shell.getOrder().getGuid());
 
                 if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
-                    throw new MonitorException("Заказ уже существует");
+                    throw new MonitorException("Заказ уже существует "+shell.getOrder().getGuid());
                 //endregion
 
                 // ищем в логе
