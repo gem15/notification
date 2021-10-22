@@ -21,24 +21,14 @@ update response_ftp set path_in='IN' where path_in is null;
 
 select * from ftps;
 select * from response_type;
+select TO_CHAR( m.start_date, 'YYYY-MM-DD hh24:mm:ss' ) sd,m.* from monitor_log m order by 1 desc;
 
---FTP APP Папки IN, LOADED и OUT  - полный доступ
---Аккаунт для клиента :    app - sT458APP --Для нас  : svtapp - tVApp8842
-/*
-300261 КУХНИ-ТАЙПИТ
-300262 КРЕСЛА-ТАЙПИТ
-300263 КОРПУС-ТАЙПИТ
-*/
-REM INSERTING into FTPS_EXPORT
-SET DEFINE OFF;
 Insert into FTPS_EXPORT (ID,LOGIN,PASSWORD,HOSTNAME,PORT,DESCRIPTION) values ('2','severtrans_it','SevTraIt20XX','213.170.95.24','21','Тестовый');
 Insert into FTPS_EXPORT (ID,LOGIN,PASSWORD,HOSTNAME,PORT,DESCRIPTION) values ('3','tpitsvt','DertnPR330','91.228.118.220','21','Тайпит');
 Insert into FTPS_EXPORT (ID,LOGIN,PASSWORD,HOSTNAME,PORT,DESCRIPTION) values ('1','severtrans_it','SevTraIt20XX','176.118.31.139','21','IC Distribution');
 DELETE FROM ftps WHERE id <>3;
 select *  FROM ftps WHERE id <>3;
 
-REM INSERTING into SPRUT4.RESPONSE_FTP
-SET DEFINE OFF;
 Insert into SPRUT4.RESPONSE_FTP (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,PATH_OUT,VN) values ('6','4','4',null,'OUT','300185');
 Insert into SPRUT4.RESPONSE_FTP (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,PATH_OUT,VN) values ('4','5','4',null,'OUT','300185');
 Insert into SPRUT4.RESPONSE_FTP (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,PATH_OUT,VN) values ('5','6','4',null,'OUT','300185');
@@ -47,8 +37,6 @@ Insert into SPRUT4.RESPONSE_FTP (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,PATH_OUT,VN
 Insert into SPRUT4.RESPONSE_FTP (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,PATH_OUT,VN) values ('64','10','4','IN','LOADED','300185');
 
 
-REM INSERTING into RESPONSE_FTP_300185
-SET DEFINE OFF;
 Insert into RESPONSE_FTP_300185 (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,VN,PATH_OUT) values ('63','9','3','IN','300185','LOADED');
 Insert into RESPONSE_FTP_300185 (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,VN,PATH_OUT) values ('64','10','3','IN','300185','LOADED');
 Insert into RESPONSE_FTP_300185 (ID,RESPONSE_EXTRA_ID,FTP_ID,PATH_IN,VN,PATH_OUT) values ('4','5','3',null,'300185','OUT');

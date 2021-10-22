@@ -33,6 +33,7 @@ import com.severtrans.notification.repository.MonitorLogDao;
 import com.severtrans.notification.service.FTPException;
 import com.severtrans.notification.service.MonitorException;
 import com.severtrans.notification.utils.XmlUtiles;
+import com.severtrans.notification.repository.EventLogDao;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -57,7 +58,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
-
+import com.severtrans.notification.model.MonitorLog;
 @Slf4j
 @Repository
 public class SendNotifications {
@@ -80,6 +81,8 @@ public class SendNotifications {
 
     @Autowired
     MonitorLogDao mlog;
+    @Autowired
+    EventLogDao eventLog;
 
     /**
      *  FTP root directory
@@ -100,17 +103,19 @@ public class SendNotifications {
     // @Scheduled(fixedDelay = Long.MAX_VALUE) // initialDelay = 1000 * 30,
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
+        MonitorLog ml= mlog.findByID("-89f81f05-9d1e-4319-9b9d-b6f4e34c7e77");
+boolean b = eventLog.check4101("69c0a03-2817-11ec-8101-00155d57bcb9");
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
             
-            if (ftpLine.getId() == 4)continue; // FIXME *PROD*  пропуск тестового
-            // if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
-            //     //folderLOADED = "LOADED_TEST";
-            //     continue;
-            // }
+            // if (ftpLine.getId() == 4)continue; // FIXME *PROD*  пропуск тестового
+            if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
+                folderLOADED = "LOADED_TEST";
+                continue;
+            }
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -561,11 +566,9 @@ public class SendNotifications {
                 msg = 9;
         }
         shell.setMsgType(msg);
-        // if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
-        //     if (msg == 0 || msg == 1) {
-        //         shell.setMsgID(shell.getOrder().getGuid()); //костыль
-        //     }
-        // }
+        if (shell.getMsgID() == null || shell.getMsgID().isEmpty()) {
+            shell.setMsgID(UUID.randomUUID().toString());//костыль
+        }
         return msg;
     }
 
