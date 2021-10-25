@@ -1037,7 +1037,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
 			  extractvalue(VALUE(t), '/Shell/order/orderDate') AS Date1, --Дата ПО
 		--                       extractvalue(VALUE(t), '/Shell/Customer') AS Customer, --Заказчик
 			  extractvalue(VALUE(t), '/Shell/order/orderType') AS OrderType, --Тип заказа
-		-- поставка/отгрузка                      extractvalue(VALUE(t), '/Shell/order/TypeOfDelivery') AS TypeOfDelivery, --Тип поставки
+		     extractvalue(VALUE(t), '/Shell/order/orderKind') AS TypeOfDelivery, --Тип поставки
 			  extractvalue(VALUE(t), '/Shell/order/plannedDate') AS PlannedDeliveryDate,
 			  extractvalue(VALUE(t), '/Shell/order/contrCode') AS IDSupplier, --код поставщика
 			  extractvalue(VALUE(t), '/Shell/order/contrName') AS NameSupplier, --имя поставщика
@@ -1052,11 +1052,11 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
 	
 		v_order_Date := to_date(REPLACE(rec.Date1,'T',' '), 'yyyy-mm-dd hh24:mi:ss'); --'2021-06-06T15:52:50'
 		v_planned_Date := to_date(REPLACE(rec.PlannedDeliveryDate,'T',' '), 'yyyy-mm-dd hh24:mi:ss');
-		IF UPPER(rec.OrderType) = 'FALSE' THEN
-			v_OrderType := 'ПОСТАВКА';
-		ELSE
-			v_OrderType := 'ОТГРУЗКА';
-		END IF;
+--		IF UPPER(rec.OrderType) = 'FALSE' THEN
+--			v_OrderType := 'ПОСТАВКА';
+--		ELSE
+--			v_OrderType := 'ОТГРУЗКА';
+--		END IF;
 --костыль 
 --      IF rec.msgID IS NOT NULL THEN
 --			rec.docID := rec.msgID;
@@ -1166,13 +1166,14 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
       --привязка договора к заказу                     
       INSERT INTO kb_spros_dog (id_obsl, id_vtu, id_dog) VALUES (v_id_obsl, 'KB_VTU50767', substr(v_id_dog, 2));
       -- определение типа поставки/отгрузки
---      BEGIN
---        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s WHERE upper(s.val_full) = upper(v_OrderType);
---      EXCEPTION
---        WHEN no_data_found THEN
---          p_err := 'Неправильный тип поставки.';
---          EXIT;
---      END;
+      BEGIN
+        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s 
+        WHERE upper(s.val_full) = upper(rec.TypeOfDelivery) AND VOC_ID='SCH_NP';
+      EXCEPTION
+        WHEN no_data_found THEN
+          p_err := 'Неправильный тип поставки.';
+          EXIT;
+      END;
       --наполнение заказа
       --4101
       INSERT INTO kb_sost
@@ -1185,7 +1186,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
          substr(v_id_dog, 2),
          c_test || rec.Number1,
          '010277043',
-         'SCH_NP94607',--v_id_tzs,
+         v_id_tzs,
          v_order_Date,
          c_test)
       RETURNING id INTO v_id_sost;
@@ -1239,9 +1240,9 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
          'Поставка' --f07
         ,
          'Поставка',
-         to_char(v_dt_rec, 'dd.mm.yyyy') --f09
+         to_char(v_planned_Date, 'dd.mm.yyyy') --f09
         ,
-         to_char(v_dt_rec, 'hh24:mi') --f10
+         to_char(v_planned_Date, 'hh24:mi') --f10
         ,
          'нет',
          v_id_wms,
@@ -1311,7 +1312,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
   END MSG_4101_;
   --Конец разборки с ПО--
 
-  PROCEDURE MSG_4103_(p_msg IN CLOB, p_err OUT VARCHAR2) IS
+    PROCEDURE MSG_4103_(p_msg IN CLOB, p_err OUT VARCHAR2) IS
     v_id_zak     kb_zak.id%TYPE;
     v_new_rec    kb_zak.id%TYPE; --получатель
     v_id_wms     kb_zak.id_wms%TYPE;
@@ -1350,7 +1351,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
 			  extractvalue(VALUE(t), '/Shell/order/orderDate') AS Date1, --DateDoc ???? ??
 		--	  extractvalue(VALUE(t), '/Shell/order/Customer') AS Customer, --???????????
 			  extractvalue(VALUE(t), '/Shell/order/orderType') AS OrderType, --??? ??????
-		--	  extractvalue(VALUE(t), '/Shell/order/TypeOfDelivery') AS TypeOfDelivery, --??? ????????
+			  extractvalue(VALUE(t), '/Shell/order/orderKind') AS TypeOfDelivery, --??? ????????
 			  extractvalue(VALUE(t), '/Shell/order/plannedDate') AS PlannedShipmentDate, --PlannedShipmentDate ??????????? ???? ????????
 			  extractvalue(VALUE(t), '/Shell/order/contrCode') AS IDConsignee, --IDConsignee ??? ??????????
 			  extractvalue(VALUE(t), '/Shell/order/contrName') AS NameConsignee, --NameConsignee ??? ???????????
@@ -1367,20 +1368,6 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
     
 		v_order_Date := to_date(REPLACE(rec.Date1,'T',' '), 'yyyy-mm-dd hh24:mi:ss'); --'2021-06-06T15:52:50'
 		v_planned_Date := to_date(REPLACE(rec.PlannedShipmentDate,'T',' '), 'yyyy-mm-dd hh24:mi:ss');
-		IF rec.OrderType = 'FALSE' THEN
-			v_OrderType := 'ПОСТАВКА';
-		ELSE
-			v_OrderType := 'ОТГРУЗКА';
-		END IF;
---костыль 
---      IF rec.msgID IS NOT NULL THEN
---			rec.docID := rec.msgID;
---      END IF;
-		
-      IF rec.vn IS NULL THEN
-        p_err := 'отсутствует ВН';
-        RAISE vn_not_found;
-      END IF;
     
       v_dt_rec := v_planned_Date;--to_date(rec.PlannedShipmentDate, 'dd.mm.yyyy hh24:mi:ss');
       v_vn     := rec.vn;
@@ -1452,11 +1439,6 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
       ---создание заказа
       SELECT SV_UTILITIES.FORM_KEY(KB_SPROS_SEQ.NextVal) INTO v_id_obsl FROM dual;
     
---      SELECT SUBSTR(regexp_substr(t.message_name, '[^\]*$'), 1, INSTR(regexp_substr(t.message_name, '[^\]*$'), '.', -1) - 1)
---        INTO v_file_name
---        FROM Kb_Hlm_in t
---       WHERE t.message_id = p_id_file;
-    
       INSERT INTO kb_spros
         (n_gruz,
          dt_zakaz,
@@ -1495,13 +1477,14 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
       INSERT INTO kb_spros_dog (id_obsl, id_vtu, id_dog) VALUES (v_id_obsl, 'KB_VTU50767', substr(v_id_dog, 2));
 
       -- определение типа поставки/отгрузки
---      BEGIN
---        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s WHERE upper(s.val_full) = upper(v_OrderType);
---      EXCEPTION
---        WHEN no_data_found THEN
---          p_err := 'Неправильный тип отгрузки.';
---          EXIT;
---      END;
+      BEGIN
+        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s 
+        WHERE upper(s.val_full) = upper(rec.TypeOfDelivery) AND VOC_ID='SCH_NP';
+      EXCEPTION
+        WHEN no_data_found THEN
+          p_err := 'Неправильный тип отгрузки.';
+          EXIT;
+      END;
 
       --создаем событие 4103 - плановая отгрузка товара точка входа в солво
       
@@ -1517,7 +1500,7 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
          substr(v_id_dog, 2),
          c_test || rec.number1,
          '010277043',
-         'SCH_NP94574',--v_id_tzs, --SCH_NP94574 Отгрузка
+         v_id_tzs, --SCH_NP94574 Отгрузка
          v_order_Date,
          rec.Comment1);
 --      RETURNING id INTO v_id_sost; --- услуга
@@ -1573,8 +1556,8 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
       VALUES
         (v_sost_doc --f06
         ,'Отгрузка' --f07
-        ,to_char(v_dt_rec, 'dd.mm.yyyy') --f09
-        ,to_char(v_dt_rec, 'hh24:mi') --f10
+        ,to_char(v_planned_Date, 'dd.mm.yyyy') --f09
+        ,to_char(v_planned_Date, 'hh24:mi') --f10
 			,'нет',
          v_id_wms,
          nvl(v_id_wms_zak, v_id_wms));

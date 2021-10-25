@@ -104,7 +104,7 @@ public class SendNotifications {
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}")
     public void reply() {
         MonitorLog ml= mlog.findByID("-89f81f05-9d1e-4319-9b9d-b6f4e34c7e77");
-boolean b = eventLog.check4101("69c0a03-2817-11ec-8101-00155d57bcb9");
+boolean b = eventLog.check4110("69c0a03-2817-11ec-8101-00155d57bcb9");
         List<Ftp> ftps = jdbcTemplate.query("select * from ftps",
                 (rs, rowNum) -> new Ftp(rs.getInt("id"), rs.getString("login"), rs.getString("password"),
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));

@@ -13,7 +13,7 @@ public class EventLogDao {
  * @param orderID - уникальный ID заказа
  * @return true/false
  */
-    public boolean check4101(String orderID) {
+    public boolean check4110(String orderID) {
         String sql = "SELECT COUNT(*) FROM kb_sost st"
                 + " WHERE st.id_sost = 'KB_USL60183' AND " //--4110 Заказ в работе на СОХ
                 + " id_obsl = ( SELECT id_obsl FROM kb_sost"
