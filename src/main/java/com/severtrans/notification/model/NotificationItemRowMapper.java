@@ -22,7 +22,7 @@ public class NotificationItemRowMapper implements RowMapper<NotificationItem> {
                 ni.setMark3(rs.getString("MARKER3"));
                 ni.setQty(rs.getInt("QTY"));
                 ni.setComment(rs.getString("COMMENTS"));
-                ni.setSn(rs.getString("SERIAL_NUM"));
+                // ni.setSn(rs.getString("SERIAL_NUM"));
                 return ni;
 
         }
