@@ -79,8 +79,8 @@ public class SendNotifications {
     @Autowired
     ModelMapper modelMapper;
 
-    // @Autowired
-    // MonitorLogDao mlog;
+    @Autowired
+    MonitorLogDao mlog;
     @Autowired
     EventLogDao eventLog;
 
@@ -110,12 +110,11 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (ftpLine.getId() == 4)
-                continue; // FIXME *PROD*  пропуск тестового
-            // if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
-            //     folderLOADED = "LOADED_TEST";
-            //     continue;
-            // }
+            // if (ftpLine.getId() == 4)
+            //     continue; // FIXME *PROD*  пропуск тестового
+            if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
+                continue;
+            } else folderLOADED = "LOADED_TEST";
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -192,19 +191,28 @@ public class SendNotifications {
                             if (!ok)
                                 throw new FTPException("Ошибка перемещения файла " + file.getName());
                             // endregion
+
                             try {
                                 shell = XmlUtiles.unmarshallShell(xmlText);
-                                prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
-                                // mlog.save(new MonitorLog(shell.getMsgID(), "R", shell.getMsgType(), file.getName(), xmlText, shell.getCustomerID(), ""));
-                                msgInNew();
-                                confirm(file.getName());
-                                // mlog.updateStatus("S","",shell.getMsgID());
-                            } catch (MonitorException e) {
-                                // сообщения с пользовательскими ошибками
-                                confirm(file.getName(), e.getMessage());
-                                log.info(e.getMessage());// mlog.updateStatus("E",e.getMessage(),shell.getMsgID());
-                            } catch (DataAccessException e) {
-                                log.error("Ошибка при работе с Базой Данных. " + e.getMessage());
+                                long id = 0;//monitor_log.id
+                                try {
+                                    prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
+                                    id = mlog.save(new MonitorLog(shell.getOrder().getGuid(), "R", shell.getMsgType(),
+                                            file.getName(), xmlText, shell.getCustomerID(), ""));
+                                    msgInNew();
+                                    confirm(file.getName());
+                                    mlog.updateStatus("S", "", id);
+                                } catch (MonitorException e) {
+                                    confirm(file.getName(), e.getMessage());
+                                    mlog.updateStatus("E", e.getMessage(), id);
+                                    log.info(e.getMessage());
+                                } catch (DataAccessException e) {
+                                    log.error("\nОшибка при работе с Базой Данных. " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            } catch (JAXBException e1) {
+                                confirm(file.getName(),"Неверный формат сообщения\n"+e1.getMessage());
+                                log.error(e1.getMessage());
                             }
                         }
                     }
@@ -397,18 +405,6 @@ public class SendNotifications {
             if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
                 throw new MonitorException("Заказ уже существует " + shell.getOrder().getGuid());
             //endregion
-
-            // ищем в логе
-            // MonitorLog monitorLog = namedParameterJdbcTemplate.queryForObject(
-            //         "SELECT * FROM MONITOR_LOG WHERE ID = :ID",
-            //         new MapSqlParameterSource().addValue("ID", shell.getMsgID()),
-            //         (rs, rowNum) -> new MonitorLog(rs.getString("id"), rs.getString("name"), rs.getInt("age"),
-            //                 rs.getString("e"), rs.getDate("e"), rs.getDate("e")));
-            //add to log
-            // jdbcTemplate.update(
-            //         "insert into monitor_log (insert into monitor_log ( id , status, msg_type , file_name , start_date ,end_date)"
-            //                 + " VALUES(?,?,?,?,?,?)",
-            // shell.getMsgID());
 
             InputStream is = XmlUtiles.marshaller(shell);
             String xmlOrder = new String(is.readAllBytes(), StandardCharsets.UTF_8);

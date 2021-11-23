@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class MonitorLog {
-    final String  id;
+    final String  orderUID;
     final String status;
     final int msgType;
     final String fileName;
@@ -22,5 +22,6 @@ public class MonitorLog {
      * Error messages and any other info
      */
     final String info;
+    long id;
 
 }

@@ -2,7 +2,7 @@
 SELECT
 e.id as extraID,
 vn, path_in, path_out,
---e.master, e.details,
+e.master, e.details,
 alias_text alias, e.prefix,
 e.order_type, t.inout_id, f.hostname, e.legacy,t.name as type_name, t.id as type_id
 FROM response_ftp r INNER JOIN response_extra e ON r.response_extra_id = e.id
@@ -12,16 +12,17 @@ INNER JOIN response_type T ON T.ID = e.response_type_id
 ;
 select * from response_ftp;
 select * from response_extra;
-select * from response_ftp
---where ftp_id =4
-where path_in is null
-;
+
+select * from response_ftp --where ftp_id =4
+where path_in is null;
 update response_ftp set vn=300259 where ftp_id = 4;
 update response_ftp set path_in='IN' where path_in is null;
 
 select * from ftps;
 select * from response_type;
 select TO_CHAR( m.start_date, 'YYYY-MM-DD hh24:mm:ss' ) sd,m.* from monitor_log m order by 1 desc;
+
+--update kb_sost set id_du = '00000000-0000-0000-0000-000000000000' where id_du in ('619c0a03-2817-11ec-8101-00155d57bcb9',
 
 Insert into FTPS_EXPORT (ID,LOGIN,PASSWORD,HOSTNAME,PORT,DESCRIPTION) values ('2','severtrans_it','SevTraIt20XX','213.170.95.24','21','Тестовый');
 Insert into FTPS_EXPORT (ID,LOGIN,PASSWORD,HOSTNAME,PORT,DESCRIPTION) values ('3','tpitsvt','DertnPR330','91.228.118.220','21','Тайпит');

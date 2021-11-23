@@ -80,7 +80,7 @@ class MessagesTest {
         // +" values ('89f81f05-9d1e-4319-9b9d-b6f4e34c7e77','R','0','IN_300185_01-10-2021-15-50-10.xml',to_date('14.10.21','DD.MM.RR'),null,"
         // +"<Shell xmlns=http://www.severtrans.com");
         // MonitorLog log =new MonitorLog();
-        jdbcTemplate.update("Insert into MONITOR_LOG (ID,STATUS,MSG_TYPE,FILE_NAME,MSG,VN) values (?,?,?,?,?,?)", log.getId(), log.getStatus(), log.getMsgType(), log.getFileName(),
+        jdbcTemplate.update("Insert into MONITOR_LOG (ID,STATUS,MSG_TYPE,FILE_NAME,MSG,VN) values (?,?,?,?,?,?)", log.getOrderUID(), log.getStatus(), log.getMsgType(), log.getFileName(),
                 log.getMsg(),log.getVn());
         // logDto.save(log);
         System.out.println("stop");

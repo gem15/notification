@@ -64,21 +64,25 @@ public class XmlUtiles {
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), clasz).getValue();
     }
 
-    public static Shell unmarshallShell(String content) throws MonitorException {
+    public static Shell unmarshallShell(String content) throws JAXBException {
         // check for UTF8_BOM
         if (content.startsWith("\uFEFF")) {
             content = content.substring(1);
         }
         JAXBContext jaxbContext;
         Unmarshaller jaxbUnmarshaller;
-        try {
+        jaxbContext = JAXBContext.newInstance(Shell.class);
+        jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), Shell.class).getValue();
+
+/*         try {
             jaxbContext = JAXBContext.newInstance(Shell.class);
             jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), Shell.class).getValue();
         } catch (JAXBException e) {
             throw new MonitorException("Неверный формат сообщения\n");
         }
-
+ */
     }
 
     /**
