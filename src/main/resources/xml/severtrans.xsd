@@ -38,7 +38,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <!--  -->
+            <!-- Отдельные сообщения  -->
             <xs:element name="confirmation" type="st:Confirmation" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Подтверждение приёмки входного сообщения и статус последнего. В случае налии ошибки содержит текст</xs:documentation>
@@ -289,23 +289,6 @@
             <xs:element name="productionDate" type="xs:date" minOccurs="0" /> <!-- выяснить, берётся ли эта информация с упаковки товара или от клиента? -->
         </xs:sequence>
     </xs:complexType> <!-- Желательно реализовать возможность повторного запроса уведомления -->
-
-    <xs:complexType name="NotificationTest">
-        <xs:complexContent>
-            <xs:extension base="st:Notification">
-                <xs:sequence>
-                    <xs:element name="lines" type="st:NotificationLine" />
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="NotificationLineTest">
-        <xs:complexContent>
-            <xs:extension base="st:NotificationLine" />
-        </xs:complexContent>
-    </xs:complexType>
-
 
     <xs:complexType name="upcList">
         <xs:sequence>

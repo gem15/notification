@@ -110,11 +110,11 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            // if (ftpLine.getId() == 4)
-            //     continue; // FIXME *PROD*  пропуск тестового
-            if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
-                continue;
-            } else folderLOADED = "LOADED_TEST";
+            if (ftpLine.getId() == 4)
+                continue; // FIXME *PROD*  пропуск тестового
+            // if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
+            //     continue;
+            // } else folderLOADED = "LOADED_TEST";
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -269,7 +269,6 @@ public class SendNotifications {
                     }
                         break;
                     }
-
                 }
                 ftp.logout();
             } catch (IOException e) {
