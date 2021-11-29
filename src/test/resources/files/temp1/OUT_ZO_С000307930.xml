@@ -1,58 +1,45 @@
-﻿<Shell xmlns="http://www.severtrans.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<customerID>300185</customerID>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://www.severtrans.com">
+	<customerID>300259</customerID>
+	<msgID>382a18e3-febc-44b1-9dab-c1c7ad06a87d</msgID>
+	<msgType>2</msgType>
 	<order>
-		<guid>965e4682-9ec3-11eb-80c0-00155d0c6c19</guid>
-		<orderType>true</orderType>
-		<orderKind>Задание на отгрузку</orderKind>
-		<orderNo>С000307930</orderNo>
-		<orderDate>2021-08-25T21:52:27</orderDate>
-		<plannedDate>2021-08-28T15:53:27</plannedDate>
-		<contrCode>015030</contrCode>
-		<contrName>КОМУС</contrName>
-		<contrAddress>105005, г. Москва, набережная Академика Туполева, дом 15, корпус 29, этаж 5, помещение I, кабинет 18</contrAddress>
-		<licencePlate>K597MA77</licencePlate>
-		<driver>driver</driver>
+		<!-- уникальный номер заказа -->
+		<guid>64690ed4-358e-11ec-8103-00155d4856c3</guid>
+		<!-- признак редактирования -->
+		<action>0</action>
+		<orderType>1</orderType>
+		<!-- вид поставки/отгрузки -->
+		<orderKind>Отгрузка</orderKind>
+		<!-- номер документа клиента -->
+		<orderNo>ОП-00000808</orderNo>
+		<!-- дата/время документа -->
+		<orderDate>2021-10-28T19:32:48</orderDate>
+		<!-- планируемая дата/время заказа -->
+		<plannedDate>2021-11-01T00:00:00</plannedDate>
+		<!-- клиентский код контрагента -->
+		<contrCode>БФ-005872</contrCode>
+		<!-- клиентское наименование контрагента -->
+		<contrName>ЕвроЛогистик ООО (Кулагина)</contrName>
+		<!-- строка заказа -->
 		<orderLine>
+			<!-- порядковый номер -->
 			<lineNumber>1</lineNumber>
-			<article>00-07014052</article>
-			<name>Офисное кресло EChair 515 TPU экокожа бежевая, пластик</name>
-			<qty>36</qty>
+			<!-- артикул -->
+			<article>УТ-00030997</article>
+			<!-- наименование -->
+			<name>Серия Магнитная игра-одевашка в пакете</name>
+			<!-- количиство -->
+			<qty>135</qty>
+			<!-- маркер (дополнительный признак) -->
+			<mark>ОП-00000881</mark>
 		</orderLine>
 		<orderLine>
 			<lineNumber>2</lineNumber>
-			<article>00-07028305</article>
-			<name>Офисное кресло EChair-641 TC ткань серый, пластик серый</name>
-			<qty>18</qty>
-		</orderLine>
-		<orderLine>
-			<lineNumber>3</lineNumber>
-			<article>00-07059331</article>
-			<name>Офисное кресло EChair-304 TPU кожзам черн/сетка черн, пластик</name>
-			<qty>120</qty>
-		</orderLine>
-		<orderLine>
-			<lineNumber>4</lineNumber>
-			<article>00-07064082</article>
-			<name>Офисное кресло EChair-685 LT ткань черный пластик</name>
-			<qty>48</qty>
-		</orderLine>
-		<orderLine>
-			<lineNumber>5</lineNumber>
-			<article>00-07064083</article>
-			<name>Офисное кресло EChair-685 TС ткань черный пластик </name>
-			<qty>48</qty>
-		</orderLine>
-		<orderLine>
-			<lineNumber>6</lineNumber>
-			<article>00-07066775</article>
-			<name>Кресло EChair-683 TPU кожзам черный, пластик</name>
-			<qty>18</qty>
-		</orderLine>
-		<orderLine>
-			<lineNumber>7</lineNumber>
-			<article>00-07066776</article>
-			<name>Кресло EChair-683 TPU кожзам черный/серый, пластик</name>
-			<qty>18</qty>
+			<article>УТ-00030990</article>
+			<name>Серия Пазл на внимательность 80 элементов</name>
+			<qty>96</qty>
+			<mark>ОП-00000881</mark>
 		</orderLine>
 	</order>
 </Shell>
