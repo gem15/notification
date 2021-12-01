@@ -36,6 +36,7 @@
                         5	Справочник SKU
                         6	Запрос остатков Part Stock
                         7	Подтверждение груз собран
+                        8   Ответ на запрос текущих остатков
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -218,7 +219,7 @@
             </xs:element>
             <xs:element name="expirationDate" type="xs:date" minOccurs="0" >
                 <xs:annotation>
-                    <xs:documentation>Годен до</xs:documentation>
+                    <xs:documentation>Срок годности</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -520,7 +521,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="SUCCESS|ERROR" />
+                        <xs:pattern value="SUCCESS|ERROR|CHANGED" />
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>

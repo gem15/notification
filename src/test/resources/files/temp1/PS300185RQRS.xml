@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://www.severtrans.com">
+	<customerID>300259</customerID>
+	<msgID>382a18e3-febc-44b1-9dab-c1c7ad06a87d</msgID>
+	<msgType>6</msgType>
+    <partStockRq>
+        <!-- на какую дату(время)? -->
+        <!-- время формирования пакета -->
+        <ts>2020-05-04T18:13:51.0</ts>
+    </partStockRq>
+    <partStockRs>
+        <!-- на какую дату(время)? -->
+        <!-- дата формирования -->
+        <ts>2006-05-04T18:13:51.0</ts>
+        <line>
+            <!-- номер по порядку -->
+            <lineNumber>1</lineNumber>
+            <!-- артикул товара -->
+            <article>УТ-00030997</article>
+            <!-- наименование товара -->
+            <name>Серия Магнитная игра-одевашка в пакете</name>
+            <!-- количество на складе -->
+            <qty>1</qty>
+            <!-- Штрихкод UPC (UPC/EAN-код) -->
+            <upc>2850000002195</upc>
+        </line>
+        <line>
+            <lineNumber>2</lineNumber>
+            <article>УТ-00030990</article>
+            <name>Серия Пазл на внимательность 80 элементов</name>
+            <qty>1</qty>
+            <upc>4813163000611</upc>
+        </line>
+    </partStockRs>
+</Shell>
+
+<!-- <PART_STOCK>
+    <TIME_STAMP>2020-11-21 00:35:34</TIME_STAMP> - дата формирования
+    <VN>300223</VN> - код клиента
+    <PART_STOCK_LINE_LIST>
+        <PART_STOCK_LINE_TEMPL>
+            <LINE_NO>1</LINE_NO> - номер по порядку
+            <ARTICLE>COGENT1</ARTICLE> - артикул товара
+            <UPC>2000001720875</UPC> - Штрихкод UPC (UPC/EAN-код)
+            <NAME>Матрас</NAME> - наименование товара
+            <QTY>12</QTY> - количество на складе
+        </PART_STOCK_LINE_TEMPL>
+ -->

@@ -1,0 +1,38 @@
+<Shell xmlns="http://www.severtrans.com">
+    <customerID>300261</customerID>
+    <msgID>915dc1ea-4801-4e51-bfd3-75d87f9515d8</msgID>
+    <msgType>7</msgType>
+    <notification>
+        <guid>76501e3f-37b6-11ec-80c5-00155d0c1603</guid>
+        <orderNo>Д000329943</orderNo>
+        <orderDate>2021-10-29T00:00:00.000+03:00</orderDate>
+        <contrCode>013493</contrCode>
+        <contrName>МС-ОфисПро</contrName>
+        <licencePlate>H458MK799</licencePlate>
+        <driver>Масло Евгений Николаевич</driver>
+        <actualArrivalTime>2021-10-29T09:36:35.000+03:00</actualArrivalTime>
+        <actualDeliveryTime>2021-10-28T22:11:00.000+03:00</actualDeliveryTime>
+        <line>
+            <lineNumber>1</lineNumber>
+            <article>TMKSK-01124648</article>
+            <name>Дверь Д-3Л Беларусь Груша 362*18*767 IMAGO</name>
+            <qty>3</qty>
+            <mark>-</mark>
+            <mark2>-</mark2>
+            <mark3>-</mark3>
+            <lot>-</lot>
+            <productionDate>2021-10-13+03:00</productionDate>
+        </line>
+        <line>
+            <lineNumber>2</lineNumber>
+            <article>TMKSK-01122203</article>
+            <name>Стол письменный СП-3 Беларусь Груша 1400*720х755 IMAGO</name>
+            <qty>6</qty>
+            <mark>-</mark>
+            <mark2>-</mark2>
+            <mark3>-</mark3>
+            <lot>-</lot>
+            <productionDate>2021-10-13+03:00</productionDate>
+        </line>
+    </notification>
+</Shell>

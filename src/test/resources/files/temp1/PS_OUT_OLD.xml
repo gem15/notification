@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PART_STOCK>
+   <TIME_STAMP>02.12.2020</TIME_STAMP>
+   <VN>300223</VN>
+   <PART_STOCK_LINE_LIST>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>1</LINE_NO>
+         <ARTICLE>OP102RU001</ARTICLE>
+         <UPC>2000001682401</UPC>
+         <NAME>&gt;Беспроводной сетевой адаптер</NAME>
+         <QTY>3</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>2</LINE_NO>
+         <ARTICLE>MC58CA01D</ARTICLE>
+         <UPC>2000001682364</UPC>
+         <NAME>&gt;Крепление весов к дисплею 580-CK75 COLUMN KIT MC580 75 CM</NAME>
+         <QTY>2</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>3</LINE_NO>
+         <ARTICLE>ZZ3500TANITAPRO</ARTICLE>
+         <UPC>2000001682418</UPC>
+         <NAME>&gt;Энергонезависимые твердотельные устройства хранения данных мини- или микроформата (известные как "флэш-карты памяти" или "электронные флэш-карты для хранения данных")   с записанной GMON - программой</NAME>
+         <QTY>5</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>4</LINE_NO>
+         <ARTICLE>MC780MN02A</ARTICLE>
+         <UPC>2000001682388</UPC>
+         <NAME>&gt;Весы- анализатор тела MC-780MAN KG EU P DG</NAME>
+         <QTY>4</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>5</LINE_NO>
+         <ARTICLE>MC780MN01A</ARTICLE>
+         <UPC>2000001682371</UPC>
+         <NAME>&gt;Весы- анализатор тела MC-780MAN KG EU P WH</NAME>
+         <QTY>2</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>6</LINE_NO>
+         <ARTICLE>MC580001D</ARTICLE>
+         <UPC>2000001682357</UPC>
+         <NAME>&gt;Весы- анализатор тела MC-580 KG EU MAIN UNIT DG</NAME>
+         <QTY>4</QTY>
+      </PART_STOCK_LINE_TEMPL>
+      <PART_STOCK_LINE_TEMPL>
+         <LINE_NO>7</LINE_NO>
+         <ARTICLE>MC780MN03A</ARTICLE>
+         <UPC>2000001682395</UPC>
+         <NAME>&gt;Весы- анализатор тела MC-780MAN KG EU S WH</NAME>
+         <QTY>3</QTY>
+      </PART_STOCK_LINE_TEMPL>
+   </PART_STOCK_LINE_LIST>
+</PART_STOCK>
