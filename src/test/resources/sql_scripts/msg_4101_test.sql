@@ -22,7 +22,7 @@ PROCEDURE msg_4101_(p_err OUT VARCHAR2бб st.id_du= '965e4682-9ec3-11eb-80c0-00
 	 v_order_Date	DATE;
 	 v_planned_Date	DATE;
 	 v_OrderType	VARCHAR2(20);
-  --  v_msg        CLOB;
+   v_msg        CLOB;
 	v_one_char	VARCHAR2(1);
 	 l_err_sku	VARCHAR2( 32000);
 	 l_err_qty	VARCHAR2( 32000);
@@ -32,7 +32,7 @@ BEGIN
 
 -- order exists ?
   begin
-    SELECT sp.id INTO v_id_obsl
+    SELECT sp.id, sp.id_tir, st.dt_sost /* dt_sost_end */ INTO v_id_obsl,v_id_tir, v_planned_Date
     FROM kb_sost st INNER JOIN kb_spros sp ON st.id_obsl = sp.ID
     WHERE   st.id_sost = 'KB_USL99770'  AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c0000' ;
   exception
@@ -47,7 +47,7 @@ BEGIN
       return;
     end if;
     --=== new order ....
-      -- v_msg := REPLACE(p_msg, ' xmlns="http://www.severtrans.com"');
+      v_msg := REPLACE(p_msg, ' xmlns="http://www.severtrans.com"');
       FOR rec IN (
         SELECT 
             extractvalue(VALUE(t), '/Shell/customerID') AS VN, --ВН клиента
@@ -65,7 +65,7 @@ BEGIN
             extractvalue(VALUE(t), '/Shell/order/guid') docID
             extractvalue(VALUE(t), '/Shell/order/action') action,
             extractvalue(VALUE(t), '/Shell/order/dopInfConsignee') AS DopInfConsignee, --уточнение информации о специфике сборки/упаковки
-        FROM TABLE(xmlsequence(extract(xmltype(REPLACE(p_msg,' xmlns="http://www.severtrans.com"')),'//Shell'))) t)
+        FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell'))) t)
       LOOP
     
         v_order_Date := to_date(REPLACE(rec.Date1,'T',' '), 'yyyy-mm-dd hh24:mi:ss'); --'2021-06-06T15:52:50'
@@ -232,6 +232,9 @@ BEGIN
     end if;
     if action = 2
       DBMS_OUTPUT.PUT_LINE( 'update planned Date, VEH, Drv' );
+      --4101.3 update kb_sost v_planned_Date - dt_sost, dt_sost_end ?
+      -- kb_spros v_id_tir
+      -- SOLVO 
       if 4110-1111 then
         DBMS_OUTPUT.PUT_LINE( 'update SOLVO only' );
         return;
@@ -240,6 +243,7 @@ BEGIN
       -- kb_pack.wms3_Check_OrderA(p_err, 'INCOMING', v_id_sost,
       -- CRT_COEF(v_id_obsl, v_id_dog);
       -- kb_pack.wms3_export_io(pack_err, 'INCOMING', v_id_sost);
+      -- CRT_COEF(v_id_obsl, v_id_dog); ??? если только плановая дата поменялась?
     ELSE
       DBMS_OUTPUT.PUT_LINE( 'unknown action' );
       return;
@@ -257,7 +261,7 @@ BEGIN
       extractvalue(VALUE(t), '/orderLine/mark3') AS Mark3, --номер документа
       extractvalue(VALUE(t), '/orderLine/qty') AS Count1, --кол-во
       extractvalue(VALUE(t), '/orderLine/comment') AS Comment1 --Комментарий
-    FROM TABLE(xmlsequence(extract(xmltype(REPLACE(p_msg,' xmlns="http://www.severtrans.com"')),'//Shell/order/orderLine'))) t)
+    FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell/order/orderLine'))) t)
   LOOP
     IF rec_det.Count1 IS NULL OR rec_det.Count1 = 0 THEN
       p_err := p_err || 'У номенклатуры '||rec_det.article||' не задано количество' || CHR(10);
