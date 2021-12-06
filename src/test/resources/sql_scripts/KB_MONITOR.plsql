@@ -227,11 +227,11 @@ FOR c_a IN   (SELECT REPLACE(REPLACE(RTRIM(LTRIM(TRANSLATE(a.id_sost, art_from, 
 --            p_err := 'Загружено записей: ' || TO_CHAR (l_counter);
             COMMIT WORK;
         END IF;
- EXCEPTION
+EXCEPTION
     WHEN OTHERS THEN
       ROLLBACK;
       p_err := SQLERRM;
-	END wms3_updt_sku;
+END wms3_updt_sku;
 	
    --new xml
   PROCEDURE msg_4101_(p_msg IN CLOB, p_err OUT VARCHAR2) IS

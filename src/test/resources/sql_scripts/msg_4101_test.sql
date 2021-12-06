@@ -71,7 +71,7 @@ BEGIN
         v_order_Date := to_date(REPLACE(rec.Date1,'T',' '), 'yyyy-mm-dd hh24:mi:ss'); --'2021-06-06T15:52:50'
         v_planned_Date := to_date(REPLACE(rec.PlannedDeliveryDate,'T',' '), 'yyyy-mm-dd hh24:mi:ss');
         
-        --разберёмся с клиентом, в переносном смысле или в прямом...
+        --=== разберёмся с клиентом, в переносном смысле или в прямом...
         BEGIN
           SELECT z.id, z.id_wms, z.id_svh, z.prf_wms, rec.IDSupplier, z.id_usr
             INTO v_id_zak, v_id_wms, v_id_svh, v_prfx, v_id_wms_zak, v_id_usr
@@ -84,7 +84,7 @@ BEGIN
             RAISE vn_not_found;--EXIT;
         END;
       
-        --заделаем машину, почти как Генри Форд
+        --=== заделаем машину, почти как Генри Форд
         IF rec.numbercar IS NOT NULL THEN
           v_n_avto := utility_pkg.String2AutoNumber(rec.numbercar);
           v_id_tir := Utility_Pkg.find_tir(v_n_avto, v_id_zak, v_planned_Date);
@@ -104,7 +104,7 @@ BEGIN
         ELSE
           v_id_tir := NULL;
         END IF;
-        --теперь сделаем или найдём поставщика
+        --=== теперь сделаем или найдём поставщика
         if rec.IDSupplier is null then
           v_new_rec := v_id_zak;
         else
