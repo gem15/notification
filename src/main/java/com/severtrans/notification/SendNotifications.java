@@ -197,14 +197,14 @@ public class SendNotifications {
                                 long id = 0;//monitor_log.id
                                 try {
                                     prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
-                                    id = mlog.save(new MonitorLog(shell.getOrder().getGuid(), "R", shell.getMsgType(),
-                                            file.getName(), xmlText, shell.getCustomerID(), ""));
+                                    // id = mlog.save(new MonitorLog(shell.getOrder().getGuid(), "R", shell.getMsgType(),
+                                    //         file.getName(), xmlText, shell.getCustomerID(), ""));
                                     msgInNew();
                                     confirm(file.getName());
-                                    mlog.updateStatus("S", "", id);
+                                    // mlog.updateStatus("S", "", id);
                                 } catch (MonitorException e) {
                                     confirm(file.getName(), e.getMessage());
-                                    mlog.updateStatus("E", e.getMessage(), id);
+                                    // mlog.updateStatus("E", e.getMessage(), id);
                                     log.info(e.getMessage());
                                 } catch (DataAccessException e) {
                                     log.error("\nОшибка при работе с Базой Данных. " + e.getMessage());

@@ -40,6 +40,12 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="ts" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дата сообщения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ts" type="xs:dateTime" minOccurs="0"/>
             <!-- Типы сообщений  -->
             <xs:element name="confirmation" type="st:Confirmation" minOccurs="0">
                 <xs:annotation>
@@ -76,9 +82,9 @@
                 <xs:annotation>
                     <xs:documentation>
                         Редактирование документа. Необязательный тег
-                        0 - новый заказ (значение по умолчанию)
+                        0 - новый заказ/изменение заказа в части деталей и шапку(значение по умолчанию)
                         1 - отмена заказа
-                        2 - изменение заказа
+                        2 - изменение шапки 
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -517,11 +523,11 @@
         <xs:sequence>
             <xs:element name="status">
                 <xs:annotation>
-                    <xs:documentation>Состояние первичной обработки сообщений</xs:documentation>
+                    <xs:documentation>Состояние первичной обработки сообщений и уведомление об изменении статуса заказов</xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="SUCCESS|ERROR|CHANGED" />
+                        <xs:pattern value="SUCCESS|ERROR|INWORK" /> <!-- INWORK подтверждение о начале сборки/приёмки на складе -->
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -530,7 +536,47 @@
                     <xs:documentation>Текст ошибки или любая дополнительная информация</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="orderNo" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Номер заказа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="guid" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Уникальный ID заказа для связки с ответными сообщениями</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
         </xs:sequence>
     </xs:complexType>
+
+<!--     <xs:complexType name="OrderStatus">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="guid" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Уникальный ID заказа</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="status" type="xs:int">
+                <xs:annotation>
+                    <xs:documentation>
+                        Обновление статуса заказа
+                        0 - 4110
+                        1 - 1111
+                        .........
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ts" type="xs:dateTime" >
+                <xs:annotation>
+                    <xs:documentation>Дата/время перехода в статус</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType> -->
     
 </xs:schema>
