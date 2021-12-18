@@ -273,6 +273,7 @@ public class SendNotifications {
                 ftp.logout();
             } catch (IOException e) {
                 // FTP and XmlMapper
+                log.error(e.getMessage());
                 e.printStackTrace();
             } catch (FTPException e) {
                 // проблемы FTP сервера
