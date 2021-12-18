@@ -1,5 +1,29 @@
 PROCEDURE msg_4101_(p_err OUT VARCHAR2бб st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c0000' ;) IS
-    v_id_zak     kb_zak.id%TYPE;
+create or replace procedure MSG_4101_test(p_msg CLOB :='',p_err out varchar2, p_info out varchar2) is
+	v_n_avto    VARCHAR2(40); --!!! delete, order_rec make public
+c_test CONSTANT VARCHAR2(20) := 'TEST#';--TEST_
+
+--***** Test
+	TYPE order_rectype IS RECORD (
+		vn kb_zak.id_klient%TYPE, msgid VARCHAR2(36), number1 VARCHAR2(38), orderDate DATE, ordertype NUMBER(1,0), typeofdelivery
+		VARCHAR2(100), plannedDate DATE, contrCode VARCHAR2(100), contrName VARCHAR2(1000), contrAddress
+		VARCHAR2(1000), numbercar VARCHAR2(100), driver VARCHAR2(100) DEFAULT NULL, docid VARCHAR2(36), action NUMBER(1), dopinfconsignee VARCHAR2
+		(100), comment1 VARCHAR2(1000)
+	);
+	order_rec order_rectype;
+	TYPE sost_rec IS RECORD (
+		id sv_hvoc.val_id%TYPE, short sv_hvoc.val_short%TYPE, full sv_hvoc.val_full%TYPE
+	);
+	l_sost sost_rec;
+
+	 v_planned_Date	DATE;
+	 v_id_tir_old     NUMBER;
+	 v_inwork			BOOLEAN := FALSE;
+	 v_edit				BOOLEAN := FALSE;
+--	 l_id_sost			VARCHAR2(38);
+-- Test *****
+
+	v_id_zak     kb_zak.id%TYPE;
     v_new_rec    kb_zak.id%TYPE; --получатель
     v_id_wms     kb_zak.id_wms%TYPE;
     v_id_obsl    kb_spros.id%TYPE;
@@ -19,264 +43,373 @@ PROCEDURE msg_4101_(p_err OUT VARCHAR2бб st.id_du= '965e4682-9ec3-11eb-80c0-00
     v_id_usr     VARCHAR2(38);
     vn_not_found EXCEPTION;
 
-	 v_order_Date	DATE;
-	 v_planned_Date	DATE;
-	 v_OrderType	VARCHAR2(20);
+--	 v_order_Date	DATE;
+--	 v_OrderType	VARCHAR2(20);
    v_msg        CLOB;
-	v_one_char	VARCHAR2(1);
-	 l_err_sku	VARCHAR2( 32000);
-	 l_err_qty	VARCHAR2( 32000);
+--	v_one_char	VARCHAR2(1);
+	 l_err_sku	VARCHAR2( 32000):= NULL;
+	 l_err_qty	VARCHAR2( 32000):= NULL;
 	 
+/*
+  1. <plannedDate>2021-12-20T23:00:59</plannedDate>
+  1. 00-01185415 --> 00-07064083
+*/
 BEGIN
---SET SERVEROUTPUT ON 
+	--***** Test '20.12.2021 23:00:00' 20.12.21 23:00:00
 
--- order exists ?
-  begin
-    SELECT sp.id, sp.id_tir, st.dt_sost /* dt_sost_end */ INTO v_id_obsl,v_id_tir, v_planned_Date
-    FROM kb_sost st INNER JOIN kb_spros sp ON st.id_obsl = sp.ID
-    WHERE   st.id_sost = 'KB_USL99770'  AND st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c0000' ;
-  exception
-    when no_data_found then
-      v_id_obsl := NULL;  
-  end;
+	v_msg := TO_CLOB('<Shell>
+		<customerID>300185</customerID>
+		<msgID>7187c8a0-013f-476b-aa87-f65961d4631b</msgID>
+		<msgType>1</msgType>
+		<order>
+			<guid>cf843545-9eb5-11eb-80c0-00155d0c6c05</guid>
+			<action>0</action>
+			<orderType>false</orderType>
+			<orderKind>Поступление товаров и услуг</orderKind>
+			<orderNo>MK05</orderNo>
+			<orderDate>2021-08-17T01:00:59</orderDate>
+			<plannedDate>2021-12-21T05:00:05</plannedDate>
+			<contrCode>T019597</contrCode>
+			<contrName>ЦТО+ ООО</contrName>
+			<contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
+			<licencePlate>K 333 MA05</licencePlate>
+			<driver>Trump05</driver>
+			<orderLine>
+				<lineNumber>1</lineNumber>
+				<article>00-01185415</article>
+				<name>Офисное кресло EChair-685 TС ткань черный пластик</name>
+				<qty>6</qty>
+				<category>0</category>
+			</orderLine>
+		</order>
+	</Shell>');
+--***** 00-01185415 пресс-шайба 00-07064083 Офисное кресло EChair-685
+--	v_msg := REPLACE(p_msg, ' xmlns="http://www.severtrans.com"');
 
-  if v_id_obsl IS NULL then
-    if action != 0
+  SELECT 
+		extractvalue(VALUE(t), '/Shell/customerID') AS VN, --ВН клиента
+		extractvalue(VALUE(t), '/Shell/msgID') AS msgID, 
+		extractvalue(VALUE(t), '/Shell//order/orderNo') AS number1, --Номер ПО
+		to_date(REPLACE(extractvalue(VALUE(t), '/Shell/order/orderDate'),'T',' '), 'yyyy-mm-dd hh24:mi:ss') AS orderDate, --Дата ПО
+		CASE WHEN EXTRACTVALUE(VALUE(T), '/Shell/order/orderType') ='true' THEN 1 ELSE 0 END AS ORDERTYPE, --Тип заказа
+		extractvalue(VALUE(t), '/Shell/order/orderKind') AS TypeOfDelivery, --Тип поставки
+		to_date(REPLACE(extractvalue(VALUE(t), '/Shell/order/plannedDate'),'T',' '), 'yyyy-mm-dd hh24:mi:ss') AS plannedDate,
+		extractvalue(VALUE(t), '/Shell/order/contrCode') AS contrCode, --код поставщика
+		extractvalue(VALUE(t), '/Shell/order/contrName') AS contrName, --имя поставщика
+		extractvalue(VALUE(t), '/Shell/order/contrAddress') AS contrAddress, --адрес поставщика
+		extractvalue(VALUE(t), '/Shell/order/licencePlate') AS NumberCar, --Номер машины
+		extractvalue(VALUE(t), '/Shell/order/driver') Driver,
+		extractvalue(VALUE(t), '/Shell/order/guid') docID,
+		extractvalue(VALUE(t), '/Shell/order/action') action,
+		extractvalue(VALUE(t), '/Shell/order/dopInfConsignee') AS DopInfConsignee, --уточнение информации о специфике сборки/упаковки
+		extractvalue(VALUE(t), '/Shell/order/comment') Comment1
+		INTO order_rec
+  FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell'))) t;
+
+/*DBMS_OUTPUT.PUT_LINE( to_char(order_rec.plannedDate, 'yyyy-mm-dd hh24:mi:ss') );
+RAISE vn_not_found;
+*/
+  --== init orderKind record
+	SELECT val_id id, val_short   short, val_full full
+	INTO l_sost	FROM sv_hvoc	WHERE val_id =
+		CASE
+			WHEN order_rec.ordertype = 0 THEN 'KB_USL60173'
+			ELSE 'KB_USL60175'
+		END;
+
+	--=== разберёмся с клиентом, в переносном смысле или в прямом...
+  BEGIN
+   SELECT z.id, z.id_wms, z.id_svh, z.prf_wms, order_rec.contrCode, z.id_usr
+   /*
+   TODO: owner="It06" category="Optimize" priority="2 - Medium" created="14.12.2021"
+   text="chnge to record"
+   */
+    INTO v_id_zak, v_id_wms, v_id_svh, v_prfx, v_id_wms_zak, v_id_usr
+    FROM kb_zak z
+   WHERE z.id_klient = order_rec.vn
+       AND z.id_usr IN ('KB_USR92734', 'KB_USR99992');
+  EXCEPTION
+   WHEN OTHERS THEN
+    p_err := 'неправильный ВН';
+    RAISE vn_not_found;
+  END;
+
+    --== ищем заказ
+	BEGIN
+		SELECT sp.id, sp.id_tir, z.id_svh, st1.id
+			INTO v_id_obsl, v_id_tir_old, v_id_svh, v_id_sost
+			FROM kb_sost st
+		 INNER JOIN kb_spros sp
+				ON st.id_obsl = sp.ID
+		 INNER JOIN kb_zak z
+				ON z.ID = sp.id_zak
+		 INNER JOIN kb_sost st1
+				ON st.id_obsl = st1.id_obsl AND st1.id_sost = l_sost.id --IN ('KB_USL60173','KB_USL60175')
+		 WHERE st.id_sost = 'KB_USL99770' AND st.id_du = order_rec.docID; --'965e4682-9ec3-11eb-80c0-00155d0c0000' ;
+	EXCEPTION
+		WHEN no_data_found THEN
+			v_id_obsl := NULL;
+	END;
+
+  IF v_id_obsl IS NULL then --=== новый заказ
+
+    if order_rec.action != 0 THEN
       DBMS_OUTPUT.PUT_LINE( 'not found' );
-      p_err := 'Не найден заказ для action = '|| action;
+      p_err := 'Не найден заказ для action = '|| order_rec.action;
       return;
     end if;
-    --=== new order ....
-      v_msg := REPLACE(p_msg, ' xmlns="http://www.severtrans.com"');
-      FOR rec IN (
-        SELECT 
-            extractvalue(VALUE(t), '/Shell/customerID') AS VN, --ВН клиента
-            extractvalue(VALUE(t), '/Shell/msgID') AS msgID, 
-            extractvalue(VALUE(t), '/Shell//order/orderNo') AS number1, --Номер ПО
-            extractvalue(VALUE(t), '/Shell/order/orderDate') AS Date1, --Дата ПО
-            extractvalue(VALUE(t), '/Shell/order/orderType') AS OrderType, --Тип заказа
-            extractvalue(VALUE(t), '/Shell/order/orderKind') AS TypeOfDelivery, --Тип поставки
-            extractvalue(VALUE(t), '/Shell/order/plannedDate') AS PlannedDeliveryDate,
-            extractvalue(VALUE(t), '/Shell/order/contrCode') AS IDSupplier, --код поставщика
-            extractvalue(VALUE(t), '/Shell/order/contrName') AS NameSupplier, --имя поставщика
-            extractvalue(VALUE(t), '/Shell/order/contrAddress') AS AdressSupplier, --адрес поставщика
-            extractvalue(VALUE(t), '/Shell/order/licencePlate') AS NumberCar, --Номер машины
-            extractvalue(VALUE(t), '/Shell/order/driver') Driver,
-            extractvalue(VALUE(t), '/Shell/order/guid') docID
-            extractvalue(VALUE(t), '/Shell/order/action') action,
-            extractvalue(VALUE(t), '/Shell/order/dopInfConsignee') AS DopInfConsignee, --уточнение информации о специфике сборки/упаковки
-        FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell'))) t)
-      LOOP
-    
-        v_order_Date := to_date(REPLACE(rec.Date1,'T',' '), 'yyyy-mm-dd hh24:mi:ss'); --'2021-06-06T15:52:50'
-        v_planned_Date := to_date(REPLACE(rec.PlannedDeliveryDate,'T',' '), 'yyyy-mm-dd hh24:mi:ss');
+	
+	  --=== заделаем машину, почти как Генри Форд
+	  IF order_rec.numbercar IS NOT NULL THEN
+		 order_rec.numbercar := utility_pkg.String2AutoNumber(order_rec.numbercar);
+		 v_id_tir := Utility_Pkg.find_tir(order_rec.numbercar, v_id_zak, order_rec.plannedDate);
+		 IF v_id_tir IS NULL THEN
+       SELECT SV_UTILITIES.FORM_KEY(KB_TIR_SEQ.NextVal) INTO v_id_tir FROM dual;
+			INSERT INTO KB_TIR
+			  (id,n_tir, id_iper, id_trans, n_avto, vodit, Id_Svh)
+			VALUES
+			  (v_id_tir,
+        'Б/Н СОХ',
+			  'KB_PER24667', -- Междугородняя
+			  'KB_TRN24662', -- АвтоМобильный, 
+			  order_rec.numbercar,
+			  order_rec.driver,
+			  v_id_svh);-- RETURNING id INTO v_id_tir;
+		 END IF;
+	  ELSE
+		 v_id_tir := NULL;
+	  END IF;
+
+	  --=== теперь сделаем или найдём контрагента
+	  if order_rec.contrCode is null then
+		 v_new_rec := v_id_zak;
+	  else
+		 BEGIN
+			SELECT MIN(z.id)
+			  INTO v_new_rec
+			  FROM kb_zak z
+			WHERE z.id_wms = order_rec.contrCode
+					AND z.id_klient = order_rec.vn;
+		 EXCEPTION
+			WHEN OTHERS THEN
+			  NULL;
+		 END;
+	  end if; 
+	  --если не нашли
+	  IF v_new_rec IS NULL THEN
+		 --делаем нового контрагента 
+		 INSERT INTO kb_zak
+			(id_klient, id_wms, n_zak, id_tip_zak, naimen, ur_adr)
+		 VALUES
+			(order_rec.vn,
+			order_rec.contrCode,
+			order_rec.contrName,
+			'KB_TZK82894',
+			order_rec.contrName,
+			order_rec.contrAddress) RETURNING id INTO v_new_rec;
+	  END IF;
+	
+	  --=== создание заказа
+	  INSERT INTO kb_spros
+		 (n_gruz, dt_zakaz, id_zak, id_pok, is_postavka, id_spros, id_tir, id_kat)
+	  VALUES
+		 (c_test || 'FTP '||CASE WHEN order_rec.orderType = 0 THEN 'УП' ELSE 'РО' END||' --> ' || order_rec.number1,
+		 to_char(SYSDATE, 'dd.mm.rr'),
+		 v_id_zak,
+		 v_new_rec,
+		 order_rec.orderType,--'0''1',
+		 NULL,
+		 v_id_tir,
+		 'KB_TGR98182') RETURNING id INTO v_id_obsl;
+
+	  --=== поиск договора  
+	  SELECT MIN(decode(nvl(a.id_dog, a.id_usl),
+							  NULL,
+							  decode(dg.id_tdoc /*Тип документа*/, 'KB_TDD39116', '2', 'KB_TDD39115', '1', NULL) || dg.id,
+							  '0' || nvl(a.id_dog, a.id_usl)))
+		 INTO v_id_dog
+		 FROM kb_spros sp, kb_dog dg, --ДОГОВОРЫ
+			  kb_spros_dog a --ДОГОВОРЫ ЗАКАЗА
+	  WHERE sp.id = v_id_obsl
+			  AND a.id_obsl(+) = sp.id
+			  AND dg.id_zak = sp.id_zak(+)
+			  AND dg.id_isp(+) = '010277043'
+			  AND nvl(dg.dt_end(+), SYSDATE) >= SYSDATE
+			  AND dg.id_tdoc IN ('KB_TDD39116', 'KB_TDD39115');
+	  --привязка договора к заказу                     
+	  INSERT INTO kb_spros_dog (id_obsl, id_vtu, id_dog) VALUES (v_id_obsl, 'KB_VTU50767', substr(v_id_dog, 2));
+
+      --!!! временное определение типа поставки/отгрузки
+      BEGIN
+        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s 
+        WHERE upper(s.val_full) = upper(order_rec.TypeOfDelivery) AND s.VOC_ID='SCH_NP';
+      EXCEPTION
+        WHEN no_data_found THEN
+          if order_rec.ordertype = 0 then
+       		  v_id_tzs := 'SCH_NP94607'; -- костыль
+          else
+            v_id_tzs := 'SCH_NP94574'; -- костыль
+          end if;
+--          p_err := 'Неправильный тип отгрузки.';
+--SCH_NP94574	Отгрузка	Os
+--SCH_NP94607	Поставка	IA
+--SCH_NP94654	ASN	IS
+      END;
+	  --===== наполнение заказа 4101\3
+	  INSERT INTO kb_sost
+		 (id_obsl, dt_sost, dt_sost_end, id_sost, id_dog, sost_doc, id_isp, id_tzs, dt_doc, sost_prm)
+	  VALUES
+		 (v_id_obsl,
+		 order_rec.plannedDate,
+		 order_rec.plannedDate,
+		 l_sost.id,
+		 substr(v_id_dog, 2),
+		 c_test || order_rec.Number1,
+		 '010277043',
+		 v_id_tzs,
+		 order_rec.orderDate,
+		 order_rec.Comment1)
+	  RETURNING id INTO v_id_sost;
+
+--	  --=== обработка типа поставки/отгрузки (ждём)
+	
+	  --=== добавляем событие 4301 получено входящее сообщение
+		INSERT INTO kb_sost
+			(id_obsl, dt_sost, dt_sost_end, id_sost, sost_prm, id_isp, id_du) --sost_doc,
+		VALUES
+			(v_id_obsl,
+			 SYSDATE,
+			 SYSDATE,
+			 'KB_USL99770',
+			 CASE WHEN order_rec.orderType = 0 THEN 'УП' ELSE 'РО' END,
+			 '010277043',
+			 order_rec.docID); --rec.guid p_id_file,
+       
+  ELSE --==== изменение заказа  ========================
+
+      --== Заказ завершён
+      SELECT COUNT(*) INTO cnt_sku FROM kb_sost st
+       WHERE st.id_obsl = v_id_obsl AND st.id_sost IN ('KB_USL39027', 'KB_USL50541');
+      IF cnt_sku >0 THEN 
+        p_err := 'Заказ выполнен/отменён';
+        RAISE vn_not_found;
+      END IF;
         
-        --=== разберёмся с клиентом, в переносном смысле или в прямом...
-        BEGIN
-          SELECT z.id, z.id_wms, z.id_svh, z.prf_wms, rec.IDSupplier, z.id_usr
-            INTO v_id_zak, v_id_wms, v_id_svh, v_prfx, v_id_wms_zak, v_id_usr
-            FROM kb_zak z
-          WHERE z.id_klient = rec.vn
-                AND z.id_usr IN ('KB_USR92734', 'KB_USR99992');
-        EXCEPTION
-          WHEN OTHERS THEN
-            p_err := 'неправильный ВН';
-            RAISE vn_not_found;--EXIT;
-        END;
-      
-        --=== заделаем машину, почти как Генри Форд
-        IF rec.numbercar IS NOT NULL THEN
-          v_n_avto := utility_pkg.String2AutoNumber(rec.numbercar);
-          v_id_tir := Utility_Pkg.find_tir(v_n_avto, v_id_zak, v_planned_Date);
-          IF v_id_tir IS NULL THEN
-            SELECT SV_UTILITIES.FORM_KEY(KB_TIR_SEQ.NextVal) INTO v_id_tir FROM dual;
-            INSERT INTO KB_TIR
-              (n_tir, id_iper, id_trans, /*id_svh, */ n_avto, id, vodit, Id_Svh)
-            VALUES
-              ('Б/Н СОХ',
-              'KB_PER24667', -- Междугородняя
-              'KB_TRN24662', -- АвтоМобильный, 
-              v_n_avto,
-              v_id_tir,
-              rec.driver,
-              v_id_svh);
-          END IF;
-        ELSE
-          v_id_tir := NULL;
-        END IF;
-        --=== теперь сделаем или найдём поставщика
-        if rec.IDSupplier is null then
-          v_new_rec := v_id_zak;
-        else
-          BEGIN
-            SELECT MIN(z.id)
-              INTO v_new_rec
-              FROM kb_zak z
-            WHERE z.id_wms = rec.IDSupplier
-                  AND z.id_klient = rec.vn;
-          EXCEPTION
-            WHEN OTHERS THEN
-              NULL;
-          END;
-        end if; 
-        --если не нашли
-        IF v_new_rec IS NULL THEN
-          --делаем нового контрагента 
-          SELECT SV_UTILITIES.FORM_KEY(kb_zak_seq.NextVal) INTO v_new_rec FROM dual;
-          INSERT INTO kb_zak
-            (id, id_klient, id_wms, n_zak /*наименование*/, id_tip_zak, naimen, ur_adr)
-          VALUES
-            (v_new_rec,
-            rec.vn /*'300160'-ВН*/,
-            rec.idsupplier,
-            rec.namesupplier /*наименование*/,
-            'KB_TZK82894', --Поставщик/ Получатель СОХ
-            rec.namesupplier,
-            rec.adresssupplier);
-        END IF;
-      
-        --=== создание заказа
-        SELECT SV_UTILITIES.FORM_KEY(KB_SPROS_SEQ.NextVal) INTO v_id_obsl FROM dual;
-      
-        INSERT INTO kb_spros
-          (n_gruz, dt_zakaz, id_zak, id_pok, is_postavka, id, id_spros, id_tir, id_kat)
-        VALUES
-          (c_test || 'FTP УП --> ' || rec.number1,
-          to_char(SYSDATE, 'dd.mm.rr'),
-          v_id_zak,
-          v_new_rec,
-          '1',
-          v_id_obsl,
-          NULL,
-          v_id_tir,
-          'KB_TGR98182');
+      --== заказ уже в работе ?
+      SELECT count(*) INTO cnt_sku
+      FROM kb_sost st 
+      WHERE  st.id_obsl= v_id_obsl and (st.id_sost = 'KB_USL60183' OR st.sost_prm like 'УП в статусе "G"%');
+      v_inwork := cnt_sku > 0;
 
-        --=== поиск договора  
-        SELECT MIN(decode(nvl(a.id_dog, a.id_usl),
-                          NULL,
-                          decode(dg.id_tdoc /*Тип документа*/, 'KB_TDD39116', '2', 'KB_TDD39115', '1', NULL) || dg.id,
-                          '0' || nvl(a.id_dog, a.id_usl)))
-          INTO v_id_dog
-          FROM kb_spros sp, kb_dog dg, --ДОГОВОРЫ
-              kb_spros_dog a --ДОГОВОРЫ ЗАКАЗА
-        WHERE sp.id = v_id_obsl
-              AND a.id_obsl(+) = sp.id
-              AND dg.id_zak = sp.id_zak(+)
-              AND dg.id_isp(+) = '010277043'
-              AND nvl(dg.dt_end(+), SYSDATE) >= SYSDATE
-              AND dg.id_tdoc IN ('KB_TDD39116', 'KB_TDD39115');
-        --привязка договора к заказу                     
-        INSERT INTO kb_spros_dog (id_obsl, id_vtu, id_dog) VALUES (v_id_obsl, 'KB_VTU50767', substr(v_id_dog, 2));
-        --===== наполнение заказа
-        --4101
-        INSERT INTO kb_sost
-          (id_obsl, dt_sost, dt_sost_end, id_sost, id_dog, sost_doc, id_isp, id_tzs, dt_doc, sost_prm)
-        VALUES
-          (v_id_obsl,
-          v_planned_Date,
-          v_planned_Date,
-          'KB_USL60173',
-          substr(v_id_dog, 2),
-          c_test || rec.Number1,
-          '010277043',
-          v_id_tzs,
-          v_order_Date,
-          c_test)
-        RETURNING id INTO v_id_sost;
+      --== блок дополнительных проверок
+      IF order_rec.action = 0 AND v_inwork THEN 
+        p_err := 'Заказ уже в работе.';
+        RAISE vn_not_found;
+      ELSIF order_rec.action = 1 AND NOT v_inwork THEN
+        p_err := 'Заказ уже в работе. Удаление невозможно';
+        RAISE vn_not_found;
+      ELSIF order_rec.action > 2 THEN
+        p_err := 'Непонятное значение action';
+        RAISE vn_not_found;
+      END IF;
 
-        --=== обработка типа поставки/отгрузки
-        BEGIN
-          SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s 
-          WHERE upper(s.val_full) = upper(rec.TypeOfDelivery) AND s.VOC_ID='SCH_NP';
-        EXCEPTION
-          WHEN no_data_found THEN v_id_tzs := NULL;
-        END;
-      
-        IF v_id_tzs IS NULL THEN
-          BEGIN 
-            SELECT z.type_cox	INTO v_id_tzs
-            FROM kb_spros sp, kb_zak_type_conv z
-            WHERE sp.id = v_id_obsl
-            AND sp.id_pok = z.id_zak
-            AND UPPER(z.type_cox_zak) = UPPER(rec.TypeOfDelivery);
-            
-            UPDATE kb_sost SET id_tzs = v_id_tzs WHERE id = v_id_sost;
-          EXCEPTION
-            WHEN no_data_found THEN 
-            p_err := 'Тип заказа '|| rec.TypeOfDelivery || ' не найден.';
-            RAISE vn_not_found;
-          END;
-        END IF;
-        SELECT substr(UPPER(val_short), 1, 1) INTO v_one_char FROM sv_hvoc WHERE val_id = v_id_tzs;
-        IF v_one_char != 'I' THEN -- !!!
-          p_err := 'Неверное направление у типа заказа';
-          RAISE vn_not_found;
-        END IF;
-      
-        --=== добавляем событие 4301
-        INSERT INTO kb_sost
-          (id_obsl, dt_sost, dt_sost_end, id_sost,  sost_prm, id_isp,id_du)--sost_doc,
-        VALUES
-          (v_id_obsl, SYSDATE, SYSDATE, 'KB_USL99770', 'ПО', '010277043',rec.docID); --rec.guid p_id_file, 
-        
-      END LOOP;
-
-  ELSE --=== изменение заказа
-    if action = 0
-      DBMS_OUTPUT.PUT_LINE( 'duplicate' );
-      return;
-    end if;
-    if action = 1
-      DBMS_OUTPUT.PUT_LINE( 'delete order' );
-      return;
-    end if;
-    if action = 2
-      DBMS_OUTPUT.PUT_LINE( 'update planned Date, VEH, Drv' );
-      --4101.3 update kb_sost v_planned_Date - dt_sost, dt_sost_end ?
-      -- kb_spros v_id_tir
-      -- SOLVO 
-      if 4110-1111 then
-        DBMS_OUTPUT.PUT_LINE( 'update SOLVO only' );
+      --== Удаление заказа
+      if order_rec.action = 1 THEN --delete order not ready yet
+        DBMS_OUTPUT.PUT_LINE( 'delete order' );
         return;
       end if;
-      -- find  или 1 начальный суперзапрос
-      -- kb_pack.wms3_Check_OrderA(p_err, 'INCOMING', v_id_sost,
-      -- CRT_COEF(v_id_obsl, v_id_dog);
-      -- kb_pack.wms3_export_io(pack_err, 'INCOMING', v_id_sost);
-      -- CRT_COEF(v_id_obsl, v_id_dog); ??? если только плановая дата поменялась?
-    ELSE
-      DBMS_OUTPUT.PUT_LINE( 'unknown action' );
-      return;
-    end if;
-  end if;
 
-  --=== заполняем KB_TTN    
+      --== Изменение плановой даты PD
+/*      select dt_sost into v_planned_Date from kb_sost where id_obsl=v_id_obsl AND id_sost = l_sost.id;
+      IF v_planned_Date != order_rec.plannedDate THEN
+    		p_info := p_info || 'Замена плановой даты'||CHR(10);
+        UPDATE kb_sost	SET dt_sost = order_rec.planneddate, dt_sost_end = order_rec.planneddate
+        WHERE id_obsl = v_id_obsl AND id_sost = l_sost.id;
+
+        IF order_rec.action = 2 AND v_inwork THEN
+          IF order_rec.orderType = 0 THEN
+            UPDATE wms.incomings@wms3.kvt.local SET date_to_ship 
+                   =to_number(order_rec.planneddate - to_date('01-01-1970','DD-mm-YYYY')) * 24 * 60 * 60;
+          ELSE
+            UPDATE wms.orders@wms3.kvt.local SET date_to_ship 
+            =to_number(order_rec.planneddate - to_date('01-01-1970','DD-mm-YYYY')) * 24 * 60 * 60;
+          END IF;
+        END IF;  
+      END IF;
+*/	
+      --== Изменение ТС VEH
+      IF order_rec.numbercar IS NOT NULL THEN
+       order_rec.numbercar := utility_pkg.String2AutoNumber(order_rec.numbercar);
+       v_id_tir := Utility_Pkg.find_tir(order_rec.numbercar, v_id_zak, order_rec.plannedDate);
+       IF v_id_tir IS NULL THEN
+         SELECT SV_UTILITIES.FORM_KEY(KB_TIR_SEQ.NextVal) INTO v_id_tir FROM dual;
+        INSERT INTO KB_TIR
+          (id, n_tir, id_iper, id_trans, n_avto, vodit, Id_Svh)
+        VALUES
+          (v_id_tir,
+          'Б/Н СОХ',
+          'KB_PER24667',
+          'KB_TRN24662',
+          order_rec.numbercar,
+          order_rec.driver,
+          v_id_svh);-- RETURNING id INTO v_id_tir; fuck
+       END IF;
+       IF v_id_tir_old IS NULL OR v_id_tir != v_id_tir_old THEN
+          p_info := 'Замена ТС'||CHR(10);
+          UPDATE kb_spros SET id_tir = v_id_tir WHERE id = v_id_obsl;
+         IF order_rec.action = 2 AND v_inwork AND order_rec.orderType = 1 THEN
+           -- ТС в СОЛВО только для отгрузок
+           UPDATE wms.orders@wms3.kvt.local	SET car_num = order_rec.numbercar, driver_fio = order_rec.driver;
+         END IF;
+       END IF;
+      END IF;
+      
+      IF order_rec.action = 2 THEN
+        RETURN; -- делать больше нечего
+      ELSE
+        DELETE kb_ttn WHERE id_obsl = v_id_obsl; -- чистим kb_ttn  
+      END IF;
+
+  end if; --v_id_obsl IS NULL
+
+--========== общая часть ======================
   FOR rec_det IN (
-    SELECT extractvalue(VALUE(t), '/orderLine/lineNumber') AS LineNumber, --номер строки
-      extractvalue(VALUE(t), '/orderLine/article') AS Article, --артикул товара
-      extractvalue(VALUE(t), '/orderLine/name') AS NAME, --имя товара
-      extractvalue(VALUE(t), '/orderLine/category') AS Category, --категория товара
-      TRIM(BOTH ' ' FROM extractvalue(VALUE(t), '/orderLine/mark')) AS Mark, --номер документаTRIM(BOTH ' ' FROM '  derby ')
-      extractvalue(VALUE(t), '/orderLine/mark2') AS Mark2, --номер документа
-      extractvalue(VALUE(t), '/orderLine/mark3') AS Mark3, --номер документа
-      extractvalue(VALUE(t), '/orderLine/qty') AS Count1, --кол-во
-      extractvalue(VALUE(t), '/orderLine/comment') AS Comment1 --Комментарий
-    FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell/order/orderLine'))) t)
+   SELECT extractvalue(VALUE(t), '/orderLine/lineNumber') AS LineNumber, --номер строки
+    extractvalue(VALUE(t), '/orderLine/article') AS Article, --артикул товара
+    extractvalue(VALUE(t), '/orderLine/name') AS NAME, --имя товара
+    extractvalue(VALUE(t), '/orderLine/category') AS Category, --категория товара
+    TRIM(BOTH ' ' FROM extractvalue(VALUE(t), '/orderLine/mark')) AS Mark, --номер документаTRIM(BOTH ' ' FROM '  derby ')
+    extractvalue(VALUE(t), '/orderLine/mark2') AS Mark2, --номер документа
+    extractvalue(VALUE(t), '/orderLine/mark3') AS Mark3, --номер документа
+    extractvalue(VALUE(t), '/orderLine/qty') AS Count1, --кол-во
+    extractvalue(VALUE(t), '/orderLine/comment') AS Comment1, --Комментарий
+    extractvalue(VALUE(t), '/orderLine/storageLife') storageLife -- годен до (дата)
+   FROM TABLE(xmlsequence(extract(xmltype(v_msg),'//Shell/order/orderLine'))) t)
   LOOP
-    IF rec_det.Count1 IS NULL OR rec_det.Count1 = 0 THEN
-      p_err := p_err || 'У номенклатуры '||rec_det.article||' не задано количество' || CHR(10);
-    END IF;
-    --поиск номенклатру в справочнике
-    SELECT COUNT(1) INTO cnt_sku FROM sku s WHERE s.sku_id = v_prfx || rec_det.article;
-    IF nvl(cnt_sku, 0) = 0 THEN
-      p_err := p_err || 'Не найдена номенклатура ' || rec_det.article || CHR(10);
-    END IF;
-    --заполняем таблицу грузов
-    INSERT INTO kb_ttn
-      (id_obsl, n_tovar, kol_tovar, brak, pak_tovar, ul_otpr, usl)
-    VALUES
-      (v_id_obsl, rec_det.article, rec_det.count1, rec_det.category, rec_det.mark, rec_det.mark2, rec_det.mark3);
-  END LOOP;
+    -- проверяем кол-во
+   IF rec_det.Count1 IS NULL OR rec_det.Count1 = 0 THEN
+     l_err_qty := rec_det.article || NVL(l_err_qty, '');
+    --p_err := p_err || 'У номенклатуры '||rec_det.article||' не задано количество' || CHR(10);
+   END IF;
+   --поиск номенклатру в справочнике
+   SELECT COUNT(1) INTO cnt_sku FROM sku s WHERE s.sku_id = v_prfx || rec_det.article;
+   IF nvl(cnt_sku, 0) = 0 THEN
+     l_err_sku := rec_det.article || NVL(l_err_sku, '');
+    --p_err := p_err || 'Не найдена номенклатура ' || rec_det.article || CHR(10);
+   END IF;
+     --заполняем таблицу грузов
+     INSERT INTO kb_ttn
+      (id_obsl, n_tovar, kol_tovar, brak, pak_tovar, ul_otpr, usl, srok_godn)
+     VALUES
+      (v_id_obsl, rec_det.article, rec_det.count1, rec_det.category, rec_det.mark, rec_det.mark2, rec_det.mark3, rec_det.storageLife);
+  END LOOP rec_det;
+
+  IF l_err_qty IS NOT NULL THEN
+    p_err := 'Для номенклатур(ы) ' || l_err_qty || ' не задано кол-во.' || CHR(10);
+  END IF;
+  IF l_err_sku IS NOT NULL THEN
+    p_err := NVL(p_err, '') || 'Не найдены номенклатура(ы): ' || l_err_sku;
+  END IF;
   IF p_err IS NOT NULL THEN
     RAISE vn_not_found;
   END IF;
@@ -284,37 +417,36 @@ BEGIN
   --=== разбор заявки завершен, заказ в АРМ сформирован, передача в СОЛВО
   DELETE FROM kb_t_mdet;
   INSERT INTO kb_t_mdet
-    (id_sost, id_obsl, f01, f02, f05 /*категория*/, f06 /*маркер*/, f18 /*маркер 2*/,f21/*маркер 3*/)
-    (SELECT 'KB_USL60173', v_id_obsl, n_tovar, KOL_TOVAR, brak, pak_tovar, ul_otpr, usl FROM kb_ttn
+    (id_sost, id_obsl, f01, f02, f05 /*категория*/, f06 /*маркер*/, f18 /*маркер 2*/,f21/*маркер 3*/,f07)
+    (SELECT l_sost.id, v_id_obsl, n_tovar, KOL_TOVAR, brak, pak_tovar, ul_otpr, usl, srok_godn FROM kb_ttn
   WHERE id_obsl = v_id_obsl);
 
   DELETE FROM kb_t_master;
   INSERT INTO kb_t_master
-    (f06, f07, f08, f09, f10, f16, f18, f14)
+    ( f09, f10, f16, f18, f14) --f06,f07, f08, --> fuck
   VALUES
-    (v_sost_doc --f06
-    ,
-      'Поставка' --f07
-    ,
-      'Поставка',
-      to_char(v_planned_Date, 'dd.mm.yyyy') --f09
-    ,
-      to_char(v_planned_Date, 'hh24:mi') --f10
-    ,
+    (
+    /*v_sost_doc, --f06
+     'Поставка', --f07 Отгрузка
+      'Поставка',  --f08
+   */
+      to_char(order_rec.plannedDate, 'dd.mm.yyyy'), --f09
+      to_char(order_rec.plannedDate, 'hh24:mi'), --f10
       'нет',
       v_id_wms,
       nvl(v_id_wms_zak, v_id_wms));
   --проверка заказа перед отправкой      
-  kb_pack.wms3_Check_OrderA(p_err, 'INCOMING', v_id_sost, v_tmp, v_tmp, v_tmp);
+  kb_pack.wms3_Check_OrderA(p_err, CASE WHEN order_rec.orderType = 0 THEN 'INCOMING' ELSE 'ORDER' END, v_id_sost, v_tmp, v_tmp, v_tmp);
 
   IF p_err IS NOT NULL THEN
     RAISE vn_not_found;
   END IF;
-  -- Аспект А004
-  CRT_COEF(v_id_obsl, v_id_dog);
+  --!!! Аспект А004
+  --***** Test CRT_COEF(v_id_obsl, v_id_dog);
 
   --фактическая передача данных в СОЛВО
-  kb_pack.wms3_export_io(pack_err, 'INCOMING', v_id_sost);
+  --l_id_sost := CASE WHEN order_rec.orderType = 0 THEN 'INCOMING' ELSE 'ORDER' END;
+  kb_pack.wms3_export_io(pack_err, CASE WHEN order_rec.orderType = 0 THEN 'INCOMING' ELSE 'ORDER' END, v_id_sost);
 
   -- Фиксируем факт успешной отправки в ГС (событие 4113 Заказ направлен в СУС)
   SELECT COUNT(*), SUM(a.counter) INTO v_counter, v_rows
@@ -338,11 +470,12 @@ BEGIN
       WHERE sl.voc_id = 'KB_USL'
             AND sl.val_short = '4113';
 	 
-    -- COMMIT @Transaction;
+  COMMIT;
+
 EXCEPTION
-  WHEN vn_not_found
+  WHEN vn_not_found THEN
     ROLLBACK;
   WHEN OTHERS THEN
     p_err := SQLERRM;
     ROLLBACK;
-END MSG_4101_;
+END MSG_4101_test;
