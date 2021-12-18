@@ -193,7 +193,7 @@ public class SendNotifications {
                             // endregion
 
                             try {
-                                shell = XmlUtiles.unmarshallShell(xmlText);
+                                shell = XmlUtiles.unmarshallShell(xmlText);//TODO use schema validator!!!
                                 long id = 0;//monitor_log.id
                                 try {
                                     prefix2MsgType(file.getName().split("_")[0].toUpperCase());//костыль
@@ -210,7 +210,7 @@ public class SendNotifications {
                                     log.error("\nОшибка при работе с Базой Данных. " + e.getMessage());
                                     e.printStackTrace();
                                 }
-                            } catch (JAXBException e1) {
+                            } catch (JAXBException e1) {//TODO use schema validator!!!
                                 confirm(file.getName(),"Неверный формат сообщения\n"+e1.getMessage());
                                 log.error(e1.getMessage());
                             }
@@ -289,6 +289,22 @@ public class SendNotifications {
             }
         }
     }
+
+    public void logdb(Shell shell,String status) {
+        if (shell.getMsgType() == 1 ||shell.getMsgType() == 2) {
+            
+        }
+        switch (shell.getMsgType()) {
+            case 1:
+                
+                break;
+        
+            default:
+                break;
+        }
+        
+    }
+
 
     /**
      * Новый формат обработки входящих сообщений
@@ -395,15 +411,15 @@ public class SendNotifications {
             // }
             //endregion
             //region проверка на дубликат
-            String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
-                    + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
-                    + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
-                    + " AND UPPER(st.id_du)= UPPER(:msgID)";
-            MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
-                    .addValue("msgID", shell.getOrder().getGuid());
+            // String sql = "SELECT count(*) FROM kb_sost st " + " INNER JOIN kb_spros sp ON st.id_obsl = sp.ID"
+            //         + " INNER JOIN kb_zak z ON z.ID = sp.id_zak" + " WHERE z.id_klient = :custID"
+            //         + " AND z.id_usr IS NOT NULL" + " AND  st.id_sost = 'KB_USL99770'"
+            //         + " AND UPPER(st.id_du)= UPPER(:msgID)";
+            // MapSqlParameterSource params = new MapSqlParameterSource().addValue("custID", shell.getCustomerID())
+            //         .addValue("msgID", shell.getOrder().getGuid());
 
-            if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
-                throw new MonitorException("Заказ уже существует " + shell.getOrder().getGuid());
+            // if (namedParameterJdbcTemplate.queryForObject(sql, params, Integer.class) > 0)
+            //     throw new MonitorException("Заказ уже существует " + shell.getOrder().getGuid());
             //endregion
 
             InputStream is = XmlUtiles.marshaller(shell);

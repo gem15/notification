@@ -45,7 +45,6 @@
                     <xs:documentation>Дата сообщения</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="ts" type="xs:dateTime" minOccurs="0"/>
             <!-- Типы сообщений  -->
             <xs:element name="confirmation" type="st:Confirmation" minOccurs="0">
                 <xs:annotation>

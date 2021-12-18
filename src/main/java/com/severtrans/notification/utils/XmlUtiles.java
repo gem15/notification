@@ -2,6 +2,7 @@ package com.severtrans.notification.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -69,10 +70,11 @@ public class XmlUtiles {
         if (content.startsWith("\uFEFF")) {
             content = content.substring(1);
         }
-        JAXBContext jaxbContext;
-        Unmarshaller jaxbUnmarshaller;
-        jaxbContext = JAXBContext.newInstance(Shell.class);
-        jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        // JAXBContext jaxbContext;
+        // Unmarshaller jaxbUnmarshaller;
+        JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        
         return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(content)), Shell.class).getValue();
 
 /*         try {
@@ -84,6 +86,31 @@ public class XmlUtiles {
         }
  */
     }
+
+    /**
+     * Десериализация объекта Shell с валидацией по схеме
+     * @param сообщение в формате xml 
+     * @param  путь к файлу схемы XSD
+     * @return @see com.severtrans.notification.dto.Shell
+     * @throws JAXBException
+     * @throws SAXException
+     */
+    public static Shell unmarshallShell(String xml, String xsdPath) throws JAXBException, SAXException {
+        // check for UTF8_BOM
+        if (xml.startsWith("\uFEFF")) {
+            xml = xml.substring(1);
+        }
+         JAXBContext jaxbContext = JAXBContext.newInstance(Shell.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+        //Setup schema validator
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = sf.newSchema(new File(xsdPath));
+        jaxbUnmarshaller.setSchema(schema);
+        
+        return jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(xml)), Shell.class).getValue();
+    }
+
 
     /**
      * xslt преобразование

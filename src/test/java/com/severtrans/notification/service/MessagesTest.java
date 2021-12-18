@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.rmi.UnmarshalException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
@@ -44,6 +45,7 @@ import com.severtrans.notification.utils.XmlUtiles;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,6 +57,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.KeyHolder;
+import org.xml.sax.SAXException;
 
 @AutoConfigureTestDatabase
 @JdbcTest
@@ -69,19 +72,23 @@ class MessagesTest {
     XmlMapper xmlMapper;
     @Autowired
     ModelMapper modelMapper;
-    
+
     // @Autowired(required=true)
     // MonitorLogDto logDto;
 
     @Test
-    void monitorLogTest(){
-        MonitorLog log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77","R",0,"IN_300185_01-10-2021-15-50-10.xml","",300185,"");
-        // "Insert into EXPORT_TABLE (ID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,END_DATE,MSG)"
-        // +" values ('89f81f05-9d1e-4319-9b9d-b6f4e34c7e77','R','0','IN_300185_01-10-2021-15-50-10.xml',to_date('14.10.21','DD.MM.RR'),null,"
+    void monitorLogTest() {
+        MonitorLog log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77", "R", 0,
+                "IN_300185_01-10-2021-15-50-10.xml", "", 300185, "");
+        // "Insert into EXPORT_TABLE
+        // (ID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,END_DATE,MSG)"
+        // +" values
+        // ('89f81f05-9d1e-4319-9b9d-b6f4e34c7e77','R','0','IN_300185_01-10-2021-15-50-10.xml',to_date('14.10.21','DD.MM.RR'),null,"
         // +"<Shell xmlns=http://www.severtrans.com");
         // MonitorLog log =new MonitorLog();
-        jdbcTemplate.update("Insert into MONITOR_LOG (ID,STATUS,MSG_TYPE,FILE_NAME,MSG,VN) values (?,?,?,?,?,?)", log.getOrderUID(), log.getStatus(), log.getMsgType(), log.getFileName(),
-                log.getMsg(),log.getVn());
+        jdbcTemplate.update("Insert into MONITOR_LOG (ID,STATUS,MSG_TYPE,FILE_NAME,MSG,VN) values (?,?,?,?,?,?)",
+                log.getOrderUID(), log.getStatus(), log.getMsgType(), log.getFileName(),
+                log.getMsg(), log.getVn());
         // logDto.save(log);
         System.out.println("stop");
     }
@@ -89,7 +96,8 @@ class MessagesTest {
     @Test
     void JaxbExtendTest() throws IOException, JAXBException {
         String xml;
-        try (InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml")) {
+        try (InputStream is = new FileInputStream(
+                "src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml")) {
             xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
         }
         Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
@@ -97,35 +105,50 @@ class MessagesTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(shell.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // without prolog
-     
+
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         // jaxbMarshaller.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, "");
-        // JAXBElement<Shell> shellElement = new JAXBElement<>(new QName("ROOT"), Shell.class, shell);
+        // JAXBElement<Shell> shellElement = new JAXBElement<>(new QName("ROOT"),
+        // Shell.class, shell);
         // jaxbMarshaller.marshal(shellElement, System.out);
-         
-         JAXBElement<Shell> jaxbElement =  new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class, shell);
+
+        JAXBElement<Shell> jaxbElement = new JAXBElement<>(new QName("http://www.severtrans.com", "Shell"), Shell.class,
+                shell);
         // jaxbMarshaller.marshal(jaxbElement, System.out);
         StringWriter sw = new StringWriter();
-   
+
         jaxbMarshaller.marshal(jaxbElement, sw);
         String result = sw.toString().replaceFirst(" xmlns=\"http://www.severtrans.com\"", "");
-        //Marshal the employees list in file
+        // Marshal the employees list in file
         // jaxbMarshaller.marshal(employees, new File("c:/temp/employees.xml"));
         // String out = result.replaceFirst(" xmlns=\"http://www.severtrans.com\"","");
         System.out.println(result);
     }
 
+    @Value("${feature.foo.enabled}") boolean featureEnabled;
     @Test
-    void outOrderTest() throws IOException, JAXBException { // test выходных сообщений
+    void xsdValidateTest() { // test выходных сообщений
+        System.out.println(featureEnabled);
+        try {
+            String file = "src\\test\\resources\\files\\TEST_APP.xml";
+            InputStream is = new FileInputStream(file);
+            String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            is.close();
 
-        InputStream is = new FileInputStream("src\\test\\resources\\files\\OUT_ZO_000307930_2021-08-18-10-10-58.xml");
-        String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        is.close();
-        Shell shell = XmlUtiles.unmarshaller(xml, Shell.class);
-
-        InputStream xmlTest = XmlUtiles.marshaller(shell);
-        xml = new String(xmlTest.readAllBytes(), StandardCharsets.UTF_8);
-        System.out.println(xml);
+            Shell shell = XmlUtiles.unmarshallShell(xml, "src\\main\\resources\\xml\\severtrans.xsd");
+        } catch (JAXBException | SAXException  e) {
+            // TODO Ошибка входных данных
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+System.out.println("Ok\n\n");
+        // InputStream xmlTest = XmlUtiles.marshaller(shell);
+        // xml = new String(xmlTest.readAllBytes(), StandardCharsets.UTF_8);
+        // System.out.println(xml);
 
     }
 
@@ -235,39 +258,40 @@ class MessagesTest {
             String xmlText = XmlUtiles.marshaller(shell, true);
             // endregion
             System.out.println(xmlText);
-String tt="SELECT\n" +
-        " DISTINCT st.dt_sost, -- Дата заявки\n" +
-        "      st2.dt_sost_end /*фактическая дата закрытия заказа*/, st.sost_doc, --Номер ПО\n" +
-        "      sp.id AS id_obsl, st2.id_du, -- № объекта в солво для прихода: № УП для расхода № заказа в терминах солво\n" +
-        "      (SELECT MIN(st4.dt_sost_end)\n" +
-        "            FROM kb_sost st4\n" +
-        "            JOIN sv_hvoc hv\n" +
-        "              ON hv.val_id = st4.id_sost\n" +
-        "          WHERE hv.val_short = '3021'\n" +
-        "                  AND hv.voc_id = 'KB_USL'\n" +
-        "                  AND tir.id = st4.id_tir) dt_veh, --Фактическое время прибытия машины\n" +
-        "      z.id_wms id_suppl, --IDSupplier\n" +
-        "      z.id_klient, --VN\n" +
-        "      z.n_zak, -- name\n" +
-        "      z.ur_adr, tir.n_avto, tir.vodit\n" +
-        "FROM kb_spros sp, kb_sost st, kb_sost st2, kb_zak z, kb_tir tir\n" +
-        "WHERE sp.id = st.id_obsl\n" +
-        "AND st.id_sost = 'KB_USL60175' --4103\n" +
-        "AND sp.id = st2.id_obsl\n" +
-        "AND st2.id_sost = 'KB_USL60177' --4104 отгружен\n" +
-        "--                       AND st2.dt_sost_end > SYSDATE - 1\n" +
-        "AND NOT EXISTS (SELECT 1 --4302 ещё не отправлено уведомление\n" +
-        "  FROM kb_sost\n" +
-        " WHERE id_obsl = sp.id\n" +
-        "       AND id_sost = 'KB_USL99771' --4302 Отправлено исходящее сообщение\n" +
-        "       AND sost_prm LIKE 'OUT_%') --sol 21122020\n" +
-        "--and sp.n_zakaza='1615472'\n" +
-        "AND sp.id_zak IN (SELECT id\n" +
-        "                   FROM kb_zak z\n" +
-        "                  WHERE z.id_klient = :id\n" +
-        "                        AND z.id_usr IS NOT NULL)\n" +
-        "AND sp.id_pok = z.id --поставщик заказа IDSupplier\n" +
-        "AND sp.id_tir = tir.id --водитель и номер машин";
+            String tt = "SELECT\n" +
+                    " DISTINCT st.dt_sost, -- Дата заявки\n" +
+                    "      st2.dt_sost_end /*фактическая дата закрытия заказа*/, st.sost_doc, --Номер ПО\n" +
+                    "      sp.id AS id_obsl, st2.id_du, -- № объекта в солво для прихода: № УП для расхода № заказа в терминах солво\n"
+                    +
+                    "      (SELECT MIN(st4.dt_sost_end)\n" +
+                    "            FROM kb_sost st4\n" +
+                    "            JOIN sv_hvoc hv\n" +
+                    "              ON hv.val_id = st4.id_sost\n" +
+                    "          WHERE hv.val_short = '3021'\n" +
+                    "                  AND hv.voc_id = 'KB_USL'\n" +
+                    "                  AND tir.id = st4.id_tir) dt_veh, --Фактическое время прибытия машины\n" +
+                    "      z.id_wms id_suppl, --IDSupplier\n" +
+                    "      z.id_klient, --VN\n" +
+                    "      z.n_zak, -- name\n" +
+                    "      z.ur_adr, tir.n_avto, tir.vodit\n" +
+                    "FROM kb_spros sp, kb_sost st, kb_sost st2, kb_zak z, kb_tir tir\n" +
+                    "WHERE sp.id = st.id_obsl\n" +
+                    "AND st.id_sost = 'KB_USL60175' --4103\n" +
+                    "AND sp.id = st2.id_obsl\n" +
+                    "AND st2.id_sost = 'KB_USL60177' --4104 отгружен\n" +
+                    "--                       AND st2.dt_sost_end > SYSDATE - 1\n" +
+                    "AND NOT EXISTS (SELECT 1 --4302 ещё не отправлено уведомление\n" +
+                    "  FROM kb_sost\n" +
+                    " WHERE id_obsl = sp.id\n" +
+                    "       AND id_sost = 'KB_USL99771' --4302 Отправлено исходящее сообщение\n" +
+                    "       AND sost_prm LIKE 'OUT_%') --sol 21122020\n" +
+                    "--and sp.n_zakaza='1615472'\n" +
+                    "AND sp.id_zak IN (SELECT id\n" +
+                    "                   FROM kb_zak z\n" +
+                    "                  WHERE z.id_klient = :id\n" +
+                    "                        AND z.id_usr IS NOT NULL)\n" +
+                    "AND sp.id_pok = z.id --поставщик заказа IDSupplier\n" +
+                    "AND sp.id_tir = tir.id --водитель и номер машин";
             System.out.println("Zupinka");
         }
     }
