@@ -5,7 +5,7 @@
 	<msgType>2</msgType>
 	<skuList>
 		<sku>
-			<article>197015</article>
+			<article>00-07087898</article>
 			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
 			<upc>4600699502791</upc>
 			<uofm>шт</uofm>
@@ -13,6 +13,19 @@
 			<upcList>
 				<upcAlter>4600699502791</upcAlter>
 			</upcList>
+		</sku>
+		<sku>
+			<article>00-07087899</article>
+			<name>ЭФКО ФУД Professional Масло подсолнечное раф. дезод.  ПЭТ 92</name>
+			<upc>4600699502791</upc>
+			<uofm>шт</uofm>
+			<billingClass>НЗ</billingClass>
+			<upcList>
+				<upcAlter>4600699502791</upcAlter>
+			</upcList>
+		</sku>
+		<sku>
+			<article>00-07087900</article>
 		</sku>
 	</skuList>
 </Shell>

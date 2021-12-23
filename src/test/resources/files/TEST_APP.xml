@@ -5,6 +5,7 @@
 	<msgType>1</msgType>
     <ts>2021-10-01T23:59:59</ts>
 	<order>
+		<guid>9bebe892-0652-11ec-90f4-00155d50c113</guid>
 		<orderType>false</orderType>
 		<orderKind>поставка</orderKind>
 		<orderNo>ОП-00000297</orderNo>
