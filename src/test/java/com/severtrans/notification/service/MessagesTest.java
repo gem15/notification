@@ -5,12 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.rmi.UnmarshalException;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -19,28 +15,13 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.severtrans.notification.NotificationRowMapper;
-import com.severtrans.notification.Utils;
-import com.severtrans.notification.dto.DeliveryNotif;
-import com.severtrans.notification.dto.ListSKU;
-import com.severtrans.notification.dto.NotificationLine;
 import com.severtrans.notification.dto.Order;
-import com.severtrans.notification.dto.PickNotif;
-import com.severtrans.notification.dto.PickNotifLine;
-import com.severtrans.notification.dto.SKU;
 import com.severtrans.notification.dto.Shell;
-import com.severtrans.notification.dto.ShipmentNotif;
-import com.severtrans.notification.dto.jackson.NotificationItem;
-import com.severtrans.notification.dto.jackson.NotificationJack;
 import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
-import com.severtrans.notification.model.Customer;
-import com.severtrans.notification.model.CustomerRowMapper;
 import com.severtrans.notification.model.MonitorLog;
-import com.severtrans.notification.model.NotificationItemRowMapper;
-import com.severtrans.notification.model.Unit;
-import com.severtrans.notification.repository.MonitorLogDaoOld;
 import com.severtrans.notification.repository.MonitorLogDao;
+import com.severtrans.notification.repository.MonitorLogDaoOld;
 import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
 
@@ -48,18 +29,9 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.KeyHolder;
 import org.xml.sax.SAXException;
 
 // @AutoConfigureTestDatabase
@@ -237,104 +209,5 @@ class MessagesTest {
         System.out.println(xml_out);
     }
 
-    // @Test
-    // void notificationTest() throws JAXBException, IOException { // уведомления
-    // ModelMapper modelMapper = new ModelMapper();
-    // List<NotificationJack> listMaster = jdbcTemplate.query("SELECT * FROM
-    // master", new NotificationRowMapper());
-    // for (NotificationJack master : listMaster) {
-    // Shell shell = new Shell();
-    // shell.setCustomerID(300185);// TODO
-    // MapSqlParameterSource mapSqlParameterSource = new
-    // MapSqlParameterSource().addValue("id", master.getDu());
-    // List<NotificationItem> items = namedParameterJdbcTemplate.query("SELECT *
-    // FROM detail WHERE iddu = :id",
-    // mapSqlParameterSource, new NotificationItemRowMapper());
-
-    // int notificationType = 1;
-    // switch (notificationType) {
-    // /*
-    // * case (1): {//NotificationLine List<NotificationLine> notificationLines =
-    // * Utils.mapList(items, NotificationLine.class, mp); Notification notif =
-    // * mp.map(master, Notification.class);
-    // * notif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
-    // *
-    // * shell.setDeliveryNotif((DeliveryNotif) notif);
-    // * notif.getNotifLines().addAll(notificationLines); }
-    // */
-    // case (1): {
-    // List<NotificationLine> deliveryNotifLines = Utils.mapList(items,
-    // NotificationLine.class,
-    // modelMapper);
-    // DeliveryNotif deliveryNotif = modelMapper.map(master, DeliveryNotif.class);
-    // deliveryNotif.getLine().addAll(deliveryNotifLines);
-    // deliveryNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
-    // shell.setDeliveryNotif(deliveryNotif);
-    // }
-    // break;
-    // case (2): {
-    // List<NotificationLine> shipmentNotifLines = Utils.mapList(items,
-    // NotificationLine.class,
-    // modelMapper);
-    // ShipmentNotif shipmentNotif = modelMapper.map(master, ShipmentNotif.class);
-    // shipmentNotif.getLine().addAll(shipmentNotifLines);
-    // shipmentNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
-    // shell.setShipmentNotif(shipmentNotif);
-    // }
-    // break;
-    // case (3): {
-    // List<PickNotifLine> pickNotifLines = Utils.mapList(items,
-    // PickNotifLine.class, modelMapper);
-    // PickNotif pickNotif = modelMapper.map(master, PickNotif.class);
-    // pickNotif.getPickLine().addAll(pickNotifLines);
-    // pickNotif.setGuid("cf843545-9eb5-11eb-80c0-00155d0c6c19");
-    // shell.setPickNotif(pickNotif);
-    // }
-    // break;
-    // }
-
-    // // region сохранение xml
-    // String xmlText = XmlUtiles.marshaller(shell, true);
-    // // endregion
-    // System.out.println(xmlText);
-    // String tt = "SELECT\n" +
-    // " DISTINCT st.dt_sost, -- Дата заявки\n" +
-    // " st2.dt_sost_end /*фактическая дата закрытия заказа*/, st.sost_doc, --Номер
-    // ПО\n" +
-    // " sp.id AS id_obsl, st2.id_du, -- № объекта в солво для прихода: № УП для
-    // расхода № заказа в терминах солво\n"
-    // +
-    // " (SELECT MIN(st4.dt_sost_end)\n" +
-    // " FROM kb_sost st4\n" +
-    // " JOIN sv_hvoc hv\n" +
-    // " ON hv.val_id = st4.id_sost\n" +
-    // " WHERE hv.val_short = '3021'\n" +
-    // " AND hv.voc_id = 'KB_USL'\n" +
-    // " AND tir.id = st4.id_tir) dt_veh, --Фактическое время прибытия машины\n" +
-    // " z.id_wms id_suppl, --IDSupplier\n" +
-    // " z.id_klient, --VN\n" +
-    // " z.n_zak, -- name\n" +
-    // " z.ur_adr, tir.n_avto, tir.vodit\n" +
-    // "FROM kb_spros sp, kb_sost st, kb_sost st2, kb_zak z, kb_tir tir\n" +
-    // "WHERE sp.id = st.id_obsl\n" +
-    // "AND st.id_sost = 'KB_USL60175' --4103\n" +
-    // "AND sp.id = st2.id_obsl\n" +
-    // "AND st2.id_sost = 'KB_USL60177' --4104 отгружен\n" +
-    // "-- AND st2.dt_sost_end > SYSDATE - 1\n" +
-    // "AND NOT EXISTS (SELECT 1 --4302 ещё не отправлено уведомление\n" +
-    // " FROM kb_sost\n" +
-    // " WHERE id_obsl = sp.id\n" +
-    // " AND id_sost = 'KB_USL99771' --4302 Отправлено исходящее сообщение\n" +
-    // " AND sost_prm LIKE 'OUT_%') --sol 21122020\n" +
-    // "--and sp.n_zakaza='1615472'\n" +
-    // "AND sp.id_zak IN (SELECT id\n" +
-    // " FROM kb_zak z\n" +
-    // " WHERE z.id_klient = :id\n" +
-    // " AND z.id_usr IS NOT NULL)\n" +
-    // "AND sp.id_pok = z.id --поставщик заказа IDSupplier\n" +
-    // "AND sp.id_tir = tir.id --водитель и номер машин";
-    // System.out.println("Zupinka");
-    // }
-    // }
-
+ 
 }

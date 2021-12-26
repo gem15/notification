@@ -13,10 +13,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MonitorLogDao extends CrudRepository<MonitorLog,Long>{
     
-    @Query("SELECT * FROM monitor_log WHERE end_date IS NULL")
+    @Query("SELECT * FROM monitor_log WHERE end_date IS NULL ORDER BY vn, msg_type DESC")
     List<MonitorLog> findIncompleted();
 
     @Modifying
     @Query("UPDATE monitor_log SET end_date = :ed WHERE id = :id")
-    boolean completeOrder(@Param("id") Long id, @Param("stat") Date ed);
+    boolean completeOrder(@Param("id") Long id, @Param("ed") Date ed);
+
+    
 }

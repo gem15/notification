@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://www.severtrans.com">
 	<customerID>300185</customerID>
-	<msgID>109660a5-4ccf-44b2-8078-5f68b1828SKU</msgID>
+	<msgID>109660a5-4ccf-44b2-8078-5f68b1828err</msgID>
 	<msgType>5</msgType>
 	<skuList>
 		<sku>
@@ -13,6 +13,10 @@
 			<upcList>
 				<upcAlter>4600699502791</upcAlter>
 			</upcList>
+		</sku>
+        <sku>
+			<article>00-not_exist</article>
+			<name>FAKE</name>
 		</sku>
 		<sku>
 			<article>00-07087899</article>
@@ -26,7 +30,6 @@
 		</sku>
 		<sku>
 			<article>00-07087900</article>
-			<name>FAKE</name>
 		</sku>
 	</skuList>
 </Shell>

@@ -7,12 +7,12 @@
 Insert into SV_HVOC (VAL_ID,HVOC_VAL_ID,VOC_ID,VAL_FULL,VAL_SHORT,VAL_STATE,VAL_CHANGES,TOOLS,DATA_BEGIN,DATA_END,MASTER_VAL_ID,POLICE_CODE)
  values ('KB_MEA94404','KB_MEA99164','KB_MEA','Метр','м','Active','Allowed','6',to_date('13.09.11','DD.MM.RR'),null,null,null);
 
--- SKU
-Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224920','00-07087898','TMK00-07087898','ФУРНИТУРА 1 1418/21');
-Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224921','00-07087899','TMK00-07087899','ФУРНИТУРА 2 1418/21');
-Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224922','00-07087900','TMK00-07087900','ФУРНИТУРА 3 1418/21');
-Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224923','00-07087901','TMK00-07087901','ФУРНИТУРА 4 1418/21');
-Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224924','00-07087902','TMK00-07087902','ФАСАДЫ 3 1418/21');
+-- SKU 300185
+Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224920','00-07087898','TSM00-07087898','ФУРНИТУРА 1 1418/21');
+Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224921','00-07087899','TSM00-07087899','ФУРНИТУРА 2 1418/21');
+Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224922','00-07087900','TSM00-07087900','ФУРНИТУРА 3 1418/21');
+Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224923','00-07087901','TSM00-07087901','ФУРНИТУРА 4 1418/21');
+Insert into SKU (ID,ARTICLE,SKU_ID,NAME) values ('1224924','00-07087902','TSM00-07087902','ФАСАДЫ 3 1418/21');
 
 
 --Customers
@@ -24,8 +24,9 @@ Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT)
 Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT)
  values ('0102315640',null,'10406','KB_USR92734','Магнит РЦ Тула','300237');
 Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT)
-values ('0102315643',null,'10406','KB_USR92734','Перекресток-онлайн Вешки','300223');
-Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT) values ('0102315727',null,'35666',null,'Зельгрос Одинцово','300254');
+  values ('0102315643',null,'10406','KB_USR92734','Перекресток-онлайн Вешки','300223');
+Insert into KB_ZAK (ID,ID_SVH,ID_WMS,ID_USR,N_ZAK,ID_KLIENT)
+ values ('0102315727',null,'35666',null,'Зельгрос Одинцово','300254');
 
 
 --master

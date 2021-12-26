@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Data
 // @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class MonitorLog {
     @Id
     long id;
     String orderUID;
-    String status;
+    @NonNull String status;
     int msgType;
     String fileName;
     // @NonNull
