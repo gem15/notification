@@ -194,6 +194,7 @@ public class SendNotifications {
                                     prefix2MsgType(file.getName().split("_")[0].toUpperCase());// костыль
                                     msgInNew();
                                 } catch (DataAccessException e) {
+
                                     log.error("\nОшибка при работе с Базой Данных. " + e.getMessage());
                                     e.printStackTrace();
                                 }
@@ -276,75 +277,82 @@ public class SendNotifications {
 
     /**
      * Формирование подтверждений
+     * 
+     * @throws IOException
      */
     @Transactional
     @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}", initialDelayString = "${initialDelay.in.milliseconds}")
     public void confirm() {
 
-        List<MonitorLog> logs = logDao.findIncompleted();
-        Confirmation confirmation;
+        try {
+            List<MonitorLog> logs = logDao.findIncompleted();
+            Confirmation confirmation;
 
-        // region SKU
-        boolean artNotFound = false;
-        SqlParameterSource params;
-        // отфильтровываем SKU
-        List<MonitorLog> mls = logs.stream().filter(s -> s.getMsgType() == 5).collect(Collectors.toList());
-        String sql = "SELECT COUNT(*) FROM sku WHERE sku_id=:art";
-        for (MonitorLog skuLog : mls) {
-            try {
-                shell = XmlUtiles.unmarshallShell(skuLog.getMsg());
-            } catch (JAXBException e) {
-                log.error("Не может быть", e);
-                break;
-            } // TODO + validation
-            log.info("skuLog "+shell.getMsgID());
-            for (SKU skuItem : shell.getSkuList().getSku()) {
-                log.info("skuItem "+shell.getMsgID());
-                Customer customer = customerDao.findByClientId(300185).orElse(null);
-                params = new MapSqlParameterSource().addValue("art", customer.getPrefix() + skuItem.getArticle());
-                if (npJdbcTemplate.queryForObject(sql, params, Integer.class) == 0) {
-                    artNotFound = true;
+            // region SKU
+            boolean artNotFound = false;
+            SqlParameterSource params;
+            // отфильтровываем SKU
+            List<MonitorLog> mls = logs.stream().filter(s -> s.getMsgType() == 5).collect(Collectors.toList());
+            String sql = "SELECT COUNT(*) FROM sku WHERE sku_id=:art";
+            for (MonitorLog skuLog : mls) {
+                try {
+                    shell = XmlUtiles.unmarshallShell(skuLog.getMsg());
+                } catch (JAXBException e) {
+                    log.error("Не может быть", e);
                     break;
+                } // TODO + validation
+                log.info("skuLog " + shell.getMsgID());
+                for (SKU skuItem : shell.getSkuList().getSku()) {
+                    log.info("skuItem " + shell.getMsgID());
+                    Customer customer = customerDao.findByClientId(300185).orElse(null);
+                    params = new MapSqlParameterSource().addValue("art", customer.getPrefix() + skuItem.getArticle());
+                    if (npJdbcTemplate.queryForObject(sql, params, Integer.class) == 0) {
+                        artNotFound = true;
+                        break;
+                    }
+                }
+                if (!artNotFound) {
+                    confirmation = new Confirmation();
+                    confirmation.setInfo(skuLog.getInfo());
+                    logDao.completeOrder(skuLog.getId(), new Date());
+                    sendConfirm(skuLog, confirmation);
+                    log.info(shell.getCustomerID() + "\r\nОбработан файл " + skuLog.getFileName());
                 }
             }
-            if (!artNotFound) {
+            if (artNotFound)
+                return;
+            // endregion
+
+            // region заказы только
+            mls = logs.stream().filter(s -> s.getMsgType() != 5).collect(Collectors.toList());
+            for (MonitorLog ml : mls) {
                 confirmation = new Confirmation();
-                confirmation.setInfo(skuLog.getInfo());
-                logDao.completeOrder(skuLog.getId(), new Date());
-                // sendConfirm(skuLog, confirmation);
-                log.info(shell.getCustomerID() + "\r\nОбработан файл " + skuLog.getFileName());
+                try {
+                    shell = XmlUtiles.unmarshallShell(ml.getMsg());
+                } catch (JAXBException e) {
+                    log.error("Не может быть", e);
+                    break;
+                }
+
+                // if (shell.getMsgType() == 1 || shell.getMsgType() == 2)
+                if (ml.getStatus() == "E") {
+                    confirmation.setStatus("ERROR");
+                } else if (ml.getStatus() == "S") {
+                    confirmation.setStatus("SUCCESS");
+                }
+                confirmation.setInfo(ml.getInfo());
+                confirmation.setOrderNo(shell.getOrder().getOrderNo());
+                confirmation.setGuid(shell.getOrder().getGuid());
+                sendConfirm(ml, confirmation);
+                logDao.completeOrder(ml.getId(), new Date());
+                log.info(shell.getCustomerID() + "\r\nОбработан файл " + ml.getFileName());
             }
+            // endregion
+
+        } catch (IOException e) {
+            // проблемы FTP сервера
+            log.error(e.getMessage() + ". Код " + ftp.getReplyCode());
         }
-        if (artNotFound)
-            return;
-        // endregion
-
-        // region заказы только
-        mls = logs.stream().filter(s -> s.getMsgType() != 5).collect(Collectors.toList());
-        for (MonitorLog ml : mls) {
-            confirmation = new Confirmation();
-            try {
-                shell = XmlUtiles.unmarshallShell(ml.getMsg());
-            } catch (JAXBException e) {
-                log.error("Не может быть", e);
-                break;
-            }
-
-            // if (shell.getMsgType() == 1 || shell.getMsgType() == 2)
-            if (ml.getStatus() == "E") {
-                confirmation.setStatus("ERROR");
-            } else if (ml.getStatus() == "S") {
-                confirmation.setStatus("SUCCESS");
-            }
-            confirmation.setInfo(ml.getInfo());
-            confirmation.setOrderNo(shell.getOrder().getOrderNo());
-            confirmation.setGuid(shell.getOrder().getGuid());
-            // sendConfirm(ml, confirmation);
-            logDao.completeOrder(ml.getId(), new Date());
-            log.info(shell.getCustomerID() + "\r\nОбработан файл " + ml.getFileName());
-        }
-        // endregion
-
 
         // region try catch
         // try {
@@ -409,14 +417,18 @@ public class SendNotifications {
      */
     @Transactional
     public void msgInNew() {
-        Map<String, Object> p_err; // возвращаемое из процедуры сообщение
+        Map<String, Object> err; // возвращаемое из процедуры сообщение
 
+        // region MonitorLog init
         MonitorLog mlog = new MonitorLog();
         mlog.setVn(shell.getCustomerID());
         mlog.setMsgType(shell.getMsgType());
         mlog.setMsg(xml);
         mlog.setStartDate(new Date());
 
+        // endregion
+
+        // region десериализация SHell
         try {
             shell = XmlUtiles.unmarshallShell(xml);
         } catch (JAXBException e) {
@@ -426,6 +438,8 @@ public class SendNotifications {
             return;
         } // TODO use schema validator!!!
 
+        // endregion
+ 
         switch (shell.getMsgType()) {
             case 5: { // SKU
                 // Справочник е.и.
@@ -446,7 +460,8 @@ public class SendNotifications {
                         ps.setString(2, sku.getName());
                         // шт --> KB_.....
                         Unit um = units.stream()
-                                .filter(unit -> sku.getUofm().toUpperCase().equals(unit.getCode().toUpperCase()))
+                                // .filter(unit -> sku.getUofm().toUpperCase().equals(unit.getCode().toUpperCase()))
+                                .filter(unit -> sku.getUofm().equalsIgnoreCase(unit.getCode()))
                                 .findAny()
                                 .orElse(null);
                         ps.setString(3, um == null ? null : um.getId());
@@ -480,13 +495,13 @@ public class SendNotifications {
                 // region передача в солво
                 SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName("WMS3_UPDT_SKU");
-                p_err = jdbcCall
+                err = jdbcCall
                         .execute(new MapSqlParameterSource().addValue("P_ID", customer.getId()).addValue("P_PREF",
                                 customer.getPrefix()));
 
-                if (p_err.get("P_ERR") != null) {
+                if (err.get("P_ERR") != null) {
                     mlog.setStatus("E");
-                    mlog.setInfo((String) p_err.get("P_ERR"));
+                    mlog.setInfo((String) err.get("P_ERR"));
                     return;
                 } else {
                     mlog.setStatus("S");
@@ -525,15 +540,15 @@ public class SendNotifications {
                 String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
                 SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
                         .withProcedureName(procedureName);
-                p_err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
+                err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xml, new DefaultLobHandler()), Types.CLOB));
-                if (p_err.get("P_ERR") != null) {
+                if (err.get("P_ERR") != null) {
                     mlog.setStatus("E");
-                    mlog.setInfo((String) p_err.get("P_ERR"));
+                    mlog.setInfo((String) err.get("P_ERR"));
                 } else {
                     mlog.setStatus("S");
-                    if (p_err.get("P_INFO") != null)// TODO check it
-                        mlog.setInfo((String) p_err.get("P_INFO"));
+                    if (err.get("P_INFO") != null)// TODO check it
+                        mlog.setInfo((String) err.get("P_INFO"));
                 }
                 logDao.save(mlog);
                 break;
