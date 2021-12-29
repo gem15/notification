@@ -139,6 +139,21 @@
                     <xs:documentation>Адрес контрагента</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="carrierCode" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>код перевозчика</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="carrierName" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>наименование перевозчика</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="carrierTIN" type="xs:string" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>ИНН перевозчика (taxpayer identification number)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="licencePlate" type="xs:string" minOccurs="0" >
                 <xs:annotation>
                     <xs:documentation>Регистрационный номер автотраспорта</xs:documentation>

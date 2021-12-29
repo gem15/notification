@@ -13,6 +13,9 @@
 		<plannedDate>2021-10-01T23:59:59</plannedDate>
 		<contrCode>БФ-005335</contrCode>
 		<contrName>КРЦ ЭФКО - Каскад ООО</contrName>
+		<carrierCode></carrierCode>
+		<carrierName></carrierName>
+		<carrierTIN></carrierTIN>
 		<orderLine>
 			<lineNumber>1</lineNumber>
 			<article>197015</article>

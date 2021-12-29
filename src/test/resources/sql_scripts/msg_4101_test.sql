@@ -1,13 +1,12 @@
-PROCEDURE msg_4101_(p_err OUT VARCHAR2бб st.id_du= '965e4682-9ec3-11eb-80c0-00155d0c0000' ;) IS
 create or replace procedure MSG_4101_test(p_msg CLOB :='',p_err out varchar2, p_info out varchar2) is
 	v_n_avto    VARCHAR2(40); --!!! delete, order_rec make public
-c_test CONSTANT VARCHAR2(20) := 'TEST#';--TEST_
+c_test CONSTANT VARCHAR2(20) := 'TEST_';--TEST_
 
---***** Test
 	TYPE order_rectype IS RECORD (
 		vn kb_zak.id_klient%TYPE, msgid VARCHAR2(36), number1 VARCHAR2(38), orderDate DATE, ordertype NUMBER(1,0), typeofdelivery
 		VARCHAR2(100), plannedDate DATE, contrCode VARCHAR2(100), contrName VARCHAR2(1000), contrAddress
-		VARCHAR2(1000), numbercar VARCHAR2(100), driver VARCHAR2(100) DEFAULT NULL, docid VARCHAR2(36), action NUMBER(1), dopinfconsignee VARCHAR2
+		VARCHAR2(1000), carrierCode VARCHAR2(100), carrierName VARCHAR2(1000), carrierTIN		VARCHAR2(13),
+     numbercar VARCHAR2(100), driver VARCHAR2(100) DEFAULT NULL, docid VARCHAR2(36), action NUMBER(1), dopinfconsignee VARCHAR2
 		(100), comment1 VARCHAR2(1000)
 	);
 	order_rec order_rectype;
@@ -15,17 +14,22 @@ c_test CONSTANT VARCHAR2(20) := 'TEST#';--TEST_
 		id sv_hvoc.val_id%TYPE, short sv_hvoc.val_short%TYPE, full sv_hvoc.val_full%TYPE
 	);
 	l_sost sost_rec;
+  v_type_order_name varchar2(1000); -- FK
 
 	 v_planned_Date	DATE;
 	 v_id_tir_old     NUMBER;
-	 v_inwork			BOOLEAN := FALSE;
-	 v_edit				BOOLEAN := FALSE;
+	 v_inwork			BOOLEAN := FALSE; -- заказ в работе?
+	 v_edit				BOOLEAN := FALSE;-- never used
 --	 l_id_sost			VARCHAR2(38);
 -- Test *****
 
-	v_id_zak     kb_zak.id%TYPE;
-    v_new_rec    kb_zak.id%TYPE; --получатель
+	v_id_zak     kb_zak.id%TYPE; --v_id_zak, v_id_wms, v_id_svh, v_prfx, v_id_wms_zak, v_id_usr
+    v_prfx       VARCHAR2(5 CHAR);
+    v_id_wms_zak VARCHAR2(38);
+    v_id_svh     VARCHAR2(38);
+    v_id_usr     VARCHAR2(38);
     v_id_wms     kb_zak.id_wms%TYPE;
+    v_new_rec    kb_zak.id%TYPE; --получатель
     v_id_obsl    kb_spros.id%TYPE;
     v_id_dog     VARCHAR2(50);
     v_id_tzs     kb_sost.id_tzs%TYPE;
@@ -35,12 +39,8 @@ c_test CONSTANT VARCHAR2(20) := 'TEST#';--TEST_
     v_tmp        VARCHAR2(38);
     v_counter    NUMBER;
     v_rows       NUMBER;
-    v_sost_doc   VARCHAR2(38);
+    v_sost_doc   VARCHAR2(38); -- never used
     pack_err     VARCHAR2(3800);
-    v_prfx       VARCHAR2(5 CHAR);
-    v_id_wms_zak VARCHAR2(38);
-    v_id_svh     VARCHAR2(38);
-    v_id_usr     VARCHAR2(38);
     vn_not_found EXCEPTION;
 
 --	 v_order_Date	DATE;
@@ -49,41 +49,44 @@ c_test CONSTANT VARCHAR2(20) := 'TEST#';--TEST_
 --	v_one_char	VARCHAR2(1);
 	 l_err_sku	VARCHAR2( 32000):= NULL;
 	 l_err_qty	VARCHAR2( 32000):= NULL;
-	 
-/*
-  1. <plannedDate>2021-12-20T23:00:59</plannedDate>
-  1. 00-01185415 --> 00-07064083
-*/
+   v_id_info    kb_zak.id_info%type; --sol 22.12.2021
+   v_id_carrier VARCHAR2(38):= NULL; -- перевозчик ПЗ 7382 29.12.2021 
 BEGIN
 	--***** Test '20.12.2021 23:00:00' 20.12.21 23:00:00
-
-	v_msg := TO_CLOB('<Shell>
-		<customerID>300185</customerID>
-		<msgID>7187c8a0-013f-476b-aa87-f65961d4631b</msgID>
-		<msgType>1</msgType>
-		<order>
-			<guid>cf843545-9eb5-11eb-80c0-00155d0c6c05</guid>
-			<action>0</action>
-			<orderType>false</orderType>
-			<orderKind>Поступление товаров и услуг</orderKind>
-			<orderNo>MK05</orderNo>
-			<orderDate>2021-08-17T01:00:59</orderDate>
-			<plannedDate>2021-12-21T05:00:05</plannedDate>
-			<contrCode>T019597</contrCode>
-			<contrName>ЦТО+ ООО</contrName>
-			<contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
-			<licencePlate>K 333 MA05</licencePlate>
-			<driver>Trump05</driver>
-			<orderLine>
-				<lineNumber>1</lineNumber>
-				<article>00-01185415</article>
-				<name>Офисное кресло EChair-685 TС ткань черный пластик</name>
-				<qty>6</qty>
-				<category>0</category>
-			</orderLine>
-		</order>
-	</Shell>');
---***** 00-01185415 пресс-шайба 00-07064083 Офисное кресло EChair-685
+  IF p_msg IS NULL THEN
+    v_msg := TO_CLOB('<Shell>
+      <customerID>300185</customerID>
+      <msgID>7187c8a0-013f-476b-aa87-f65961d4631b</msgID>
+      <msgType>1</msgType>
+      <order>
+        <guid>cf843545-9eb5-11eb-80c0-00155d0c6c0M</guid>
+        <action>0</action>
+        <orderType>true</orderType>
+        <orderKind>test</orderKind>
+        <orderNo>MK05</orderNo>
+        <orderDate>2021-08-17T01:00:59</orderDate>
+        <plannedDate>2021-12-21T05:00:05</plannedDate>
+        <contrCode>T019597</contrCode>
+        <contrName>ЦТО+ ООО</contrName>
+        <contrAddress>117209, Москва г, Керченская ул., дом № 6, корпус 3, квартира 56</contrAddress>
+        <licencePlate>K 333 MA05</licencePlate>
+        <driver>Trump05</driver>
+        <carrierCode></carrierCode>
+        <carrierName>Тестовый перевозчик</carrierName>
+        <carrierTIN>1234567890123</carrierTIN>
+        <orderLine>
+          <lineNumber>1</lineNumber>
+          <article>00-01185415</article>
+          <name>Офисное кресло EChair-685 TС ткань черный пластик</name>
+          <qty>6</qty>
+          <category>0</category>
+        </orderLine>
+      </order>
+    </Shell>');
+  ELSE
+    v_msg := p_msg;
+  END IF;       
+--!!!***** 00-01185415 пресс-шайба 00-07064083 Офисное кресло EChair-685
 --	v_msg := REPLACE(p_msg, ' xmlns="http://www.severtrans.com"');
 
   SELECT 
@@ -97,6 +100,9 @@ BEGIN
 		extractvalue(VALUE(t), '/Shell/order/contrCode') AS contrCode, --код поставщика
 		extractvalue(VALUE(t), '/Shell/order/contrName') AS contrName, --имя поставщика
 		extractvalue(VALUE(t), '/Shell/order/contrAddress') AS contrAddress, --адрес поставщика
+		extractvalue(VALUE(t), '/Shell/order/carrierCode') AS carrierCode, --код перевозчика
+		extractvalue(VALUE(t), '/Shell/order/carrierName') AS carrierName, --имя перевозчика
+		extractvalue(VALUE(t), '/Shell/order/carrierTIN') AS carrierTIN, --ИНН перевозчика
 		extractvalue(VALUE(t), '/Shell/order/licencePlate') AS NumberCar, --Номер машины
 		extractvalue(VALUE(t), '/Shell/order/driver') Driver,
 		extractvalue(VALUE(t), '/Shell/order/guid') docID,
@@ -176,6 +182,33 @@ RAISE vn_not_found;
 			  order_rec.driver,
 			  v_id_svh);-- RETURNING id INTO v_id_tir;
 		 END IF;
+     --=== обработка перевозчика
+     IF order_rec.carrierCode IS NOT NULL THEN
+       -- ищем/создаём
+      BEGIN
+        SELECT z.id INTO v_id_carrier
+        FROM kb_zak z
+        WHERE z.id_wms = order_rec.carrierCode
+        AND z.id_klient = order_rec.vn
+        AND z.id_tip_zak = 'KB_TZK24516'; --	тип ПЕРЕВОЗЧИК
+      EXCEPTION
+        WHEN OTHERS THEN
+        NULL;
+      END;
+      IF v_id_carrier IS NULL THEN
+        --делаем нового перевозчика
+         INSERT INTO kb_zak
+          (id_klient, id_wms, naimen, inn_zak,id_tip_zak)
+         VALUES
+          (order_rec.vn,
+          order_rec.carrierCode,
+          order_rec.carrierName,
+          order_rec.carrierTIN,
+          'KB_TZK82894') RETURNING id INTO v_id_carrier;
+      END IF;
+      -- привязываем к ТС
+      UPDATE kb_tir SET id_per = v_id_carrier WHERE id = v_id_tir;
+     END IF;
 	  ELSE
 		 v_id_tir := NULL;
 	  END IF;
@@ -199,14 +232,20 @@ RAISE vn_not_found;
 	  IF v_new_rec IS NULL THEN
 		 --делаем нового контрагента 
 		 INSERT INTO kb_zak
-			(id_klient, id_wms, n_zak, id_tip_zak, naimen, ur_adr)
+			(id_klient, id_wms, n_zak, id_tip_zak, naimen, ur_adr, id_info)
 		 VALUES
 			(order_rec.vn,
 			order_rec.contrCode,
 			order_rec.contrName,
 			'KB_TZK82894',
 			order_rec.contrName,
-			order_rec.contrAddress) RETURNING id INTO v_new_rec;
+			order_rec.contrAddress,
+      v_id_info) RETURNING id INTO v_new_rec;
+      
+      --sol 22.12.2021 копируем из клиента в контрагенты кастомные типы поставка/отгрузка
+       insert into kb_zak_type_conv (id_zak, type_cox_zak, type_cox)
+       select v_new_rec, k.type_cox_zak, k.type_cox from kb_zak_type_conv k where k.id_zak = v_id_zak;
+
 	  END IF;
 	
 	  --=== создание заказа
@@ -239,22 +278,6 @@ RAISE vn_not_found;
 	  --привязка договора к заказу                     
 	  INSERT INTO kb_spros_dog (id_obsl, id_vtu, id_dog) VALUES (v_id_obsl, 'KB_VTU50767', substr(v_id_dog, 2));
 
-      --!!! временное определение типа поставки/отгрузки
-      BEGIN
-        SELECT s.val_id INTO v_id_tzs FROM sv_hvoc s 
-        WHERE upper(s.val_full) = upper(order_rec.TypeOfDelivery) AND s.VOC_ID='SCH_NP';
-      EXCEPTION
-        WHEN no_data_found THEN
-          if order_rec.ordertype = 0 then
-       		  v_id_tzs := 'SCH_NP94607'; -- костыль
-          else
-            v_id_tzs := 'SCH_NP94574'; -- костыль
-          end if;
---          p_err := 'Неправильный тип отгрузки.';
---SCH_NP94574	Отгрузка	Os
---SCH_NP94607	Поставка	IA
---SCH_NP94654	ASN	IS
-      END;
 	  --===== наполнение заказа 4101\3
 	  INSERT INTO kb_sost
 		 (id_obsl, dt_sost, dt_sost_end, id_sost, id_dog, sost_doc, id_isp, id_tzs, dt_doc, sost_prm)
@@ -272,7 +295,19 @@ RAISE vn_not_found;
 	  RETURNING id INTO v_id_sost;
 
 --	  --=== обработка типа поставки/отгрузки (ждём)
-	
+    p_type_order(p_id_pol => v_new_rec,
+      p_in_out => CASE WHEN order_rec.orderType = 0 THEN 'IN' ELSE 'OUT' END,
+      p_type_zak => order_rec.typeofdelivery,
+      p_dopinfconsignee => order_rec.DopInfConsignee,
+      p_type_order_code => v_id_tzs,
+      p_type_order_name => v_type_order_name,-- DUMMY
+      p_err => pack_err);	 
+			
+    if pack_err <> 'OK' then
+      p_err := pack_err;
+      RAISE vn_not_found;
+    end if;
+	--RAISE vn_not_found;--!!! куьщму ьу
 	  --=== добавляем событие 4301 получено входящее сообщение
 		INSERT INTO kb_sost
 			(id_obsl, dt_sost, dt_sost_end, id_sost, sost_prm, id_isp, id_du) --sost_doc,
@@ -402,6 +437,7 @@ RAISE vn_not_found;
       (id_obsl, n_tovar, kol_tovar, brak, pak_tovar, ul_otpr, usl, srok_godn)
      VALUES
       (v_id_obsl, rec_det.article, rec_det.count1, rec_det.category, rec_det.mark, rec_det.mark2, rec_det.mark3, rec_det.storageLife);
+
   END LOOP rec_det;
 
   IF l_err_qty IS NOT NULL THEN
@@ -442,10 +478,9 @@ RAISE vn_not_found;
     RAISE vn_not_found;
   END IF;
   --!!! Аспект А004
-  --***** Test CRT_COEF(v_id_obsl, v_id_dog);
+  KB_MONITOR.CRT_COEF(v_id_obsl, v_id_dog);
 
   --фактическая передача данных в СОЛВО
-  --l_id_sost := CASE WHEN order_rec.orderType = 0 THEN 'INCOMING' ELSE 'ORDER' END;
   kb_pack.wms3_export_io(pack_err, CASE WHEN order_rec.orderType = 0 THEN 'INCOMING' ELSE 'ORDER' END, v_id_sost);
 
   -- Фиксируем факт успешной отправки в ГС (событие 4113 Заказ направлен в СУС)
