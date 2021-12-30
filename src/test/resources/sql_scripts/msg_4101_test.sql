@@ -51,6 +51,7 @@ c_test CONSTANT VARCHAR2(20) := 'TEST_';--TEST_
 	 l_err_qty	VARCHAR2( 32000):= NULL;
    v_id_info    kb_zak.id_info%type; --sol 22.12.2021
    v_id_carrier VARCHAR2(38):= NULL; -- перевозчик ПЗ 7382 29.12.2021 
+   v_driver_old     VARCHAR2(100);
 BEGIN
 	--***** Test '20.12.2021 23:00:00' 20.12.21 23:00:00
   IF p_msg IS NULL THEN
@@ -142,8 +143,8 @@ RAISE vn_not_found;
 
     --== ищем заказ
 	BEGIN
-		SELECT sp.id, sp.id_tir, z.id_svh, st1.id
-			INTO v_id_obsl, v_id_tir_old, v_id_svh, v_id_sost
+		SELECT sp.id, sp.id_tir, z.id_svh, st1.id --, t.vodit
+			INTO v_id_obsl, v_id_tir_old, v_id_svh, v_id_sost --, v_driver_old
 			FROM kb_sost st
 		 INNER JOIN kb_spros sp
 				ON st.id_obsl = sp.ID
@@ -151,6 +152,7 @@ RAISE vn_not_found;
 				ON z.ID = sp.id_zak
 		 INNER JOIN kb_sost st1
 				ON st.id_obsl = st1.id_obsl AND st1.id_sost = l_sost.id --IN ('KB_USL60173','KB_USL60175')
+     --LEFT JOIN kb_tir t ON sp.id_tir = t.id
 		 WHERE st.id_sost = 'KB_USL99770' AND st.id_du = order_rec.docID; --'965e4682-9ec3-11eb-80c0-00155d0c0000' ;
 	EXCEPTION
 		WHEN no_data_found THEN
@@ -182,7 +184,7 @@ RAISE vn_not_found;
 			  order_rec.driver,
 			  v_id_svh);-- RETURNING id INTO v_id_tir;
 		 END IF;
-     --=== обработка перевозчика
+     --=== обработка перевозчика (потом)
      IF order_rec.carrierCode IS NOT NULL THEN
        -- ищем/создаём
       BEGIN
@@ -322,7 +324,7 @@ RAISE vn_not_found;
        
   ELSE --==== изменение заказа  ========================
 
-      --== Заказ завершён
+      --== Заказ выполнен/отменён
       SELECT COUNT(*) INTO cnt_sku FROM kb_sost st
        WHERE st.id_obsl = v_id_obsl AND st.id_sost IN ('KB_USL39027', 'KB_USL50541');
       IF cnt_sku >0 THEN 
@@ -355,7 +357,7 @@ RAISE vn_not_found;
       end if;
 
       --== Изменение плановой даты PD
-/*      select dt_sost into v_planned_Date from kb_sost where id_obsl=v_id_obsl AND id_sost = l_sost.id;
+      select dt_sost into v_planned_Date from kb_sost where id_obsl=v_id_obsl AND id_sost = l_sost.id;
       IF v_planned_Date != order_rec.plannedDate THEN
     		p_info := p_info || 'Замена плановой даты'||CHR(10);
         UPDATE kb_sost	SET dt_sost = order_rec.planneddate, dt_sost_end = order_rec.planneddate
@@ -371,7 +373,7 @@ RAISE vn_not_found;
           END IF;
         END IF;  
       END IF;
-*/	
+	
       --== Изменение ТС VEH
       IF order_rec.numbercar IS NOT NULL THEN
        order_rec.numbercar := utility_pkg.String2AutoNumber(order_rec.numbercar);
