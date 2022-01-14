@@ -45,6 +45,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -113,11 +114,12 @@ public class SendNotifications {
                         rs.getString("hostname"), rs.getInt("port"), rs.getString("description")));
         for (Ftp ftpLine : ftps) {// цикл по всем FTP
 
-            if (ftpLine.getId() == 4)
-                continue; // FIXME *PROD* пропуск тестового
-            // if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
-            // continue;
-            // } else folderLOADED = "LOADED_TEST";
+            // if (ftpLine.getId() == 4)
+            //     continue; // FIXME *PROD* пропуск тестового
+            if (ftpLine.getId() != 4) // FIXME *TEST* заглушка для отладки
+                continue;
+            else
+                folderLOADED = "LOADED_TEST";
 
             log.info(">>> Старт FTP " + ftpLine.getHostname() + " " + ftpLine.getDescription());
             try {
@@ -171,37 +173,33 @@ public class SendNotifications {
                                 try (InputStream remoteInput = ftp.retrieveFileStream(file.getName())) {
                                     xml = new String(remoteInput.readAllBytes(), StandardCharsets.UTF_8);
                                 }
-                                if (xml.startsWith("\uFEFF")) {
-                                    xml = xml.substring(1);
-                                }
                                 if (!ftp.completePendingCommand()) {// завершение FTP транзакции
                                     throw new FTPException("Completing Pending Commands Not Successful");
                                 }
                                 // endregion
                                 // region сохраняем принятый в папке LOADED
                                 // https://stackoverflow.com/a/6790857/2289282
-                                String remotePath = rootDir + folderLOADED + "/" + file.getName();
-                                // if exist delete
-                                FTPFile[] remoteFiles = ftp.listFiles(remotePath);
-                                if (remoteFiles.length > 0)
-                                    ftp.deleteFile(remotePath);
-                                ok = ftp.rename(rootDir + folderIN + "/" + file.getName(), remotePath);
-                                if (!ok)
-                                    throw new FTPException("Ошибка перемещения файла " + file.getName());
+                                if (ftpLine.getId() != 4) { // FIXME *TEST* заглушка для отладки
+                                    String remotePath = rootDir + folderLOADED + "/" + file.getName();
+                                    // if exist delete
+                                    FTPFile[] remoteFiles = ftp.listFiles(remotePath);
+                                    if (remoteFiles.length > 0)
+                                        ftp.deleteFile(remotePath);
+                                    ok = ftp.rename(rootDir + folderIN + "/" + file.getName(), remotePath);
+                                    if (!ok)
+                                        throw new FTPException("Ошибка перемещения файла " + file.getName());
+                                }
                                 // endregion
 
                                 try {
-                                    prefix2MsgType(file.getName().split("_")[0].toUpperCase());// костыль
-                                    msgInNew();
-                                } catch (DataAccessException e) {
-
-                                    log.error("\nОшибка при работе с Базой Данных. " + e.getMessage());
-                                    e.printStackTrace();
+                                    msgInNew(file);
+                                } catch (DataAccessException | DbActionExecutionException e) {
+                                    log.error("\nОшибка при работе с Базой Данных. " + e.getMessage(),e);
                                 }
                             }
                         }
                             break;
-                        case (2): {// NEW все исходящие сообщения (отбивки)
+                        case (3): {// FIXME 2 !!! NEW все исходящие сообщения (отбивки)
                             MapSqlParameterSource queryParam = new MapSqlParameterSource().addValue("id", resp.getVn());
                             List<NotificationJack> listMaster;
                             listMaster = npJdbcTemplate.query(resp.getQueryMaster(), queryParam,
@@ -281,11 +279,15 @@ public class SendNotifications {
      * @throws IOException
      */
     @Transactional
-    @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}", initialDelayString = "${initialDelay.in.milliseconds}")
+    // @Scheduled(fixedDelayString = "${fixedDelay.in.milliseconds}", initialDelayString = "${initialDelay.in.milliseconds}")
     public void confirm() {
+        // FUCK List<MonitorLog> logs = logDao.findAllIncompleted();
+        //ORDER_UID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,END_DATE,MSG,VN,INFO,ID
+        List<MonitorLog> logs = jdbcTemplate.query(
+                "SELECT id,order_uid as orderUid, FILE_NAME as fileName, msg, info, vn FROM monitor_log WHERE end_date IS NULL ORDER BY vn",
+                new BeanPropertyRowMapper<MonitorLog>(MonitorLog.class));
 
         try {
-            List<MonitorLog> logs = logDao.findIncompleted();
             Confirmation confirmation;
 
             // region SKU
@@ -303,8 +305,7 @@ public class SendNotifications {
                 } // TODO + validation
                 log.info("skuLog " + shell.getMsgID());
                 for (SKU skuItem : shell.getSkuList().getSku()) {
-                    log.info("skuItem " + shell.getMsgID());
-                    Customer customer = customerDao.findByClientId(300185).orElse(null);
+                    Customer customer = customerDao.findByClientId(skuLog.getVn()).orElse(null);
                     params = new MapSqlParameterSource().addValue("art", customer.getPrefix() + skuItem.getArticle());
                     if (npJdbcTemplate.queryForObject(sql, params, Integer.class) == 0) {
                         artNotFound = true;
@@ -323,8 +324,8 @@ public class SendNotifications {
                 return;
             // endregion
 
-            // region заказы только
-            mls = logs.stream().filter(s -> s.getMsgType() != 5).collect(Collectors.toList());
+            // region заказы
+            mls = logs.stream().filter(s -> s.getMsgType() == 1 || s.getMsgType() == 2).collect(Collectors.toList());
             for (MonitorLog ml : mls) {
                 confirmation = new Confirmation();
                 try {
@@ -398,12 +399,13 @@ public class SendNotifications {
      */
     private void sendConfirm(MonitorLog ml, Confirmation confirmation) throws IOException {
         // создаём xml и передаём на FTP
-        ftp.changeWorkingDirectory(rootDir + folderOUT);
         Shell cshell = new Shell();
-        cshell.setCustomerID(cshell.getCustomerID());
-        cshell.setMsgID(cshell.getMsgID());
-        cshell.setMsgType(cshell.getMsgType());
+        cshell.setCustomerID(shell.getCustomerID());
+        cshell.setMsgID(shell.getMsgID());
+        cshell.setMsgType(shell.getMsgType());
         cshell.setConfirmation(confirmation);
+        
+        ftp.changeWorkingDirectory(rootDir + folderOUT);
         ftp.storeFile("_" + ml.getFileName(), XmlUtiles.marshaller(cshell));
     }
 
@@ -416,30 +418,35 @@ public class SendNotifications {
      * @throws FTPException
      */
     @Transactional
-    public void msgInNew() {
+    public void msgInNew(FTPFile file) throws IOException {
         Map<String, Object> err; // возвращаемое из процедуры сообщение
-
-        // region MonitorLog init
         MonitorLog mlog = new MonitorLog();
-        mlog.setVn(shell.getCustomerID());
-        mlog.setMsgType(shell.getMsgType());
-        mlog.setMsg(xml);
-        mlog.setStartDate(new Date());
+        Confirmation confirmation = new Confirmation();
 
-        // endregion
-
-        // region десериализация SHell
-        try {
+        // region десериализация Shell
+        try {//FIXME confirmation
             shell = XmlUtiles.unmarshallShell(xml);
+            // region MonitorLog init
+            mlog.setVn(shell.getCustomerID());
+            mlog.setMsgType(shell.getMsgType());
+            mlog.setMsg(xml);
+            mlog.setStartDate(new Date());
+            mlog.setFileName(file.getName());
+            // endregion
         } catch (JAXBException e) {
             mlog.setStatus("E");
             mlog.setInfo("Ошибка при разборе файла");
             logDao.save(mlog);
+            confirmation.setStatus("ERROR");
+            confirmation.setInfo(mlog.getInfo());
+            sendConfirm(mlog, confirmation);
             return;
         } // TODO use schema validator!!!
 
         // endregion
- 
+
+        prefix2MsgType(file.getName().split("_")[0].toUpperCase());// костыль
+
         switch (shell.getMsgType()) {
             case 5: { // SKU
                 // Справочник е.и.
@@ -502,9 +509,11 @@ public class SendNotifications {
                 if (err.get("P_ERR") != null) {
                     mlog.setStatus("E");
                     mlog.setInfo((String) err.get("P_ERR"));
+                    confirmation.setStatus("ERROR");
                     return;
                 } else {
                     mlog.setStatus("S");
+                    confirmation.setStatus("SUCCESS");
                 }
                 // endregion
 
@@ -537,27 +546,41 @@ public class SendNotifications {
             case 1:
             case 2: {// поставка/отгрузка
                 // use shell.getMsgType() ?
-                String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
-                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
-                        .withProcedureName(procedureName);
+                // String procedureName = shell.getOrder().isOrderType() ? "MSG_4103_" : "MSG_4101_";
+                //procedure MSG_4101_test(p_msg CLOB :='',p_err out varchar2, p_info out varchar2)
+
+                // region TEST
+                String procedureName = "MSG_4101_test";
+                // xml = null;
+                SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withProcedureName(procedureName);
+                // endregion
+
+                // SimpleJdbcCall jdbcCallOrder = new SimpleJdbcCall(jdbcTemplate).withCatalogName("KB_MONITOR")
+                //         .withProcedureName(procedureName);
                 err = jdbcCallOrder.execute(new MapSqlParameterSource().addValue("P_MSG",
                         new SqlLobValue(xml, new DefaultLobHandler()), Types.CLOB));
                 if (err.get("P_ERR") != null) {
                     mlog.setStatus("E");
+                    confirmation.setStatus("ERROR");
                     mlog.setInfo((String) err.get("P_ERR"));
                 } else {
                     mlog.setStatus("S");
+                    confirmation.setStatus("SUCCESS");
                     if (err.get("P_INFO") != null)// TODO check it
                         mlog.setInfo((String) err.get("P_INFO"));
                 }
+                mlog.setOrderUID(shell.getOrder().getGuid());
                 logDao.save(mlog);
+                confirmation.setGuid(shell.getOrder().getGuid());
+                confirmation.setOrderNo(shell.getOrder().getOrderNo());
                 break;
 
             }
             case 9:// тестовая ветка для разных экспериментов
                 log.info("TEST");
-
         }
+        confirmation.setInfo(mlog.getInfo());
+        sendConfirm(mlog, confirmation);
     }
 
     /**

@@ -29,7 +29,7 @@ public class Customer {
    * ID клиента в СОХ (ID_WMS)
    */
   @Column("ID_WMS")
-  int holderID;
+  String holderID;
   /**
    * Шлюз ID_USR IN ('KB_USR92734', 'KB_USR99992');
    */

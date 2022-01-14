@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -21,7 +20,6 @@ import com.severtrans.notification.dto.jackson.OrderJackIn;
 import com.severtrans.notification.dto.jackson.OrderJackOut;
 import com.severtrans.notification.model.MonitorLog;
 import com.severtrans.notification.repository.MonitorLogDao;
-import com.severtrans.notification.repository.MonitorLogDaoOld;
 import com.severtrans.notification.utils.CalendarConverter;
 import com.severtrans.notification.utils.XmlUtiles;
 
@@ -52,30 +50,30 @@ class MessagesTest {
     ModelMapper modelMapper;
 
     // @Autowired //(required = true)
-    MonitorLogDaoOld logDao; // ЖОПА
+    // MonitorLogDaoOld logDao; // ЖОПА
 
     @Autowired // (required = true)
     MonitorLogDao logDao_; // ЖОПА
 
     @Test
     void monitorLogTest() throws Exception {
-        MonitorLog log = new MonitorLog();
-        log = new MonitorLog(0L, "89f81f05-9d1e-4319-9b9d-b6f4e34c7e77",
-                "P", 0,
-                "IN_300185_01-10-2021-15-50-10.xml", new Date(), null, "msg here", 300185, "my info");
-        // MonitorLog log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77","R");
-        // log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e66",
-        // "P", 0,
-        // "IN_300185_01-10-2021-15-50-10.xml", new Date(),300185);
+        // MonitorLog log = new MonitorLog();
+        // log = new MonitorLog(0L, "89f81f05-9d1e-4319-9b9d-b6f4e34c7e77",
+        //         "P", 0,
+        //         "IN_300185_01-10-2021-15-50-10.xml", new Date(), null, "msg here", 300185, "my info");
+        // // MonitorLog log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e77","R");
+        // // log = new MonitorLog("89f81f05-9d1e-4319-9b9d-b6f4e34c7e66",
+        // // "P", 0,
+        // // "IN_300185_01-10-2021-15-50-10.xml", new Date(),300185);
 
-        logDao = new MonitorLogDaoOld();
-        logDao.setJdbcTemplate(jdbcTemplate);
+        // logDao = new MonitorLogDaoOld();
+        // logDao.setJdbcTemplate(jdbcTemplate);
 
-        jdbcTemplate.update(
-                "Insert into MONITOR_LOG (ORDER_UID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,MSG,VN,INFO) values (?,?,?,?,?,?,?,?)",
-                log.getOrderUID(), log.getStatus(), log.getMsgType(), log.getFileName(),
-                new Date(), log.getMsg(), log.getVn(), log.getInfo());
-        // List<MonitorLog> co =logDao.findCompletedOrders();
+        // jdbcTemplate.update(
+        //         "Insert into MONITOR_LOG (ORDER_UID,STATUS,MSG_TYPE,FILE_NAME,START_DATE,MSG,VN,INFO) values (?,?,?,?,?,?,?,?)",
+        //         log.getOrderUID(), log.getStatus(), log.getMsgType(), log.getFileName(),
+        //         new Date(), log.getMsg(), log.getVn(), log.getInfo());
+        // // List<MonitorLog> co =logDao.findCompletedOrders();
 
         // List<MonitorLog> co = jdbcTemplate.query(
         // "select * from monitor_log where status not in ('S','E')",
@@ -91,7 +89,7 @@ class MessagesTest {
         // rs.getInt("VN"),
         // rs.getString("INFO"),
         // rs.getLong("ID")));
-        List<MonitorLog> co_ = logDao_.findIncompleted();
+        // List<MonitorLog> co_ = logDao_.findAllIncompleted();
         // logDao_.
         System.out.println("stop");
     }

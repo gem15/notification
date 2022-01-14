@@ -11,7 +11,7 @@ public class CustomerRowMapper implements RowMapper<Customer> {
         Customer customer=new Customer();
         customer.setId(rs.getString("ID"));
         customer.setDefaultPlatform(rs.getString("ID_SVH"));
-        customer.setHolderID(rs.getInt("ID_WMS"));
+        customer.setHolderID(rs.getString("ID_WMS"));
         customer.setGateId(rs.getString("ID_USR"));
         customer.setCustomerName(rs.getString("N_ZAK"));
         customer.setClientId(rs.getInt("ID_KLIENT"));

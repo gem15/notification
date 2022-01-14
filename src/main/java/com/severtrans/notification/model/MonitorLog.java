@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
-// @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class MonitorLog {
@@ -20,7 +19,6 @@ public class MonitorLog {
     @NonNull String status;
     int msgType;
     String fileName;
-    // @NonNull
     Date startDate = new Date();
     Date endDate;
     String msg;
@@ -28,3 +26,23 @@ public class MonitorLog {
     String info;
 
 }
+
+/*
+// @RequiredArgsConstructor
+// @NoArgsConstructor
+// @AllArgsConstructor
+@Table("MONITOR_LOG")
+public class MonitorLog {
+    @Column("ORDER_UID") String orderUID;
+    @Column("STATUS")  String status; //@NonNull
+    @Column("MSG_TYPE") int msgType;
+    @Column("FILE_NAME") String fileName;
+    @Column("START_DATE") Date startDate = new Date();
+    @Column("END_DATE") Date endDate;
+    @Column("MSG") String msg;
+    @Column("VN") int vn;
+    @Column("INFO") String info;
+    @Id
+    @Column("ID") long id;
+
+*/

@@ -74,7 +74,7 @@ public class MonitorLogDaoOld {
         return jdbcTemplate.update(UPDATE_STATUS_QUERY, status, info, id);
     }
 
-    public List<MonitorLog> findCompletedOrders() {
+ /*    public List<MonitorLog> findCompletedOrders() {
 
         // MapSqlParameterSource param = new MapSqlParameterSource();
         // param.addValue("name", "%" + status + "%");
@@ -95,7 +95,7 @@ public class MonitorLogDaoOld {
                         rs.getInt("VN"),
                         rs.getString("INFO")));
     }
-
+ */
     /**
      * Поиск сообщения по уникальному ID
      * 
